@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from 'angularfire2/firestore';
 
 @Component({
   selector: 'app-landing',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingComponent implements OnInit {
 
-  constructor() { }
+  constructor(private firestore: AngularFirestore) { }
 
   ngOnInit() {
+    this.firestore.collection('home').doc('cacat').set({
+      'titlu' : 'cacat'
+    }).then(result => console.log(result)).catch(result => console.log(result));
   }
 
 }
