@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { AccountService } from '../account.service';
 
 @Component({
   selector: 'app-landing',
@@ -8,12 +10,21 @@ import { AngularFirestore } from 'angularfire2/firestore';
 })
 export class LandingComponent implements OnInit {
 
-  constructor(private firestore: AngularFirestore) { }
+  constructor(private accService: AccountService) { }
 
   ngOnInit() {
-    this.firestore.collection('home').doc('cacat').set({
-      'titlu' : 'cacat'
-    }).then(result => console.log(result)).catch(result => console.log(result));
+
   }
 
+  login() {
+    this.accService.doFacebookLogin();
+  }
+
+  logout() {
+    this.accService.doLogout();
+  }
+
+  update() {
+    this.accService.updateData({cevanou22: 2});
+  }
 }
