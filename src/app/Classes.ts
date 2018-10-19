@@ -3,6 +3,11 @@ export enum Sex {
     girl = 1
 }
 
+export enum MessageType {
+    RECEIVED = 0,
+    SENT = 1
+}
+
 export class VotePerson {
     id: string;
     displayName: string;
@@ -16,4 +21,11 @@ export class AccountInfo {
     id: string;
     displayName: string;
     voteStatus: number;
+}
+
+export class Message {
+    sender: string;
+    receiver: string;
+    type: MessageType;
+    message: string;
 }

@@ -30,12 +30,18 @@ export class VoteComponent implements OnInit {
     var target = event.target || event.srcElement || event.currentTarget;
     var idAttr = target.attributes.id;
     var value = idAttr.nodeValue;
-    this._persons[value].infoVisible = !this._persons[value].infoVisible;
+    var id = value.split('|')[1];
+    var index = value.split('|')[0];
+    this._persons[index].infoVisible = !this._persons[index].infoVisible;
+    if (index % 2 == 0) {
+      this._votingService.VoteGirl(id);
+    } else {
+      this._votingService.VoteBoy(id);
+    }
   }
   
   ngOnInit() {
     this._votingService.GetPersons().subscribe(persons => this._persons = persons);
-    this._votingService.GetPersons().subscribe(i => console.log(i));
     this._accService.isLoggedIn().subscribe(status => {
       if (status == true) {
         this._accService.userDataObservable().subscribe(data => console.log(data));

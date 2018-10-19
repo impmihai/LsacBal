@@ -15,12 +15,21 @@ import { environment } from '../environments/environment';
 import { VoteComponent } from './vote/vote.component';
 import { VotingService } from './voting.service';
 import { AccountService } from './account.service';
+import { SwipeComponent } from './tinder/swipe/swipe.component';
+import { MatchesComponent } from './tinder/matches/matches.component';
+import { ChatComponent } from './tinder/chat/chat.component';
+import { QuestionsComponent } from './tinder/questions/questions.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     LandingComponent,
-    VoteComponent
+    VoteComponent,
+    SwipeComponent,
+    MatchesComponent,
+    ChatComponent,
+    QuestionsComponent
   ],
   imports: [
     BrowserModule,
@@ -31,6 +40,7 @@ import { AccountService } from './account.service';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    FormsModule,
   ],
   providers: [VotingService, AccountService],
   bootstrap: [AppComponent]

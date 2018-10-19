@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="container col offset-s1">
+        <form action="#" #meetupForm="ngForm" (ngSubmit)="SaveAnswers(meetupForm)">
+            <ul>
+                <li *ngFor="let item of questions; let iQuestion = index" class="purpleish-text question">
+                    {{item.question}}
+                    <ul>
+                        <li *ngFor="let answer of item.answers; let iAnswer = index">
+                            <div [ngSwitch]="item.multianswer">
+                                <div *ngSwitchCase="true">
+                                    <input class="checkbox-purpleish filled-in" type="checkbox" name="{{iQuestion}}" id="a{{iQuestion}}{{iAnswer}}" value="1" [(ngModel)]="answer.checked"> 
+                                    <label for="a{{iQuestion}}{{iAnswer}}" class="purpleish-text answer">{{answer.value}}</label>
+                                </div>
+                                <div *ngSwitchCase="false">
+                                    <input class="radio-purpleish filled-in" type="radio" name="{{iQuestion}}" id="a{{iQuestion}}{{iAnswer}}" value="{{iAnswer}}" ngModel> 
+                                    <label for="a{{iQuestion}}{{iAnswer}}" class="purpleish-text answer">{{answer.value}}</label>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <input class="col s8 offset-s2 btn waves-effect waves-light purpleish" type="submit" value="Submit" >
+        </form>
+    </div>
+</div>

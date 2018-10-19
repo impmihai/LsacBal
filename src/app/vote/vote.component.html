@@ -1,6 +1,6 @@
 <mat-grid-list cols="2" rowHeight="1:1">
   <mat-grid-tile *ngFor="let i of _persons">
-    <div class="person" id="{{ i.index }}" [ngStyle]="{ 'background-image': 'url(' + i.displayImage + ')'}" (click)="onClick($event)">
+    <div class="person" id="{{ i.index + '|' + i.id }}" [ngStyle]="{ 'background-image': 'url(' + i.displayImage + ')'}" (click)="onClick($event)">
       {{ i.displayName }}
       <div class="info" *ngIf="i.infoVisible">
         <div class="content">

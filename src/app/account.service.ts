@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AccountInfo } from './Classes';
@@ -19,11 +19,17 @@ export class AccountService {
 
 
   constructor(private _afStore: AngularFirestore, private _afAuth: AngularFireAuth) {
-    this._afAuth.authState.subscribe(auth => { this._authState = auth; console.log(auth); });    
+    this._afAuth.authState.subscribe(auth => {
+      this._authState = auth;
+      this.userDataObservable().subscribe(a => {});
+    });
   }
+  
   _userDataObservable: Observable<AccountInfo>;
-  public _userData: AccountInfo;
+  public userData: AccountInfo;
   _authState: firebase.User;
+
+  
 
   doLogout(): Promise<any> {
     return new Promise<any>((resolve, reject) => {
@@ -62,13 +68,14 @@ export class AccountService {
   }
 
   public userDataObservable(): Observable<AccountInfo> {
+    console.log(this._userDataObservable);
     if (isNullOrUndefined(this._userDataObservable)) {
       this._userDataObservable = this._afStore.collection(AccountService.usersDb).doc(this._authState.uid)
-        .snapshotChanges()
+        .valueChanges()
         .pipe(map(userData => {
-          this._userData = userData.payload.data() as AccountInfo;
-          this._userData.id = userData.payload.id;
-          return this._userData;
+          this.userData = userData as AccountInfo;
+          this.userData.id = this._authState.uid;
+          return this.userData;
         }));
     }
     return this._userDataObservable;
