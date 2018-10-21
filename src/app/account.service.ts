@@ -16,7 +16,9 @@ import { promise } from 'protractor';
 })
 export class AccountService {
   private static usersDb: string = 'users';
-
+  private _userDataObservable: Observable<AccountInfo>;
+  public userData: AccountInfo;
+  private _authState: firebase.User;
 
   constructor(private _afStore: AngularFirestore, private _afAuth: AngularFireAuth) {
     this._afAuth.authState.subscribe(auth => {
@@ -25,11 +27,11 @@ export class AccountService {
     });
   }
   
-  _userDataObservable: Observable<AccountInfo>;
-  public userData: AccountInfo;
-  _authState: firebase.User;
 
-  
+
+  authStateObservalbe(): Observable<firebase.User> {
+    return this._afAuth.authState;
+  }
 
   doLogout(): Promise<any> {
     return new Promise<any>((resolve, reject) => {
@@ -46,7 +48,8 @@ export class AccountService {
         this._afStore.collection(AccountService.usersDb).doc(res.user.uid).get().subscribe(docSnapshot => {
           if (!docSnapshot.exists) {
             this._afStore.collection(AccountService.usersDb).doc(res.user.uid).set({
-              displayName: res.user.displayName
+              displayName: res.user.displayName,
+              displayImages: [res.user.photoURL]
             });
           }});
         resolve(res);

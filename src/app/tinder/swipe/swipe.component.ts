@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TinderService } from '../tinder.service';
+import { AccountService } from '../../account.service';
 
 @Component({
   selector: 'app-swipe',
@@ -7,10 +8,14 @@ import { TinderService } from '../tinder.service';
   styleUrls: ['./swipe.component.css']
 })
 export class SwipeComponent implements OnInit {
-  private _matches: any[];
-  constructor(private _tinderService: TinderService) { }
+  private _persons: any[];
+  constructor(private _accService:AccountService, private _tinderService: TinderService) { }
+
+private _imageUrl: string;
 
   ngOnInit() {
-    this._tinderService.loadPersons().subscribe(matches => this._matches = matches);
+    this._accService.authStateObservalbe().subscribe(caca => {
+      
+    });
   }
 }

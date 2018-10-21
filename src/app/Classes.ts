@@ -21,6 +21,7 @@ export class AccountInfo {
     id: string;
     displayName: string;
     voteStatus: number;
+    displayImages: string[];
 }
 
 export class Message {
@@ -28,4 +29,11 @@ export class Message {
     receiver: string;
     type: MessageType;
     message: string;
+}
+
+export class TinderProfile {
+    id: string;
+    displayName: string;
+    description: string;
+    displayImages: string[];
 }

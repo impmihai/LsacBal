@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AccountInfo, Message, MessageType } from 'src/app/Classes';
+import { AccountInfo, Message, MessageType, TinderProfile } from 'src/app/Classes';
 import { Observable } from 'rxjs';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AccountService } from '../account.service';
@@ -13,6 +13,7 @@ export class TinderService {
   private _personsObservable: Observable<any>;
   private _matchesObservable: Observable<any>;
   private _messagesObservable: { [id: string] : Observable<Message[]> } = {};
+  private _profilesObservable: { [id: string] : Observable<TinderProfile> } = {};
   constructor(private _afFirestore: AngularFirestore, private _accService: AccountService) { }
 
   public getMyMatches(): Observable<AccountInfo> {
@@ -31,6 +32,22 @@ export class TinderService {
                           .collection(this._accService.userData.id)
                           .snapshotChanges();
     return this._personsObservable;
+  }
+
+  public loadProfile(profileId: string) {
+    if (isNullOrUndefined(this._profilesObservable[profileId])) {
+      this._profilesObservable[profileId] = this._afFirestore.collection('users')
+                          .doc(profileId)
+                          .get()
+                          .pipe(map(profile => {
+                            let tinderProfile:TinderProfile = new TinderProfile();
+                            tinderProfile.description = profile.data().description;
+                            tinderProfile.displayImages = profile.data().displayImages;
+                            tinderProfile.displayName = profile.data().displayName;
+                            tinderProfile.id = profile.id;
+                            return tinderProfile;
+                          }));
+    }
   }
 
   public likePerson(personId: string) {
@@ -110,9 +127,12 @@ export class TinderService {
   public saveAnswers(answers: any): Promise<SaveAnswersStatus> {
     return new Promise<SaveAnswersStatus>((resolve, reject) => {
       console.log(answers);
-      this._accService.updateData({'answers': answers})
-                      .then(result => resolve(result))
-                      .catch(err => reject(err));
+      this._afFirestore
+          .collection('tinder')
+          .doc('answers')
+          .set({ [this._accService.userData.id]: answers })
+          .then(result => resolve(SaveAnswersStatus.ANSWERS_SUCCESS))
+          .catch(err => reject(err));
     });
   }
 }

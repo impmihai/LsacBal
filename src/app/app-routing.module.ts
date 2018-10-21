@@ -13,6 +13,7 @@ const routes: Routes = [
   { path: 'tombole', component: LandingComponent },
   { path: 'crush', component: LandingComponent },
   { path: 'tinder', component: QuestionsComponent },
+  { path: 'swipe', component: SwipeComponent },
   { path: 'matches', component: MatchesComponent },
   { path: 'chat/:id', component: ChatComponent },
 ];
