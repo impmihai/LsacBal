@@ -1,3 +1,5 @@
+import { Observable } from "rxjs";
+
 export enum Sex {
     boy = 0,
     girl = 1
@@ -36,4 +38,9 @@ export class TinderProfile {
     displayName: string;
     description: string;
     displayImages: string[];
+}
+
+export class TinderPerson {
+    id: string;
+    profile: Observable<TinderProfile>;
 }
