@@ -29,7 +29,7 @@ export class AccountService {
   
 
 
-  authStateObservalbe(): Observable<firebase.User> {
+  authStateObservable(): Observable<firebase.User> {
     return this._afAuth.authState;
   }
 
@@ -49,7 +49,7 @@ export class AccountService {
           if (!docSnapshot.exists) {
             this._afStore.collection(AccountService.usersDb).doc(res.user.uid).set({
               displayName: res.user.displayName,
-              displayImages: [res.user.photoURL]
+              displayImages: [res.user.photoURL + '?width=256&height=256'],
             });
           }});
         resolve(res);

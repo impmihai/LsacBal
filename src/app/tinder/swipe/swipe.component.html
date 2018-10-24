@@ -1,4 +1,5 @@
-<p>
-  swipe works!
-</p>
-<img src="{{ this._accService.userData?.displayImages[0] }}">
+<div *ngFor="let person of this._persons" (click)="likePerson(person.id)">
+    {{ person.id }} <br>
+    {{ this._profiles[person.id]?.displayName }} <br>
+    <img src="{{ this._profiles[person.id]?.displayImages[0] }}">
+</div>

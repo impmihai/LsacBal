@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AccountInfo, Message, MessageType, TinderProfile } from 'src/app/Classes';
+import { AccountInfo, Message, MessageType, TinderProfile, TinderPerson } from 'src/app/Classes';
 import { Observable } from 'rxjs';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AccountService } from '../account.service';
@@ -25,12 +25,20 @@ export class TinderService {
     return this._matchesObservable;
   }
 
-  public loadPersons() {
+  public loadPersons(): Observable<TinderPerson[]> {
     if (isNullOrUndefined(this._personsObservable))
       this._personsObservable = this._afFirestore.collection('tinder')
                           .doc('persons')
                           .collection(this._accService.userData.id)
-                          .snapshotChanges();
+                          .snapshotChanges()
+                          .pipe(map(persons => persons.map(personData => 
+                            {
+                              let tinderPerson: TinderPerson = new TinderPerson();
+                              tinderPerson.id = personData.payload.doc.id;
+                              tinderPerson.profile = this.loadProfile(tinderPerson.id);
+                              return tinderPerson;
+                            }))
+                          )
     return this._personsObservable;
   }
 
@@ -48,11 +56,11 @@ export class TinderService {
                             return tinderProfile;
                           }));
     }
+    return this._profilesObservable[profileId];
   }
 
   public likePerson(personId: string) {
     const persArr = new Array<string>();
-    console.log(this._accService.userData.id);
     persArr.push(this._accService.userData.id);
     persArr.push(personId);
     persArr.sort();
@@ -61,7 +69,7 @@ export class TinderService {
     this._afFirestore
         .collection('likes')
         .doc(fullKey)
-        .set({[this._accService.userData.id] : true}); 
+        .set({[this._accService.userData.id] : true}, {merge: true}); 
   }
 
   public dislikePerson(personId: string) {
@@ -90,7 +98,7 @@ export class TinderService {
                                               .valueChanges()
                                               .pipe(map(messages => {
                                                 return messages.map(messageData => {
-                                                  let message: Message = new Message();
+                                                  let message: Message = messageData as Message;
                                                   if (messageData.sender == this._accService.userData.id) {
                                                     message.type = MessageType.SENT;
                                                   } else {
