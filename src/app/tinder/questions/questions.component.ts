@@ -1,133 +1,168 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { TinderService } from '../tinder.service';
+import { AccountService } from 'src/app/account.service';
 
 const questions =
 [
     {
-        question: '1. What is your gender?',
+        question: '1. Ce esti tu?',
         answers: [
-            {value: 'Male' , checked: false, index: 0},
-            {value: 'Female', checked: false, index: 1}
+            {value: 'Barbat' , checked: false, index: 0, score: 0},
+            {value: 'Baietel' , checked: false, index: 0, score: 0},
+            {value: 'Femeie', checked: false, index: 1, score: 1000000000},
+            {value: 'Fetita', checked: false, index: 1, score: 1000000000}
         ],
+        priority: 1,
         multianswer: false,
     },
     {
-        question: '2. What are you interested in?',
+        question: '2. Care este punctul tau forte?',
         answers: [
-            {value: 'Boys' , checked: false, index: 0},
-            {value: 'Girls' , checked: false, index: 1},
-            {value: 'Both' , checked: false, index: 2},
+            {value: 'Inteligenta' , checked: false, index: 0, score: 2},
+            {value: 'Carisma' , checked: false, index: 1, score: 3},
+            {value: 'Loialitatea' , checked: false, index: 2, score: 1},
+            {value: 'Creativitatea' , checked: false, index: 3, score: 1},
+            {value: 'Aspect fizic' , checked: false, index: 4, score: 6},
         ],
+        priority: 2,
         multianswer: false,
     },
     {
-        question: '3. What is your strength?',
+        question: '3. Cati copii vrei??',
         answers: [
-            {value: 'Intelligence' , checked: false, index: 0},
-            {value: 'Charisma' , checked: false, index: 1},
-            {value: 'Loyalty' , checked: false, index: 2},
-            {value: 'Creativity' , checked: false, index: 3},
-            {value: 'Physical Appearance' , checked: false, index: 4},
+            {value: '0' , checked: false, index: 0, score: 0},
+            {value: '1' , checked: false, index: 1, score: 1},
+            {value: '2' , checked: false, index: 2, score: 2},
+            {value: '3+' , checked: false, index: 3, score: 3},
+            {value: '3 pisici/caini' , checked: false, index: 4, score: 6},
         ],
+        priority: 3,
         multianswer: false,
     },
     {
-        question: '4. Which one of the following would be a perfect holiday?',
+        question: '4. Care din urmatoarele constituie vacanta perfecta?',
         answers: [
-            {value: 'At a fancy hotel on the beach' , checked: false, index: 0},
-            {value: 'In a hut on a tropical island' , checked: false, index: 1},
-            {value: 'At a cabin near a cozy fireplace, in the mountains' , checked: false, index: 2},
-            {value: 'At a penthouse in a big city' , checked: false, index: 3},
-            {value: 'At a farm, in the countryside' , checked: false, index: 4},
+            {value: 'La un hotel scump pe plaja' , checked: false, index: 0, score: 2},
+            {value: 'Intr-o cabana pe o insula tropicala' , checked: false, index: 1, score: 3},
+            {value: 'La o cabana cu semineu in munti' , checked: false, index: 2, score: 1},
+            {value: 'Intr-un penthouse dintr-un oras mare' , checked: false, index: 3, score: 4},
+            {value: 'La ferma' , checked: false, index: 4, score: 5},
         ],
+        priority: 4,
         multianswer: false,
     },
     {
-        question: '5. What is most important in a relationship?',
+        question: '5. Ce este cel mai important intr-o relatie?',
         answers: [
-            {value: 'Under 2 months' , checked: false, index: 0},
-            {value: '2 - 6 months' , checked: false, index: 1},
-            {value: '6 months - 1 year' , checked: false, index: 2},
-            {value: '1 - 3 years' , checked: false, index: 3},
-            {value: 'Over 3 years' , checked: false, index: 4},
+            {value: 'Statutul financiar' , checked: false, index: 0, score: 6},
+            {value: 'Comunicarea' , checked: false, index: 1, score: 3},
+            {value: 'Increderea' , checked: false, index: 2, score: 4},
+            {value: 'Incurajarea partenerului(in pat)' , checked: false, index: 3, score: 1},
+            {value: 'Respectul' , checked: false, index: 4, score: 2},
+            {value: 'Timpul petrecut impreuna' , checked: false, index: 5, score: 5},
+            {value: 'Sexul' , checked: false, index: 6, score: 7},
         ],
+        priority: 7,
         multianswer: false,
     },
     {
-        question: '6. What is most important in a relationship? (choose 3 options)',
+        question: '6. Cea mai lunga relatie?',
         answers: [
-            {value: 'Flexibility' , checked: false, index: 0},
-            {value: 'Financial Status' , checked: false, index: 1},
-            {value: 'Communication' , checked: false, index: 2},
-            {value: 'Trust' , checked: false, index: 3},
-            {value: 'Cherishing your partner' , checked: false, index: 4},
-            {value: 'Respect' , checked: false, index: 5},
-            {value: 'Spending time together' , checked: false, index: 6},
-            {value: 'Sex' , checked: false, index: 7},
-            {value: 'Sexual chemistry' , checked: false, index: 8},
+            {value: 'Sub 2 luni' , checked: false, index: 0, score: 4},
+            {value: '2 - 6 luni' , checked: false, index: 1, score: 2},
+            {value: '6 - 12 luni' , checked: false, index: 2, score: 3},
+            {value: '1 - 3 ani' , checked: false, index: 3, score: 1},
+            {value: 'Peste 3 ani' , checked: false, index: 4, score: 5},
         ],
+        priority: 6,
+        multianswer: false,
+    },
+    {
+        question: '7. Ce intelegi prin inselat?',
+        answers: [
+            {value: 'Sarut cu alta persoana' , checked: false, index: 0, score: 1},
+            {value: 'Flirtarea cu altcineva' , checked: false, index: 1, score: 1},
+            {value: 'Sex cu alta persoana' , checked: false, index: 2, score: 3},
+            {value: 'Sexting cu o alta persoana' , checked: false, index: 3, score: 0},
+            {value: 'Dormitul in pat cu altcineva' , checked: false, index: 4, score: 1},
+        ],
+        priority: 7,
+        multianswer: false,
+    },
+    {
+        question: '8. Daca ai fi clonat, ai face sex cu tine?',
+        answers: [
+            {value: 'Da' , checked: false, index: 0, score: 1},
+            {value: 'Nu' , checked: false, index: 1, score: 2},
+            {value: 'Sunt urat/a' , checked: false, index: 2, score: 3},
+        ],
+        priority: 5,
+        multianswer: false,
+    },
+    {
+        question: '9. Ce consideri a fi un afrodisiac pentru tine?',
+        answers: [
+            {value: 'Capsuni invelite in ciocolata' , checked: false, index: 0, score: 1},
+            {value: 'Frisca' , checked: false, index: 1, score: 1},
+            {value: 'Ardei iute' , checked: false, index: 2, score: 2},
+            {value: 'Banana' , checked: false, index: 3, score: 4},
+            {value: 'Vinul rosu' , checked: false, index: 4, score: 3},
+        ],
+        priority: 6,
+        multianswer: false,
+    },
+    {
+        question: '10.Ce apreciezi la o persoana(partener)? (alege cel putin 3 optiuni)',
+        answers: [
+            {value: 'Aspectul' , checked: false, index: 0, score: 2},
+            {value: 'Banii' , checked: false, index: 1, score: 1},
+            {value: 'Bunatatea' , checked: false, index: 2, score: 1},
+            {value: 'Ochii' , checked: false, index: 3, score: 0},
+            {value: 'Zambetul' , checked: false, index: 4, score: 0},
+            {value: 'Curul' , checked: false, index: 5, score: 3},
+            {value: 'Sanii' , checked: false, index: 6, score: 3},
+            {value: 'Prietenia' , checked: false, index: 7, score: -1},
+            {value: 'Animal in pat' , checked: false, index: 8, score: 4},
+        ], 
+        priority: 8,
         multianswer: true,
-    },
+    }, 
     {
-        question: '7. What would you define as cheating?',
+        question: '11. Cat timp a trecut de la ultima relatie?',
         answers: [
-            {value: 'Kissing another person' , checked: false, index: 0},
-            {value: 'Flirting with another person' , checked: false, index: 1},
-            {value: 'Having intercourse with another person' , checked: false, index: 2},
-            {value: 'Sexting with someone else' , checked: false, index: 3},
-            {value: 'Sleeping in the same bed' , checked: false, index: 4},
-        ],
+            {value: 'Sub o saptamana(cam devreme dar nu e problema)' , checked: false, index: 0, score: 2},
+            {value: '1 luna' , checked: false, index: 1, score: 0},
+            {value: 'Cateva luni' , checked: false, index: 2, score: 1},
+            {value: 'Mai mult de un an' , checked: false, index: 3, score: 2},
+            {value: 'Virgin/virgina' , checked: false, index: 4, score: 3},
+        ], 
+        priority: 9,
         multianswer: false,
     },
     {
-        question: '8. What are you looking for, in a partner? (choose 3 options)',
+        question: '12. Ce cauti in seara asta?',
         answers: [
-            {value: 'Looks' , checked: false, index: 0},
-            {value: 'Money' , checked: false, index: 1},
-            {value: 'Kindness' , checked: false, index: 2},
-            {value: 'Deep eyes' , checked: false, index: 3},
-            {value: 'Smile' , checked: false, index: 4},
-            {value: 'Ass' , checked: false, index: 5},
-            {value: 'Boobs' , checked: false, index: 6},
-            {value: 'Friendship' , checked: false, index: 7},
-            {value: 'Being good in bed' , checked: false, index: 8},
-        ],
-        multianswer: true,
-    },
-    {
-        question: '9. Which of the following do you consider an aphrodisiac?',
-        answers: [
-            {value: 'Chocolate covered strawberries' , checked: false, index: 0},
-            {value: 'Whipped cream' , checked: false, index: 0},
-            {value: 'Hot chillis' , checked: false, index: 0},
-            {value: 'Bananas' , checked: false, index: 0},
-            {value: 'Red Wine' , checked: false, index: 0},
-        ],
+            {value: 'Sa cunosc persoane noi' , checked: false, index: 0, score: 0},
+            {value: 'Aventura de o noapte' , checked: false, index: 1, score: 4},
+            {value: 'Relatia ideala' , checked: false, index: 2, score: 2},
+            {value: 'Amic de baut' , checked: false, index: 3, score: 1},
+        ], 
+        priority: 10,
         multianswer: false,
     },
     {
-        question: '10. What is your favourite sex position?',
+        question: '13. Care este pozitia preferata?',
         answers: [
-            {value: 'Missionary' , checked: false, index: 0},
-            {value: '69' , checked: false, index: 0},
-            {value: 'Reverse cowgirl' , checked: false, index: 0},
-            {value: 'Spoon' , checked: false, index: 0},
-            {value: 'The hot seat' , checked: false, index: 0},
-        ],
+            {value: 'Misionarul' , checked: false, index: 0, score: 1},
+            {value: '69' , checked: false, index: 1, score: 2},
+            {value: 'Vacarita(cowgirl)' , checked: false, index: 2, score: 2},
+            {value: 'Vacarita inversa(reverse cowgirl)' , checked: false, index: 3, score: 3},
+            {value: 'Capra(doggystyle)' , checked: false, index: 4, score: 4},
+        ], 
+        priority: 10,
         multianswer: false,
     },
-    {
-        question: '11. How many children would you want to have?',
-        answers: [
-            {value: '0' , checked: false, index: 0},
-            {value: '1' , checked: false, index: 0},
-            {value: '2' , checked: false, index: 0},
-            {value: '3+' , checked: false, index: 0},
-            {value: '3 cats/dogs' , checked: false, index: 0},
-        ],
-        multianswer: false,
-    }
 ];
 
 
@@ -143,18 +178,24 @@ export class QuestionsComponent implements OnInit {
     constructor(private _tinderService: TinderService) { }
     
     ngOnInit() {
+        
     }
     
     public SaveAnswers(form: NgForm) {
         const answers = [];
         let i = 0;
+        let score = 0;
         questions.forEach(q => {
             if (q.multianswer === true) {
-                var res = q.answers.filter(a => a.checked !== false).map(a => a.index).join();
-                answers.push(res);
+                var res = q.answers.filter(a => a.checked !== false);
+                res.forEach(a => score += a.score*q.priority);
+                var ans = res.map(a => a.index).join();
+                answers.push(ans);
             } else {
+                score += q.answers[form.value[i]].score * q.priority;
                 answers.push(form.value[i]);
             }
+            console.log("pas " + i + " : " + score);
             i++;
         });
         this._tinderService.saveAnswers(answers);
