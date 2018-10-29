@@ -5,6 +5,9 @@
                 <li *ngFor="let item of questions; let iQuestion = index" class="purpleish-text question">
                     {{item.question}}
                     <ul>
+                        <mat-radio-group>
+                                
+
                         <li *ngFor="let answer of item.answers; let iAnswer = index">
                             <div [ngSwitch]="item.multianswer">
                                 <div *ngSwitchCase="true">
@@ -12,15 +15,19 @@
                                     <label for="a{{iQuestion}}{{iAnswer}}" class="purpleish-text answer">{{answer.value}}</label>
                                 </div>
                                 <div *ngSwitchCase="false">
-                                    <input class="radio-purpleish filled-in" type="radio" name="{{iQuestion}}" id="a{{iQuestion}}{{iAnswer}}" value="{{iAnswer}}" ngModel> 
-                                    <label for="a{{iQuestion}}{{iAnswer}}" class="purpleish-text answer">{{answer.value}}</label>
+                                    <mat-radio-button type="radio" name="{{iQuestion}}" id="a{{iQuestion}}{{iAnswer}}" value="{{iAnswer}}" ngModel>{{answer.value}}</mat-radio-button>
+                                    
                                 </div>
                             </div>
                         </li>
+                    </mat-radio-group>
                     </ul>
                 </li>
+            
             </ul>
             <input class="col s8 offset-s2 btn waves-effect waves-light purpleish" type="submit" value="Submit" >
         </form>
     </div>
 </div>
+
+

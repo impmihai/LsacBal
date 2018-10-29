@@ -1,7 +1,28 @@
-<div *ngFor="let person of this._persons" (click)="likePerson(person.id)">
+<div *ngFor="let person of this._persons">
     {{ person.id }} <br>
     {{ person.profile?.displayName }} <br>
-    <img src="{{ person.profile?.displayImages[0] }}">
+    <div class="container-persoana">
+        <mat-accordion>
+            <mat-expansion-panel (opened)="panelOpenState = true"
+                                 (closed)="panelOpenState = false"
+                                 [hideToggle]="true">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <p>{{ person.profile?.displayName }}</p>
+                    <span class="butonexpand"><img src="../assets/images/arrow.svg" class="expand-img" [class.rotate]="!panelOpenState"></span>
+                </mat-panel-title>
+            
+              </mat-expansion-panel-header>
+              <p>I'm visible because I am open</p>
+            </mat-expansion-panel>
+          </mat-accordion>
+      <img class="personpicture" src="{{ person.profile?.displayImages[0] }}">
+      <div class="rentaglepurple"></div>
+      <div style="top: 17%;width: 90%; margin: 5%;" class="rentaglepurple"></div>
+      <div style="top: 15%;width: 80%; margin: 10%;" class="rentaglepurple"></div>
+    </div>
+      
+    
 </div>
 <br>
 MATHCEEEEEEES<br>
