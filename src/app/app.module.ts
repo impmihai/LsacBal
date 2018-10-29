@@ -34,7 +34,7 @@ import { SwipeCardComponent } from './swipe-card/swipe-card.component';
     MatchesComponent,
     ChatComponent,
     QuestionsComponent,
-    SwipeCardComponent
+    SwipeCardComponent,
   ],
   imports: [
     BrowserModule,

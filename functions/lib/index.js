@@ -24,6 +24,14 @@ function getUserAnswers(userId) {
         return userAnswers.data();
     });
 }
+function isLikedAlready(user, person) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const likeKey = [user, person].sort().join('-');
+        const doc = yield exports.firestoreInstance.collection('likes').doc(likeKey).get();
+        return doc.exists;
+    });
+}
+exports.isLikedAlready = isLikedAlready;
 function getAllPersonsScores() {
     return __awaiter(this, void 0, void 0, function* () {
         const usersAnswers = yield exports.firestoreInstance.collection('answers').get();
@@ -69,8 +77,22 @@ exports.isMatch = isMatch;
 exports.personLiked = functions.firestore.document('/likes/{likes}').onWrite((change, context) => {
     return isMatch(change);
 });
+function getSuggestions(user, suggestionsCount) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let userAnswers = yield getUserAnswers(user);
+        let allPersons = yield getAllPersonsScores();
+        allPersons.forEach(person => {
+            if (isLikedAlready(user, person.id)) {
+                console.log(person.id + " already liked by " + user);
+            }
+            else {
+                console.log(person.id + " is good for " + user);
+            }
+        });
+    });
+}
 exports.findNewPersons = functions.https.onRequest((req, res) => {
     let user = req.query.user;
-    console.log(user);
+    return getSuggestions(user, 50);
 });
 //# sourceMappingURL=index.js.map

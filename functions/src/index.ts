@@ -69,6 +69,13 @@ export const personLiked = functions.firestore.document('/likes/{likes}').onWrit
 async function getSuggestions(user, suggestionsCount) {
       let userAnswers = await getUserAnswers(user);
       let allPersons = await getAllPersonsScores();
+      allPersons.forEach(person => {
+            if (isLikedAlready(user, person.id)) {
+                  console.log(person.id + " already liked by " + user);
+            } else {
+                  console.log(person.id + " is good for " + user);
+            }
+      });
 }
 
 export const findNewPersons = functions.https.onRequest((req, res) => {

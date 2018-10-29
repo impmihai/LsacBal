@@ -35,18 +35,29 @@ export class TinderService {
 
   public loadPersons(): Observable<TinderPerson[]> {
     if (isNullOrUndefined(this._personsObservable))
-      this._personsObservable = this._afFirestore.collection('tinder')
-                          .doc('persons')
-                          .collection(this._accService.userData.id)
-                          .snapshotChanges()
-                          .pipe(map(persons => persons.map(personData => 
-                            {
-                              let tinderPerson: TinderPerson = new TinderPerson();
-                              tinderPerson.id = personData.payload.doc.id;
-                              this.loadProfile(tinderPerson.id).subscribe(profile => tinderPerson.profile = profile);                              
-                              return tinderPerson;
-                            }))
-                          )
+      // this._personsObservable = this._afFirestore.collection('tinder')
+      //                     .doc('persons')
+      //                     .collection(this._accService.userData.id)
+      //                     .snapshotChanges()
+      //                     .pipe(map(persons => persons.map(personData => 
+      //                       {
+      //                         let tinderPerson: TinderPerson = new TinderPerson();
+      //                         tinderPerson.id = personData.payload.doc.id;
+      //                         this.loadProfile(tinderPerson.id).subscribe(profile => tinderPerson.profile = profile);                              
+      //                         return tinderPerson;
+      //                       }))
+      //                     )
+
+      this._personsObservable = this._afFirestore.collection('users')
+                        .snapshotChanges()
+                        .pipe(map(persons => persons.map(personData => 
+                          {
+                            let tinderPerson: TinderPerson = new TinderPerson();
+                            tinderPerson.id = personData.payload.doc.id;
+                            this.loadProfile(tinderPerson.id).subscribe(profile => tinderPerson.profile = profile);                              
+                            return tinderPerson;
+                          }))
+                        )
     return this._personsObservable;
   }
 

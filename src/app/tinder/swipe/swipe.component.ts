@@ -12,7 +12,6 @@ import { isNullOrUndefined } from 'util';
 })
 export class SwipeComponent implements OnInit {
   private _persons: TinderPerson[];
-  private _matches: TinderPerson[];
 
   
   constructor(private _accService:AccountService, private _tinderService: TinderService) { }
@@ -24,13 +23,6 @@ export class SwipeComponent implements OnInit {
             .loadPersons()
             .subscribe(persons => {
               this._persons = persons;
-            });
-          
-        this._tinderService
-            .loadMatches()
-            .subscribe(persons => {
-              this._matches = persons;
-              
             });
       });
     });

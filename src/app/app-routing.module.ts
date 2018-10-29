@@ -10,9 +10,6 @@ import { AuthGuardService } from './auth-guard.service';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
-  // { path: 'vote', component: VoteComponent },
-  // { path: 'tombole', component: LandingComponent },
-  // { path: 'crush', component: LandingComponent },
   { path: 'tinder', component: QuestionsComponent },
   { path: 'swipe', component: SwipeComponent, canActivate: [AuthGuardService] },
   { path: 'matches', component: MatchesComponent },

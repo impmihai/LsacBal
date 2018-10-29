@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TinderProfile } from '../Classes';
-import { NguCarouselConfig, NguCarousel } from '@ngu/carousel';
 
 @Component({
   selector: 'app-swipe-card',
