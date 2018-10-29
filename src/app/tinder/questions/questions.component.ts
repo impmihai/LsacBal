@@ -195,9 +195,8 @@ export class QuestionsComponent implements OnInit {
                 score += q.answers[form.value[i]].score * q.priority;
                 answers.push(form.value[i]);
             }
-            console.log("pas " + i + " : " + score);
             i++;
         });
-        this._tinderService.saveAnswers(answers);
+        this._tinderService.saveAnswers(answers, score);
     }
 }

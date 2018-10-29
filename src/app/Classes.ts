@@ -42,5 +42,5 @@ export class TinderProfile {
 
 export class TinderPerson {
     id: string;
-    profile: Observable<TinderProfile>;
+    profile: TinderProfile;
 }

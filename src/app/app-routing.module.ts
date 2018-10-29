@@ -6,14 +6,15 @@ import { SwipeComponent } from './tinder/swipe/swipe.component';
 import { MatchesComponent } from './tinder/matches/matches.component';
 import { ChatComponent } from './tinder/chat/chat.component';
 import { QuestionsComponent } from './tinder/questions/questions.component';
+import { AuthGuardService } from './auth-guard.service';
 
 const routes: Routes = [
-  { path: 'landing', component: LandingComponent },
-  { path: 'vote', component: VoteComponent },
-  { path: 'tombole', component: LandingComponent },
-  { path: 'crush', component: LandingComponent },
+  { path: '', component: LandingComponent },
+  // { path: 'vote', component: VoteComponent },
+  // { path: 'tombole', component: LandingComponent },
+  // { path: 'crush', component: LandingComponent },
   { path: 'tinder', component: QuestionsComponent },
-  { path: 'swipe', component: SwipeComponent },
+  { path: 'swipe', component: SwipeComponent, canActivate: [AuthGuardService] },
   { path: 'matches', component: MatchesComponent },
   { path: 'chat/:id', component: ChatComponent },
 ];

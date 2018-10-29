@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 0px;
+  margin: 0px;
+  background: url("../../assets/images/margine.svg");
+  background-position: 50% 100%;
+  background-size: 115% 100%;
+}
+
+.content-container {
+    width: 100%;
+    text-align: center;
+}
+
+.content-container *{
+  width: 100%;
+  z-index: 1000;
+}

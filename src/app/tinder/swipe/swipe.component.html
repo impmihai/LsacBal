@@ -1,5 +1,12 @@
 <div *ngFor="let person of this._persons" (click)="likePerson(person.id)">
     {{ person.id }} <br>
-    {{ this._profiles[person.id]?.displayName }} <br>
-    <img src="{{ this._profiles[person.id]?.displayImages[0] }}">
+    {{ person.profile?.displayName }} <br>
+    <img src="{{ person.profile?.displayImages[0] }}">
+</div>
+<br>
+MATHCEEEEEEES<br>
+<div *ngFor="let person of this._matches">
+  {{ person.id }} <br>
+  {{ person.profile?.displayName }} <br>
+  <img src="{{ person.profile?.displayImages[0] }}">
 </div>

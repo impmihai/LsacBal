@@ -10,6 +10,7 @@ import { ObserversModule } from '@angular/cdk/observers';
 import { reject } from 'q';
 import { ReadKeyExpr } from '@angular/compiler';
 import { promise } from 'protractor';
+import { MessagingService } from './messaging.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,10 +21,17 @@ export class AccountService {
   public userData: AccountInfo;
   private _authState: firebase.User;
 
-  constructor(private _afStore: AngularFirestore, private _afAuth: AngularFireAuth) {
+  constructor(private _messagingService: MessagingService, private _afStore: AngularFirestore, private _afAuth: AngularFireAuth) {
     this._afAuth.authState.subscribe(auth => {
-      this._authState = auth;
-      this.userDataObservable().subscribe(a => {});
+      if (auth != null) {
+        this._authState = auth;
+        this.userDataObservable().subscribe(a => {
+          this._messagingService.requestPermission().then(token => this.updateData({fcmtoken: token}));
+          this._messagingService.receiveMessage();
+          this._messagingService.currentMessage.subscribe(tst => console.log(tst));
+
+        });
+      }        
     });
   }
   

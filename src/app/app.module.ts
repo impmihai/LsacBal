@@ -20,6 +20,11 @@ import { MatchesComponent } from './tinder/matches/matches.component';
 import { ChatComponent } from './tinder/chat/chat.component';
 import { QuestionsComponent } from './tinder/questions/questions.component';
 import { FormsModule } from '@angular/forms';
+import { MessagingService } from './messaging.service';
+import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireMessaging, AngularFireMessagingModule } from '@angular/fire/messaging';
+import { AuthGuardService } from './auth-guard.service';
+import { SwipeCardComponent } from './swipe-card/swipe-card.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +34,8 @@ import { FormsModule } from '@angular/forms';
     SwipeComponent,
     MatchesComponent,
     ChatComponent,
-    QuestionsComponent
+    QuestionsComponent,
+    SwipeCardComponent
   ],
   imports: [
     BrowserModule,
@@ -40,9 +46,10 @@ import { FormsModule } from '@angular/forms';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    AngularFireMessagingModule,
     FormsModule,
   ],
-  providers: [VotingService, AccountService],
+  providers: [VotingService, AccountService, MessagingService, AngularFireDatabase, AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

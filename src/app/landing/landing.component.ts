@@ -17,10 +17,12 @@ export class LandingComponent implements OnInit {
   }
 
   login() {
+    console.log("asd");
     this.accService.doFacebookLogin();
   }
 
   logout() {
+    console.log("asd22");
     this.accService.doLogout();
   }
 
