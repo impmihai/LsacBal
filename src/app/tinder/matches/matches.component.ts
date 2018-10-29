@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TinderService } from '../tinder.service';
-import { TinderPerson } from '../../Classes';
+import { TinderPerson, Conversation } from '../../Classes';
 import { AccountService } from '../../account.service';
 
 @Component({
@@ -10,6 +10,7 @@ import { AccountService } from '../../account.service';
 })
 export class MatchesComponent implements OnInit {
   private _matches: TinderPerson[];
+  private _conversations: Conversation[];
 
   constructor(private _tinderService: TinderService, private _accService: AccountService) { }
 
@@ -20,6 +21,12 @@ export class MatchesComponent implements OnInit {
             .loadMatches()
             .subscribe(persons => {
               this._matches = persons;
+            });
+
+        this._tinderService
+            .getConversations()
+            .subscribe(conversations => {
+              this._conversations = conversations;
             });
       });
     }); 

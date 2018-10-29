@@ -28,7 +28,6 @@ export class AccountInfo {
 
 export class Message {
     sender: string;
-    receiver: string;
     type: MessageType;
     message: string;
 }
@@ -43,4 +42,9 @@ export class TinderProfile {
 export class TinderPerson {
     id: string;
     profile: TinderProfile;
+}
+
+export class Conversation {
+    id: string;
+    otherPerson: TinderProfile;
 }

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { AccountInfo, Message, MessageType, TinderProfile, TinderPerson } from 'src/app/Classes';
+import { AccountInfo, Message, MessageType, TinderProfile, TinderPerson, Conversation } from 'src/app/Classes';
 import { Observable } from 'rxjs';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AccountService } from '../account.service';
-import { isNullOrUndefined } from 'util';
+import { isNullOrUndefined, isNull } from 'util';
 import { map } from 'rxjs/internal/operators/map';
+import * as firebase from 'firebase';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ import { map } from 'rxjs/internal/operators/map';
 export class TinderService {
   private _personsObservable: Observable<any>;
   private _matchesObservable: Observable<any>;
+  private _conversationsObservable: Observable<any>;
   private _messagesObservable: { [id: string] : Observable<Message[]> } = {};
   private _profilesObservable: { [id: string] : Observable<TinderProfile> } = {};
   constructor(private _afFirestore: AngularFirestore, private _accService: AccountService) { }
@@ -105,6 +107,28 @@ export class TinderService {
         .update({['like-' + fullKey] : false});
   }
 
+  public getConversations(): Observable<Conversation[]> {
+    if (isNullOrUndefined(this._conversationsObservable)) {
+      this._conversationsObservable = this._afFirestore
+                                              .collection('users')
+                                              .doc(this._accService.userData.id)
+                                              .collection('conversations', ref => ref.orderBy('lastMessageTime'))
+                                              .snapshotChanges()
+                                              .pipe(map(conversations => {
+                                                return conversations.map(convData => {
+                                                  let conv: Conversation = convData.payload.doc.data() as Conversation;
+                                                  conv.id = convData.payload.doc.id;
+                                                  this.loadProfile(convData.payload.doc.data().otherPersonId).subscribe(profile => {
+                                                    conv.otherPerson = profile;
+                                                  })
+                                                  console.log(convData);
+                                                  return conv;
+                                                });
+                                              }));
+    }
+    return this._conversationsObservable;
+  }
+
   public getMessages(personId: string): Observable<Message[]> {
     if (isNullOrUndefined(this._messagesObservable[personId])) {
       let conversationParticipants = [this._accService.userData.id , personId];
@@ -113,7 +137,7 @@ export class TinderService {
       this._messagesObservable[personId] = this._afFirestore
                                               .collection('tinder')
                                               .doc('messages')
-                                              .collection(conversationKey)
+                                              .collection(conversationKey, ref => ref.orderBy('timestamp'))
                                               .valueChanges()
                                               .pipe(map(messages => {
                                                 return messages.map(messageData => {
@@ -136,16 +160,17 @@ export class TinderService {
       let message: Message = new Message();
       message.message = messageText;
       message.sender = this._accService.userData.id;
-      message.receiver = personId;
 
       let conversationParticipants = [this._accService.userData.id , personId];
       let conversationKey: string = conversationParticipants.sort().join('-');
 
+      let timestamp = firebase.firestore.FieldValue.serverTimestamp();
+      console.log(timestamp);
       this._afFirestore
           .collection('tinder')
           .doc('messages')
           .collection(conversationKey)
-          .add(message)
+          .add(Object.assign({}, {timestamp: timestamp, ...message}))
           .then(result => resolve(result))
           .catch(err => reject(err));
     });

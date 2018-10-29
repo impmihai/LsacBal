@@ -5,7 +5,7 @@ import { isNullOrUndefined } from 'util';
 admin.initializeApp(functions.config().firebase);
 
 
-export const firestoreInstance = admin.firestore();
+const firestoreInstance = admin.firestore();
 
 async function getUserPrivateData(userId: string): Promise<FirebaseFirestore.DocumentSnapshot> {
       return await firestoreInstance.collection('users').doc(userId).get()
@@ -16,20 +16,32 @@ async function getUserAnswers(userId: string): Promise<any> {
       return userAnswers.data();
 }
 
-export async function isLikedAlready(user: string, person: string): Promise<boolean> {
+async function isLikedAlready(user: string, person: string): Promise<boolean> {
       const likeKey = [user, person].sort().join('-');
       const doc = await firestoreInstance.collection('likes').doc(likeKey).get();
       return doc.exists;
 }
 
-export async function getAllPersonsScores(): Promise<any[]>  {
+async function getAllPersonsScores(): Promise<any[]>  {
       const usersAnswers = await firestoreInstance.collection('answers').get();
       return usersAnswers.docs;
 }
 
+async function sendNotification(usersData: any[], notificationMessage) {
+      let awaits = [];
+      usersData.forEach(user => {
+            if (!isNullOrUndefined(user) && !isNullOrUndefined(user.data().fcmtoken)) {
+                  var message = {
+                        data: notificationMessage,
+                        token: user.data().fcmtoken
+                  };
+                  awaits.push(admin.messaging().send(message));
+            }
+      })
+      await Promise.all(awaits);
+}
 
-
-export async function isMatch(change) {
+async function isMatch(change) {
       if (!change.after.exists) return;
 
       const id = change.after.id;
@@ -41,30 +53,12 @@ export async function isMatch(change) {
                   var a = doc.collection(persons[0]).doc(persons[1]).set({});
                   var b = doc.collection(persons[1]).doc(persons[0]).set({});
                   await Promise.all([a, b]);
-                  
                   const usersData = [await getUserPrivateData(persons[0]), await getUserPrivateData(persons[1])];
-                  let awaits = [];
-                  usersData.forEach(user => {
-                        if (!isNullOrUndefined(user) && !isNullOrUndefined(user.data().fcmtoken)) {
-                              var message = {
-                                    data: {
-                                    score: '850',
-                                    time: '2:45'
-                                    },
-                                    token: user.data().fcmtoken
-                              };
-                              awaits.push(admin.messaging().send(message));
-                        }
-                  })
-                  await Promise.all(awaits);
+                  await sendNotification(usersData, "Ai o potrivire noua!");
       } else {
             return;
       }
 }
-
-export const personLiked = functions.firestore.document('/likes/{likes}').onWrite((change, context) => {
-      return isMatch(change);
-});
 
 async function getSuggestions(user, suggestionsCount) {
       let userAnswers = await getUserAnswers(user);
@@ -77,6 +71,23 @@ async function getSuggestions(user, suggestionsCount) {
             }
       });
 }
+
+async function sendNewMessageNotification(convId, messageId) {
+      const message = await firestoreInstance.collection('tinder').doc('messages').collection(convId).doc(messageId).get();
+      const participants = convId.split('-');
+      const otherPerson = convId.remove(message.data().sender)[0];
+      const senderPersonData = await getUserPrivateData(message.data().sender);      
+      const otherPersonData = await getUserPrivateData(otherPerson);
+      await sendNotification([otherPersonData.data()], senderPersonData.data().displayName + ' ti-a trimis un mesaj!');
+}
+
+export const personLiked = functions.firestore.document('/likes/{likes}').onWrite((change, context) => {
+      return isMatch(change);
+});
+
+export const messageReceived = functions.firestore.document('/tinder/messages/{convId}/{messageId}').onWrite((change, context) => {
+      return sendNewMessageNotification(context.params.convId, context.params.messageId)
+});
 
 export const findNewPersons = functions.https.onRequest((req, res) => {
       let user = req.query.user;

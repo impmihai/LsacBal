@@ -12,33 +12,46 @@ const admin = require("firebase-admin");
 const functions = require("firebase-functions");
 const util_1 = require("util");
 admin.initializeApp(functions.config().firebase);
-exports.firestoreInstance = admin.firestore();
+const firestoreInstance = admin.firestore();
 function getUserPrivateData(userId) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield exports.firestoreInstance.collection('users').doc(userId).get();
+        return yield firestoreInstance.collection('users').doc(userId).get();
     });
 }
 function getUserAnswers(userId) {
     return __awaiter(this, void 0, void 0, function* () {
-        const userAnswers = yield exports.firestoreInstance.collection('answers').doc(userId).get();
+        const userAnswers = yield firestoreInstance.collection('answers').doc(userId).get();
         return userAnswers.data();
     });
 }
 function isLikedAlready(user, person) {
     return __awaiter(this, void 0, void 0, function* () {
         const likeKey = [user, person].sort().join('-');
-        const doc = yield exports.firestoreInstance.collection('likes').doc(likeKey).get();
+        const doc = yield firestoreInstance.collection('likes').doc(likeKey).get();
         return doc.exists;
     });
 }
-exports.isLikedAlready = isLikedAlready;
 function getAllPersonsScores() {
     return __awaiter(this, void 0, void 0, function* () {
-        const usersAnswers = yield exports.firestoreInstance.collection('answers').get();
+        const usersAnswers = yield firestoreInstance.collection('answers').get();
         return usersAnswers.docs;
     });
 }
-exports.getAllPersonsScores = getAllPersonsScores;
+function sendNotification(usersData, notificationMessage) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let awaits = [];
+        usersData.forEach(user => {
+            if (!util_1.isNullOrUndefined(user) && !util_1.isNullOrUndefined(user.data().fcmtoken)) {
+                var message = {
+                    data: notificationMessage,
+                    token: user.data().fcmtoken
+                };
+                awaits.push(admin.messaging().send(message));
+            }
+        });
+        yield Promise.all(awaits);
+    });
+}
 function isMatch(change) {
     return __awaiter(this, void 0, void 0, function* () {
         if (!change.after.exists)
@@ -48,35 +61,18 @@ function isMatch(change) {
         const persons = id.split('-');
         if (!util_1.isNullOrUndefined(newValue[persons[0]]) && newValue[persons[0]] === true &&
             !util_1.isNullOrUndefined(newValue[persons[1]]) && newValue[persons[1]] === true) {
-            var doc = exports.firestoreInstance.collection('tinder').doc('matches');
+            var doc = firestoreInstance.collection('tinder').doc('matches');
             var a = doc.collection(persons[0]).doc(persons[1]).set({});
             var b = doc.collection(persons[1]).doc(persons[0]).set({});
             yield Promise.all([a, b]);
             const usersData = [yield getUserPrivateData(persons[0]), yield getUserPrivateData(persons[1])];
-            let awaits = [];
-            usersData.forEach(user => {
-                if (!util_1.isNullOrUndefined(user) && !util_1.isNullOrUndefined(user.data().fcmtoken)) {
-                    var message = {
-                        data: {
-                            score: '850',
-                            time: '2:45'
-                        },
-                        token: user.data().fcmtoken
-                    };
-                    awaits.push(admin.messaging().send(message));
-                }
-            });
-            yield Promise.all(awaits);
+            yield sendNotification(usersData, "Ai o potrivire noua!");
         }
         else {
             return;
         }
     });
 }
-exports.isMatch = isMatch;
-exports.personLiked = functions.firestore.document('/likes/{likes}').onWrite((change, context) => {
-    return isMatch(change);
-});
 function getSuggestions(user, suggestionsCount) {
     return __awaiter(this, void 0, void 0, function* () {
         let userAnswers = yield getUserAnswers(user);
@@ -91,6 +87,22 @@ function getSuggestions(user, suggestionsCount) {
         });
     });
 }
+function sendNewMessageNotification(convId, messageId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const message = yield firestoreInstance.collection('tinder').doc('messages').collection(convId).doc(messageId).get();
+        const participants = convId.split('-');
+        const otherPerson = convId.remove(message.data().sender)[0];
+        const senderPersonData = yield getUserPrivateData(message.data().sender);
+        const otherPersonData = yield getUserPrivateData(otherPerson);
+        yield sendNotification([otherPersonData.data()], senderPersonData.data().displayName + ' ti-a trimis un mesaj!');
+    });
+}
+exports.personLiked = functions.firestore.document('/likes/{likes}').onWrite((change, context) => {
+    return isMatch(change);
+});
+exports.messageReceived = functions.firestore.document('/tinder/messages/{convId}/{messageId}').onWrite((change, context) => {
+    return sendNewMessageNotification(context.params.convId, context.params.messageId);
+});
 exports.findNewPersons = functions.https.onRequest((req, res) => {
     let user = req.query.user;
     return getSuggestions(user, 50);
