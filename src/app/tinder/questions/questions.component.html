@@ -1,31 +1,38 @@
-<div class="row">
-    <div class="container col offset-s1">
+<div >
+    <div>
         <form action="#" #meetupForm="ngForm" (ngSubmit)="SaveAnswers(meetupForm)">
             <ul>
-                <li *ngFor="let item of questions; let iQuestion = index" class="purpleish-text question">
-                    {{item.question}}
+                    
+                <li *ngFor="let item of questions; let iQuestion = index" >
+                        
+                   
                     <ul>
+                      <mat-card>  <span style="font-weight: 600;font-size:1.125em;color:#484848;">{{item.question}}</span>
                         <mat-radio-group>
-                                
-
+                                 
+                                 
                         <li *ngFor="let answer of item.answers; let iAnswer = index">
                             <div [ngSwitch]="item.multianswer">
                                 <div *ngSwitchCase="true">
-                                    <input class="checkbox-purpleish filled-in" type="checkbox" name="{{iQuestion}}" id="a{{iQuestion}}{{iAnswer}}" value="1" [(ngModel)]="answer.checked"> 
-                                    <label for="a{{iQuestion}}{{iAnswer}}" class="purpleish-text answer">{{answer.value}}</label>
+                                        <mat-checkbox>{{answer.value}}</mat-checkbox>
+
+                                    
                                 </div>
                                 <div *ngSwitchCase="false">
-                                    <mat-radio-button type="radio" name="{{iQuestion}}" id="a{{iQuestion}}{{iAnswer}}" value="{{iAnswer}}" ngModel>{{answer.value}}</mat-radio-button>
+                                    <mat-radio-button style="margin-top:10px;" type="radio" name="{{iQuestion}}" id="a{{iQuestion}}{{iAnswer}}" value="{{iAnswer}}" ngModel>{{answer.value}}</mat-radio-button>
                                     
                                 </div>
                             </div>
                         </li>
-                    </mat-radio-group>
+                    
+                    </mat-radio-group></mat-card>
                     </ul>
+                
                 </li>
             
             </ul>
-            <input class="col s8 offset-s2 btn waves-effect waves-light purpleish" type="submit" value="Submit" >
+            <button style="width:100%;background: linear-gradient(90deg, #464692 0%, #7272EA 100%);
+            border-radius: 100px;" mat-flat-button color="accent">Accent</button>
         </form>
     </div>
 </div>

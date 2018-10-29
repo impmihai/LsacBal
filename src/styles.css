@@ -879,7 +879,7 @@ textarea.cdk-textarea-autosize-measuring {
 }
 
 .mat-optgroup-label {
-	color: rgba(0, 0, 0, .54)
+	color: #EAEAFF
 }
 
 .mat-optgroup-disabled .mat-optgroup-label {
@@ -887,7 +887,7 @@ textarea.cdk-textarea-autosize-measuring {
 }
 
 .mat-pseudo-checkbox {
-	color: rgba(0, 0, 0, .54)
+	color: #EAEAFF
 }
 
 .mat-pseudo-checkbox::after {
@@ -1367,7 +1367,7 @@ textarea.cdk-textarea-autosize-measuring {
 
 .mat-button-toggle-checked {
 	background-color: #e0e0e0;
-	color: rgba(0, 0, 0, .54)
+	color: #EAEAFF
 }
 
 .mat-button-toggle-disabled {
@@ -1385,11 +1385,11 @@ textarea.cdk-textarea-autosize-measuring {
 }
 
 .mat-card-subtitle {
-	color: rgba(0, 0, 0, .54)
+	color: #EAEAFF
 }
 
 .mat-checkbox-frame {
-	border-color: rgba(0, 0, 0, .54)
+	border-color: #EAEAFF
 }
 
 .mat-checkbox-checkmark {
@@ -1545,7 +1545,7 @@ th.mat-header-cell {
 }
 
 .mat-header-cell {
-	color: rgba(0, 0, 0, .54)
+	color: #EAEAFF
 }
 
 .mat-cell,
@@ -1554,13 +1554,13 @@ th.mat-header-cell {
 }
 
 .mat-calendar-arrow {
-	border-top-color: rgba(0, 0, 0, .54)
+	border-top-color: #EAEAFF
 }
 
 .mat-datepicker-content .mat-calendar-next-button,
 .mat-datepicker-content .mat-calendar-previous-button,
 .mat-datepicker-toggle {
-	color: rgba(0, 0, 0, .54)
+	color: #EAEAFF
 }
 
 .mat-calendar-table-header {
@@ -1572,7 +1572,7 @@ th.mat-header-cell {
 }
 
 .mat-calendar-body-label {
-	color: rgba(0, 0, 0, .54)
+	color: #EAEAFF
 }
 
 .mat-calendar-body-cell-content {
@@ -1694,7 +1694,7 @@ th.mat-header-cell {
 
 .mat-expansion-indicator::after,
 .mat-expansion-panel-header-description {
-	color: rgba(0, 0, 0, .54)
+	color: #EAEAFF
 }
 
 .mat-expansion-panel-header[aria-disabled=true] {
@@ -1765,11 +1765,11 @@ th.mat-header-cell {
 }
 
 .mat-form-field-appearance-legacy .mat-form-field-label {
-	color: rgba(0, 0, 0, .54)
+	color: #EAEAFF
 }
 
 .mat-form-field-appearance-legacy .mat-hint {
-	color: rgba(0, 0, 0, .54)
+	color: #EAEAFF
 }
 
 .mat-form-field-appearance-legacy .mat-form-field-underline {
@@ -1904,7 +1904,7 @@ th.mat-header-cell {
 .mat-list .mat-subheader,
 .mat-nav-list .mat-subheader,
 .mat-selection-list .mat-subheader {
-	color: rgba(0, 0, 0, .54)
+	color: #EAEAFF
 }
 
 .mat-list-item-disabled {
@@ -1934,7 +1934,7 @@ th.mat-header-cell {
 
 .mat-menu-item .mat-icon:not([color]),
 .mat-menu-item-submenu-trigger::after {
-	color: rgba(0, 0, 0, .54)
+	color: #EAEAFF
 }
 
 .mat-menu-item-highlighted:not([disabled]),
@@ -1950,18 +1950,18 @@ th.mat-header-cell {
 
 .mat-paginator,
 .mat-paginator-page-size .mat-select-trigger {
-	color: rgba(0, 0, 0, .54)
+	color: #EAEAFF
 }
 
 .mat-paginator-decrement,
 .mat-paginator-increment {
-	border-top: 2px solid rgba(0, 0, 0, .54);
-	border-right: 2px solid rgba(0, 0, 0, .54)
+	border-top: 2px solid #EAEAFF;
+	border-right: 2px solid #EAEAFF
 }
 
 .mat-paginator-first,
 .mat-paginator-last {
-	border-top: 2px solid rgba(0, 0, 0, .54)
+	border-top: 2px solid #EAEAFF
 }
 
 .mat-icon-button[disabled] .mat-paginator-decrement,
@@ -2023,7 +2023,7 @@ th.mat-header-cell {
 }
 
 .mat-radio-outer-circle {
-	border-color: rgba(0, 0, 0, .54)
+	border-color: #EAEAFF
 }
 
 .mat-radio-button.mat-primary.mat-radio-checked .mat-radio-outer-circle {
@@ -2094,7 +2094,7 @@ th.mat-header-cell {
 }
 
 .mat-select-arrow {
-	color: rgba(0, 0, 0, .54)
+	color: #EAEAFF
 }
 
 .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {

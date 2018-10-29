@@ -131,7 +131,7 @@ const questions =
     {
         question: '11. Cat timp a trecut de la ultima relatie?',
         answers: [
-            {value: 'Sub o saptamana(cam devreme dar nu e problema)' , checked: false, index: 0, score: 2},
+            {value: 'Sub o saptamana' , checked: false, index: 0, score: 2},
             {value: '1 luna' , checked: false, index: 1, score: 0},
             {value: 'Cateva luni' , checked: false, index: 2, score: 1},
             {value: 'Mai mult de un an' , checked: false, index: 3, score: 2},
