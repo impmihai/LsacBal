@@ -41,10 +41,12 @@ function sendNotification(usersData, notificationMessage) {
     return __awaiter(this, void 0, void 0, function* () {
         let awaits = [];
         usersData.forEach(user => {
-            if (!util_1.isNullOrUndefined(user) && !util_1.isNullOrUndefined(user.data().fcmtoken)) {
+            if (!util_1.isNullOrUndefined(user) && !util_1.isNullOrUndefined(user.fcmtoken)) {
                 var message = {
-                    data: notificationMessage,
-                    token: user.data().fcmtoken
+                    data: {
+                        text: notificationMessage
+                    },
+                    token: user.fcmtoken
                 };
                 awaits.push(admin.messaging().send(message));
             }
@@ -91,7 +93,7 @@ function sendNewMessageNotification(convId, messageId) {
     return __awaiter(this, void 0, void 0, function* () {
         const message = yield firestoreInstance.collection('tinder').doc('messages').collection(convId).doc(messageId).get();
         const participants = convId.split('-');
-        const otherPerson = convId.remove(message.data().sender)[0];
+        const otherPerson = participants[0] == message.data().sender ? participants[1] : participants[0];
         const senderPersonData = yield getUserPrivateData(message.data().sender);
         const otherPersonData = yield getUserPrivateData(otherPerson);
         yield sendNotification([otherPersonData.data()], senderPersonData.data().displayName + ' ti-a trimis un mesaj!');

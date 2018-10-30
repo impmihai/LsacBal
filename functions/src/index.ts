@@ -30,10 +30,12 @@ async function getAllPersonsScores(): Promise<any[]>  {
 async function sendNotification(usersData: any[], notificationMessage) {
       let awaits = [];
       usersData.forEach(user => {
-            if (!isNullOrUndefined(user) && !isNullOrUndefined(user.data().fcmtoken)) {
+            if (!isNullOrUndefined(user) && !isNullOrUndefined(user.fcmtoken)) {
                   var message = {
-                        data: notificationMessage,
-                        token: user.data().fcmtoken
+                        data: {
+                              text: notificationMessage
+                        },
+                        token: user.fcmtoken
                   };
                   awaits.push(admin.messaging().send(message));
             }
@@ -75,7 +77,7 @@ async function getSuggestions(user, suggestionsCount) {
 async function sendNewMessageNotification(convId, messageId) {
       const message = await firestoreInstance.collection('tinder').doc('messages').collection(convId).doc(messageId).get();
       const participants = convId.split('-');
-      const otherPerson = convId.remove(message.data().sender)[0];
+      const otherPerson = participants[0] == message.data().sender ? participants[1] : participants[0];
       const senderPersonData = await getUserPrivateData(message.data().sender);      
       const otherPersonData = await getUserPrivateData(otherPerson);
       await sendNotification([otherPersonData.data()], senderPersonData.data().displayName + ' ti-a trimis un mesaj!');

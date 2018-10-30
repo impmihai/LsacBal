@@ -20,16 +20,25 @@ export class AccountService {
   private _userDataObservable: Observable<AccountInfo>;
   public userData: AccountInfo;
   private _authState: firebase.User;
-
+  private _token: string;
+  
   constructor(private _messagingService: MessagingService, private _afStore: AngularFirestore, private _afAuth: AngularFireAuth) {
+    this._messagingService.requestPermission().then(token => {
+        this._token = token;
+        if (!isNullOrUndefined(this.userData)) {
+          this.updateData({fcmtoken: this._token});
+        }
+     });
+    this._messagingService.receiveMessage();
+    this._messagingService.currentMessage.subscribe(tst => console.log(tst));
+
     this._afAuth.authState.subscribe(auth => {
       if (auth != null) {
         this._authState = auth;
         this.userDataObservable().subscribe(a => {
-          this._messagingService.requestPermission().then(token => this.updateData({fcmtoken: token}));
-          this._messagingService.receiveMessage();
-          this._messagingService.currentMessage.subscribe(tst => console.log(tst));
-
+          if (!isNullOrUndefined(this._token)) {
+            this.updateData({fcmtoken: this._token});
+          }
         });
       }        
     });
