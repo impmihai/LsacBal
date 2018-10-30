@@ -25,7 +25,9 @@ export class AccountService {
   constructor(private _messagingService: MessagingService, private _afStore: AngularFirestore, private _afAuth: AngularFireAuth) {
     this._messagingService.requestPermission().then(token => {
         this._token = token;
+        console.log(token);
         if (!isNullOrUndefined(this.userData)) {
+          console.log("updating token");
           this.updateData({fcmtoken: this._token});
         }
      });
@@ -36,7 +38,11 @@ export class AccountService {
       if (auth != null) {
         this._authState = auth;
         this.userDataObservable().subscribe(a => {
+        console.log(this._token);
+          
           if (!isNullOrUndefined(this._token)) {
+            console.log("updating token");
+            
             this.updateData({fcmtoken: this._token});
           }
         });
