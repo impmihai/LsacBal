@@ -13,17 +13,23 @@ import * as firebase from 'firebase';
 export class TinderService {
   private _personsObservable: Observable<TinderPerson[]>;
   private _personsSubject: Subject<TinderPerson[]>;
+
   private _matchesObservable: Observable<TinderPerson[]>;
   private _matchesSubject: Subject<TinderPerson[]>;
+
   private _conversationsObservable: Observable<Conversation[]>;
   private _conversationsSubject: Subject<Conversation[]>;
+
   private _messagesObservable: { [id: string] : Observable<Message[]> } = {};
   private _messagesSubject: { [id: string] : Subject<Message[]> } = {};
+
   private _profilesObservable: { [id: string] : Observable<TinderProfile> } = {};
   private _profilesSubject: { [id: string] : Subject<TinderProfile> } = {};
+
   constructor(private _afFirestore: AngularFirestore, private _accService: AccountService) {
     this._personsSubject = new ReplaySubject(1);    
     this._matchesSubject = new ReplaySubject(1);    
+    this._conversationsSubject = new ReplaySubject(1);    
   }
 
   public loadMatches(): Observable<TinderPerson[]> {
@@ -87,11 +93,15 @@ export class TinderService {
                             tinderProfile.id = profile.id;
                             return tinderProfile;
                           }));
+      this._profilesSubject[profileId] = new ReplaySubject(1);
+      this._profilesObservable[profileId].subscribe(profile => this._profilesSubject[profileId].next(profile));
     }
     return this._profilesObservable[profileId];
   }
 
   public likePerson(personId: string) {
+
+
     const persArr = new Array<string>();
     persArr.push(this._accService.userData.id);
     persArr.push(personId);
@@ -174,9 +184,11 @@ export class TinderService {
                                                   return message;
                                                 });
                                               }));
+      this._messagesSubject[personId] = new ReplaySubject(1);
+      this._messagesObservable[personId].subscribe(messages => this._messagesSubject[personId].next(messages))
     }
 
-    return this._messagesObservable[personId];
+    return this._messagesSubject[personId];
   }
 
   public sendMessage(personId: string, messageText: string): Promise<any> {

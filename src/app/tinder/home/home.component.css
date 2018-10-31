@@ -27,7 +27,7 @@
 }
 
 .icon {
-    height: 45%;
+    height: 40%;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -35,5 +35,5 @@
 }
 
 .active {
-    height: 60%;
+    height: 50%;
 }
