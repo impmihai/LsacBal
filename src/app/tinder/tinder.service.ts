@@ -6,6 +6,7 @@ import { AccountService } from '../account.service';
 import { isNullOrUndefined, isNull } from 'util';
 import { map } from 'rxjs/internal/operators/map';
 import * as firebase from 'firebase';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,7 @@ export class TinderService {
   private _profilesObservable: { [id: string] : Observable<TinderProfile> } = {};
   private _profilesSubject: { [id: string] : Subject<TinderProfile> } = {};
 
-  constructor(private _afFirestore: AngularFirestore, private _accService: AccountService) {
+  constructor(private _afFirestore: AngularFirestore, private _accService: AccountService, public snackBar: MatSnackBar) {
     this._personsSubject = new ReplaySubject(1);    
     this._matchesSubject = new ReplaySubject(1);    
     this._conversationsSubject = new ReplaySubject(1);    
@@ -99,8 +100,14 @@ export class TinderService {
     return this._profilesObservable[profileId];
   }
   public likePerson(personId: string) {
-
-
+    if (this._accService.userData.likesCount <= 0) {
+      let snackBarRef = this.snackBar.open('Nu mai ai niciun like ramas. Vei primi in curand altele!', "", {
+        duration: 2000,
+      });
+      return;
+    }
+    console.log(this._accService.userData.likesCount);
+    // rIMT2zPktGTdRxbeLfsU79G8GUK2
     const persArr = new Array<string>();
     persArr.push(this._accService.userData.id);
     persArr.push(personId);
@@ -118,6 +125,7 @@ export class TinderService {
         .collection(this._accService.userData.id)
         .doc(personId)
         .delete();
+        this._accService.updateData({likesCount: (this._accService.userData.likesCount - 1)});
   }
 
   public dislikePerson(personId: string) {

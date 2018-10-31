@@ -73,6 +73,7 @@ export class AccountService {
               displayImages: [res.user.photoURL + '?width=256&height=256'],
               description: '',
               workplace: '',
+              likesCount: 20
             });
           }});
         resolve(res);

@@ -24,16 +24,35 @@ function getUserAnswers(userId) {
         return userAnswers.data();
     });
 }
+function addLikes() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const users = yield firestoreInstance.collection('users').get();
+        const noLikesUsers = users.docs.filter(user => user.data().likesCount == 0);
+        let awaits = [];
+        awaits.push(sendNotification(noLikesUsers, "Poti sa dai din nou like-uri!"));
+        users.forEach(user => {
+            awaits.push(firestoreInstance.collection('users').doc(user.id).set({ likesCount: user.data().likesCount + 5 }, { merge: true }));
+        });
+        yield Promise.all(awaits);
+    });
+}
 function isLikedAlready(user, person) {
     return __awaiter(this, void 0, void 0, function* () {
         const likeKey = [user, person].sort().join('-');
         const doc = yield firestoreInstance.collection('likes').doc(likeKey).get();
+        console.log(doc.data);
         return doc.exists;
     });
 }
 function getAllPersonsScores() {
     return __awaiter(this, void 0, void 0, function* () {
         const usersAnswers = yield firestoreInstance.collection('answers').get();
+        return usersAnswers.docs;
+    });
+}
+function getUserMatches(userId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const usersAnswers = yield firestoreInstance.collection('tinder').doc('matches').collection(userId).get();
         return usersAnswers.docs;
     });
 }
@@ -75,18 +94,29 @@ function isMatch(change) {
         }
     });
 }
-function getSuggestions(user, suggestionsCount) {
+function getSuggestions() {
     return __awaiter(this, void 0, void 0, function* () {
-        let userAnswers = yield getUserAnswers(user);
         let allPersons = yield getAllPersonsScores();
-        allPersons.forEach(person => {
-            if (isLikedAlready(user, person.id)) {
-                console.log(person.id + " already liked by " + user);
+        let i = 0;
+        const awaits = [];
+        for (i = 0; i < allPersons.length; i++) {
+            const person = allPersons[i];
+            let suggestions;
+            if (person.data().score > 1000000) {
+                suggestions = allPersons.filter(pers => pers.data() !== person.data() && pers.data().score < 1000000).map(pers => pers.data().id);
             }
             else {
-                console.log(person.id + " is good for " + user);
+                suggestions = allPersons.filter(pers => pers.data() !== person.data() && pers.data().score > 1000000).map(pers => pers.data().id);
             }
-        });
+            const matches = yield getUserMatches(person.data().id);
+            let j = 0;
+            for (j = 0; j < matches.length; j++) {
+                if (suggestions.indexOf(matches[j].data().id) > 0)
+                    suggestions.splice(suggestions.indexOf(matches[j].data().id), 1);
+            }
+            suggestions.forEach(suggestion => awaits.push(firestoreInstance.collection('tinder').doc('persons').collection(person.data().id()).doc(suggestion).set({ s: true }, { merge: true })));
+        }
+        yield Promise.all(awaits);
     });
 }
 function sendNewMessageNotification(convId, messageId) {
@@ -94,7 +124,7 @@ function sendNewMessageNotification(convId, messageId) {
         const message = yield firestoreInstance.collection('tinder').doc('messages').collection(convId).doc(messageId).get();
         const messageData = message.data();
         const participants = convId.split('-');
-        const otherPerson = participants[0] == messageData.sender ? participants[1] : participants[0];
+        const otherPerson = participants[0] === messageData.sender ? participants[1] : participants[0];
         const senderPersonData = yield getUserPrivateData(messageData.sender);
         const otherPersonData = yield getUserPrivateData(otherPerson);
         yield sendNotification([otherPersonData.data()], senderPersonData.data().displayName + ' ti-a trimis un mesaj!');
@@ -121,6 +151,14 @@ exports.messageReceived = functions.firestore.document('/tinder/messages/{convId
 });
 exports.findNewPersons = functions.https.onRequest((req, res) => {
     let user = req.query.user;
-    return getSuggestions(user, 50);
+    res.send(``);
+    res.end();
+    return getSuggestions();
+});
+exports.addLikesEvent = functions.https.onRequest((req, res) => {
+    let key = req.query.key;
+    res.send(``);
+    res.end();
+    return addLikes();
 });
 //# sourceMappingURL=index.js.map

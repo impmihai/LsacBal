@@ -16,6 +16,19 @@ async function getUserAnswers(userId: string): Promise<any> {
       return userAnswers.data();
 }
 
+async function addLikes(): Promise<any> {
+      const users = await firestoreInstance.collection('users').get();
+      const noLikesUsers = users.docs.filter(user => user.data().likesCount == 0);
+
+      let awaits = [];
+      awaits.push(sendNotification(noLikesUsers, "Poti sa dai din nou like-uri!"));
+      users.forEach(user => {
+            awaits.push(firestoreInstance.collection('users').doc(user.id).set({likesCount: user.data().likesCount + 5}, {merge: true}));
+      });
+       
+      await Promise.all(awaits);
+}
+
 async function isLikedAlready(user: string, person: string): Promise<boolean> {
       const likeKey = [user, person].sort().join('-');
       const doc = await firestoreInstance.collection('likes').doc(likeKey).get();
@@ -25,6 +38,11 @@ async function isLikedAlready(user: string, person: string): Promise<boolean> {
 
 async function getAllPersonsScores(): Promise<any[]>  {
       const usersAnswers = await firestoreInstance.collection('answers').get();
+      return usersAnswers.docs;
+}
+
+async function getUserMatches(userId: string): Promise<any[]>  {
+      const usersAnswers = await firestoreInstance.collection('tinder').doc('matches').collection(userId).get();
       return usersAnswers.docs;
 }
 
@@ -62,17 +80,28 @@ async function isMatch(change) {
             return;
       }
 }
-
-async function getSuggestions(user, suggestionsCount) {
-      let userAnswers = await getUserAnswers(user);
+async function getSuggestions() {
       let allPersons = await getAllPersonsScores();
-      allPersons.forEach(person => {
-            if (isLikedAlready(user, person.id)) {
-                  console.log(person.id + " already liked by " + user);
+      let i: number = 0;
+      const awaits = [];
+      for (i = 0; i < allPersons.length; i++) {
+            const person = allPersons[i];
+            let suggestions;
+            if (person.data().score > 1000000) {
+                  suggestions = allPersons.filter(pers => pers.data() !== person.data() && pers.data().score < 1000000).map(pers => pers.data().id);
             } else {
-                  console.log(person.id + " is good for " + user);
+                  suggestions = allPersons.filter(pers => pers.data() !== person.data() && pers.data().score > 1000000).map(pers => pers.data().id);                  
             }
-      });
+
+            const matches = await getUserMatches(person.data().id);
+            let j = 0;
+            for (j = 0; j < matches.length; j++) {
+                  if (suggestions.indexOf(matches[j].data().id) > 0)
+                        suggestions.splice(suggestions.indexOf(matches[j].data().id), 1);
+            }
+            suggestions.forEach(suggestion => awaits.push(firestoreInstance.collection('tinder').doc('persons').collection(person.data().id()).doc(suggestion).set({s: true}, {merge: true})));
+      }
+      await Promise.all(awaits);
 }
 
 async function sendNewMessageNotification(convId, messageId) {
@@ -110,5 +139,14 @@ export const messageReceived = functions.firestore.document('/tinder/messages/{c
 
 export const findNewPersons = functions.https.onRequest((req, res) => {
       let user = req.query.user;
-      return getSuggestions(user, 50);
+      res.send(``);
+      res.end();      
+      return getSuggestions();
+});
+
+export const addLikesEvent = functions.https.onRequest((req, res) => {
+      let key = req.query.key;
+      res.send(``);
+      res.end();
+      return addLikes();
 });
