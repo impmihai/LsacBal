@@ -16,8 +16,12 @@ export class LandingComponent implements OnInit {
   }
 
   login() {
-    this.accService.doFacebookLogin().then(e => {
-      this.router.navigate(['/swipe']);
+    this.accService.doFacebookLogin();
+    this.accService.authStateObservable().subscribe(e => {
+      this.accService.userDataObservable().subscribe(ceva =>
+        {
+          this.router.navigate(['/swipe']);
+        })
     });
 
   }
