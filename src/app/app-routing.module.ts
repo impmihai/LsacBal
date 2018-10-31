@@ -12,12 +12,13 @@ import { GoldComponent } from './gold/gold.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
-  { path: 'tinder', component: QuestionsComponent },
+  { path: 'tinder', component: QuestionsComponent, canActivate: [AuthGuardService] },
   { path: 'swipe', component: SwipeComponent, canActivate: [AuthGuardService] },
-  { path: 'matches', component: MatchesComponent },
-  { path: 'chat/:id', component: ChatComponent },
-  { path: 'gold', component: GoldComponent },
+  { path: 'gold', component: GoldComponent, canActivate: [AuthGuardService] },
+  { path: 'matches', component: MatchesComponent, canActivate: [AuthGuardService] },
+  { path: 'chat/:id', component: ChatComponent, canActivate: [AuthGuardService] },
   { path: 'home', component: HomeComponent },
+ 
 ];
 
 @NgModule({
