@@ -1,12 +1,22 @@
-  <div *ngFor="let message of _messages" [ngClass]="{'sent': !message.type, 'received': message.type}" style="margin: 0; padding: 0;">
-    <div style="max-width: 60%;">
-        {{ message.message }}
+  <div style="height: 50%; width: 100%; position: absolute; top: 73px; left: 0; background-color: white; z-index: -1"></div>
+  
+  <div class="messagesContainer">
+    <div *ngFor="let message of _messages" class="last">
+      <div style="display: flex; flex-wrap: wrap;" [ngClass]="{'sender': !message.type, 'receiver': message.type}">
+        <div class="img-container" style="width: 50px; height: 50px; background-color: blue; border-radius: 50%; margin: 10px;">
+        </div>
+        <div style="max-width: 60%; border-radius: 25px; margin-top: 10px; margin-bottom: 10px; padding: 10px 20px;" [ngClass]="{'sent': !message.type, 'received': message.type}">
+            {{ message.message }}
+        </div>
+      </div>
     </div>
   </div>
 
-  <div style="position: absolute; bottom: 0; height: 80px; width: 100%; box-shadow: 0px -1px 10px #ccc; margin: 0px; padding: 0;">
-    <input type="text" id="message" (keyup.enter)="chatSend($event.target.value)" [(ngModel)]="_msgVal" style="width: 80%; margin-left: 5%; height: 60%; margin-top: 2%; border-radius: 10px; background-color: #eaeaff; border: none;">
+  <div style="position: fixed; bottom: 0; height: 80px; width: 100%; box-shadow: 0px -1px 10px #ccc; margin: 0px; padding: 0; background-color: white;">
+    <input type="text" id="message" (keyup.enter)="chatSend($event.target.value)" [(ngModel)]="_msgVal" style="width: 80%; margin-left: 5%; height: 60%; margin-top: 4%; border-radius: 10px; background-color: #eaeaff; border: none;">
     <button mat-icon-button color="warn">
       <mat-icon aria-label="Example icon-button with a heart icon">send</mat-icon>
     </button>
   </div>
+
+  

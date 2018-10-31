@@ -1,7 +1,17 @@
 .sent {
-    color: red;
+    color: white;
+    background-color: #464692;
 }
 
 .received {
-    color: blue;
+    color: #262626;
+    background-color: #e8e8e8;
+}
+
+.receiver {
+    flex-direction: row-reverse;
+}
+
+.last:last-child {
+    margin-bottom: 100px;
 }
