@@ -107,7 +107,6 @@ export class TinderService {
       return;
     }
     console.log(this._accService.userData.likesCount);
-    // rIMT2zPktGTdRxbeLfsU79G8GUK2
     const persArr = new Array<string>();
     persArr.push(this._accService.userData.id);
     persArr.push(personId);
@@ -153,7 +152,7 @@ export class TinderService {
       this._conversationsObservable = this._afFirestore
                                               .collection('users')
                                               .doc(this._accService.userData.id)
-                                              .collection('conversations', ref => ref.orderBy('lastMessageTime'))
+                                              .collection('conversations', ref => ref.orderBy('lastMessageTime', 'desc'))
                                               .snapshotChanges()
                                               .pipe(map(conversations => {
                                                 return conversations.map(convData => {
@@ -178,7 +177,7 @@ export class TinderService {
       this._messagesObservable[personId] = this._afFirestore
                                               .collection('tinder')
                                               .doc('messages')
-                                              .collection(conversationKey, ref => ref.orderBy('timestamp'))
+                                              .collection(conversationKey, ref => ref.orderBy('timestamp', 'desc'))
                                               .valueChanges()
                                               .pipe(map(messages => {
                                                 return messages.map(messageData => {

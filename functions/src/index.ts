@@ -139,14 +139,12 @@ export const messageReceived = functions.firestore.document('/tinder/messages/{c
 
 export const findNewPersons = functions.https.onRequest((req, res) => {
       let user = req.query.user;
-      res.send(``);
-      res.end();      
-      return getSuggestions();
+      res.status(200);    
+      getSuggestions().then(a => res.status(200)).catch(b => res.status(400));
 });
 
 export const addLikesEvent = functions.https.onRequest((req, res) => {
       let key = req.query.key;
-      res.send(``);
-      res.end();
-      return addLikes();
+      res.status(200);
+      addLikes().then(a => res.status(200)).catch(b => res.status(400));
 });

@@ -37,6 +37,7 @@ export class AccountService {
     this._messagingService.currentMessage.subscribe(tst => console.log(tst));
 
     this._afAuth.authState.subscribe(auth => {
+      console.log(auth);
       if (auth != null) {
         this._authState = auth;
         this.userDataObservable().subscribe(a => {

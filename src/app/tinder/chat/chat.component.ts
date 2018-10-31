@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Message, TinderProfile } from '../../Classes';
 import { AccountService } from '../../account.service';
 import { TinderService } from '../tinder.service';
 import { ActivatedRoute } from '@angular/router';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-chat',
@@ -11,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
+
   private _messages: Message[];
   private _otherPerson: TinderProfile;
   private _otherPersonId: string;
@@ -23,10 +25,14 @@ export class ChatComponent implements OnInit {
         this._route.params.subscribe(params => {
           this._otherPersonId = params.id;
           this._tinderService
-          .getMessages(params.id)
-          .subscribe(messages => {
-            this._messages = messages;
-            console.log(this._messages);
+            .loadProfile(this._otherPersonId)
+            .subscribe(profile => {
+              this._otherPerson = profile;
+            });
+          this._tinderService
+            .getMessages(params.id)
+            .subscribe(messages => {
+              this._messages = messages;
           });
         });
       });
@@ -38,6 +44,15 @@ export class ChatComponent implements OnInit {
       console.log(data);
       this._msgVal = "";
       this._tinderService.sendMessage(this._otherPersonId, data);
+    }
+  }
+
+
+  private picture(typ) {
+    if (typ) {
+      return this._accService.userData.displayImages[0];
+    } else {
+      return this._otherPerson.displayImages[0]
     }
   }
 
