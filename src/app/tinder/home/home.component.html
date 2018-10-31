@@ -1,0 +1,15 @@
+<div class="top-menu" *ngIf="visible">
+    <img src="../../../assets/images/navbAR.svg" class="top-background">
+  <!-- <div class="icon-container">
+      <object type="image/svg+xml" data="../assets/images/profile.svg" class="icon">
+      </object>
+  </div> -->
+  
+  <div class="icon-container">
+      <img src="../assets/images/swipes.svg" class="icon"  routerLink="/swipe" [class.active]="activeLinkIndex === 0">
+  </div>
+  
+  <div class="icon-container">
+      <img src="../assets/images/messages.svg" class="icon"  routerLink="/matches" [class.active]="activeLinkIndex === 1">
+  </div>
+</div>

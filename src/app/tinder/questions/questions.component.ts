@@ -7,6 +7,7 @@ const questions =
 [
     {
         question: '1. Ce esti tu?',
+        value: 0,
         answers: [
             {value: 'Barbat' , checked: false, index: 0, score: 0},
             {value: 'Baietel' , checked: false, index: 0, score: 0},
@@ -18,6 +19,7 @@ const questions =
     },
     {
         question: '2. Care este punctul tau forte?',
+        value: 0,
         answers: [
             {value: 'Inteligenta' , checked: false, index: 0, score: 2},
             {value: 'Carisma' , checked: false, index: 1, score: 3},
@@ -30,6 +32,7 @@ const questions =
     },
     {
         question: '3. Cati copii vrei??',
+        value: 0,
         answers: [
             {value: '0' , checked: false, index: 0, score: 0},
             {value: '1' , checked: false, index: 1, score: 1},
@@ -42,6 +45,7 @@ const questions =
     },
     {
         question: '4. Care din urmatoarele constituie vacanta perfecta?',
+        value: 0,
         answers: [
             {value: 'La un hotel scump pe plaja' , checked: false, index: 0, score: 2},
             {value: 'Intr-o cabana pe o insula tropicala' , checked: false, index: 1, score: 3},
@@ -54,6 +58,7 @@ const questions =
     },
     {
         question: '5. Ce este cel mai important intr-o relatie?',
+        value: 0,
         answers: [
             {value: 'Statutul financiar' , checked: false, index: 0, score: 6},
             {value: 'Comunicarea' , checked: false, index: 1, score: 3},
@@ -68,6 +73,7 @@ const questions =
     },
     {
         question: '6. Cea mai lunga relatie?',
+        value: 0,
         answers: [
             {value: 'Sub 2 luni' , checked: false, index: 0, score: 4},
             {value: '2 - 6 luni' , checked: false, index: 1, score: 2},
@@ -80,6 +86,7 @@ const questions =
     },
     {
         question: '7. Ce intelegi prin inselat?',
+        value: 0,
         answers: [
             {value: 'Sarut cu alta persoana' , checked: false, index: 0, score: 1},
             {value: 'Flirtarea cu altcineva' , checked: false, index: 1, score: 1},
@@ -92,6 +99,7 @@ const questions =
     },
     {
         question: '8. Daca ai fi clonat, ai face sex cu tine?',
+        value: 0,
         answers: [
             {value: 'Da' , checked: false, index: 0, score: 1},
             {value: 'Nu' , checked: false, index: 1, score: 2},
@@ -102,6 +110,7 @@ const questions =
     },
     {
         question: '9. Ce consideri a fi un afrodisiac pentru tine?',
+        value: 0,
         answers: [
             {value: 'Capsuni invelite in ciocolata' , checked: false, index: 0, score: 1},
             {value: 'Frisca' , checked: false, index: 1, score: 1},
@@ -114,6 +123,7 @@ const questions =
     },
     {
         question: '10.Ce apreciezi la o persoana(partener)? (alege cel putin 3 optiuni)',
+        value: 0,
         answers: [
             {value: 'Aspectul' , checked: false, index: 0, score: 2},
             {value: 'Banii' , checked: false, index: 1, score: 1},
@@ -130,6 +140,7 @@ const questions =
     }, 
     {
         question: '11. Cat timp a trecut de la ultima relatie?',
+        value: 0,
         answers: [
             {value: 'Sub o saptamana' , checked: false, index: 0, score: 2},
             {value: '1 luna' , checked: false, index: 1, score: 0},
@@ -142,6 +153,7 @@ const questions =
     },
     {
         question: '12. Ce cauti in seara asta?',
+        value: 0,
         answers: [
             {value: 'Sa cunosc persoane noi' , checked: false, index: 0, score: 0},
             {value: 'Aventura de o noapte' , checked: false, index: 1, score: 4},
@@ -153,6 +165,7 @@ const questions =
     },
     {
         question: '13. Care este pozitia preferata?',
+        value: 0,
         answers: [
             {value: 'Misionarul' , checked: false, index: 0, score: 1},
             {value: '69' , checked: false, index: 1, score: 2},
@@ -182,7 +195,7 @@ export class QuestionsComponent implements OnInit {
     }
     
     public SaveAnswers(form: NgForm) {
-        const answers = [];
+                const answers = [];
         let i = 0;
         let score = 0;
         questions.forEach(q => {

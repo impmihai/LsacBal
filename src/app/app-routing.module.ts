@@ -7,6 +7,7 @@ import { MatchesComponent } from './tinder/matches/matches.component';
 import { ChatComponent } from './tinder/chat/chat.component';
 import { QuestionsComponent } from './tinder/questions/questions.component';
 import { AuthGuardService } from './auth-guard.service';
+import { HomeComponent } from './tinder/home/home.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'swipe', component: SwipeComponent, canActivate: [AuthGuardService] },
   { path: 'matches', component: MatchesComponent },
   { path: 'chat/:id', component: ChatComponent },
+  { path: 'home', component: HomeComponent },
 ];
 
 @NgModule({

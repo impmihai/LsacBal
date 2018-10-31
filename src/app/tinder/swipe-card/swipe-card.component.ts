@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { TinderProfile } from '../Classes';
+import { TinderProfile, TinderPerson } from '../../Classes';
 
 @Component({
   selector: 'app-swipe-card',
@@ -10,7 +10,7 @@ export class SwipeCardComponent implements OnInit {
   ngOnInit(): void {
     // throw new Error("Method not implemented.");
   }
-  @Input() profile: TinderProfile;
+  @Input() person: TinderPerson;
   constructor() { }
   public carouselTileItems: Array<any>;
 }

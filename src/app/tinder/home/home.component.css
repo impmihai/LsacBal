@@ -1,0 +1,39 @@
+.top-menu{
+    width:100%;
+    margin: 0;
+    padding: 0;
+    height: 72px;
+    position: relative;
+}
+
+.top-background {
+    position: absolute;
+    width: 100%;
+    top:0;
+    left: 0;
+    z-index: -1;
+}
+
+.icon-container {
+    position: relative;
+    display: inline-block;
+    width: 50%;
+    margin-right: 0%;
+    height: 100%;
+}
+
+.icon-container:last-child {
+    margin-right: 0px;
+}
+
+.icon {
+    height: 45%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.active {
+    height: 60%;
+}
