@@ -34,7 +34,7 @@ export class ChatComponent implements OnInit {
   }
 
   private chatSend(data) {
-    if ( data !== "") {
+    if (data !== "") {
       console.log(data);
       this._msgVal = "";
       this._tinderService.sendMessage(this._otherPersonId, data);
