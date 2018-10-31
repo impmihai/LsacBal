@@ -27,6 +27,7 @@ import { SwipeCardComponent } from './tinder/swipe-card/swipe-card.component';
 import { HomeComponent } from './tinder/home/home.component';
 import { MyProfileComponent } from './tinder/my-profile/my-profile.component';
 import { SwipeButtonsComponent } from './tinder/swipe-buttons/swipe-buttons.component';
+import { GoldComponent } from './gold/gold.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { SwipeButtonsComponent } from './tinder/swipe-buttons/swipe-buttons.comp
     HomeComponent,
     MyProfileComponent,
     SwipeButtonsComponent,
+    GoldComponent,
   ],
   imports: [
     BrowserModule,

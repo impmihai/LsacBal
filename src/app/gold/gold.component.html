@@ -1,0 +1,18 @@
+<div class="example-container">
+  <mat-form-field>
+    <label for="favP">Cine este Presedintele tau preferat?</label>
+    <input matInput  type="text" id="favP" name="favP" [(ngModel)]="favP" required>
+  </mat-form-field>
+
+  <mat-form-field>
+    <label for="name">Cine esti tu?</label>
+    <input matInput type="text" id="name" name="name" [(ngModel)]="name" required >
+  </mat-form-field>
+
+  <mat-form-field>
+    <label for="pass">Parola?</label>
+    <input matInput type="password" id="pass" name="pass" [(ngModel)]="pass" required>
+  </mat-form-field>
+
+  <button mat-button type="submit" (click)="onSubmit()" >Submit!</button>
+</div>
