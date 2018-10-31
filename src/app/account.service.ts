@@ -35,9 +35,11 @@ export class AccountService {
         }
      });
     this._messagingService.receiveMessage();
-    this._messagingService.currentMessage.subscribe(tst => this.snackBar.open(tst.data.text, "", {
-      duration: 2000,
-    }));
+    this._messagingService.currentMessage.subscribe(tst => {
+      this.snackBar.open(tst.data.text, "", {
+        duration: 2000,
+      })
+    });
 
     this._afAuth.authState.subscribe(auth => {
       console.log(auth);
@@ -78,6 +80,8 @@ export class AccountService {
               description: '',
               workplace: '',
               likesCount: 20
+            }).then(a => {
+              location.reload();
             });
           }});
         resolve(res);

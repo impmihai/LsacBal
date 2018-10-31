@@ -26,7 +26,7 @@ export class AccountInfo {
     voteStatus: number;
     displayImages: string[];
     likesCount: number = 0;
-    raspuns: any;
+    raspuns: any = null;
 }
 
 export class Message {
