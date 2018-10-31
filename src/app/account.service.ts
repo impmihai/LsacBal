@@ -11,6 +11,7 @@ import { reject } from 'q';
 import { ReadKeyExpr } from '@angular/compiler';
 import { promise } from 'protractor';
 import { MessagingService } from './messaging.service';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class AccountService {
 
   private _userDataSubject: Subject<AccountInfo>;
   
-  constructor(private _messagingService: MessagingService, private _afStore: AngularFirestore, private _afAuth: AngularFireAuth) {
+  constructor(private _messagingService: MessagingService, private _afStore: AngularFirestore, private _afAuth: AngularFireAuth, private snackBar: MatSnackBar) {
     this._userDataSubject = new ReplaySubject(1);
     
     this._messagingService.requestPermission().then(token => {
@@ -34,7 +35,9 @@ export class AccountService {
         }
      });
     this._messagingService.receiveMessage();
-    this._messagingService.currentMessage.subscribe(tst => console.log(tst));
+    this._messagingService.currentMessage.subscribe(tst => this.snackBar.open(tst.data.text, "", {
+      duration: 2000,
+    }));
 
     this._afAuth.authState.subscribe(auth => {
       console.log(auth);
