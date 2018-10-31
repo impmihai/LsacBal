@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from 'angularfire2/firestore';
-import { AngularFireAuth } from 'angularfire2/auth';
 import { AccountService } from '../account.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-landing',
@@ -10,23 +9,21 @@ import { AccountService } from '../account.service';
 })
 export class LandingComponent implements OnInit {
 
-  constructor(private accService: AccountService) { }
+  constructor(private accService: AccountService, private router: Router) { }
 
   ngOnInit() {
-
+    //this.logout();
   }
 
   login() {
-    console.log("asd");
-    this.accService.doFacebookLogin();
+    this.accService.doFacebookLogin().then(e => {
+      this.router.navigate(['/swipe']);
+    });
+
   }
 
   logout() {
     console.log("asd22");
     this.accService.doLogout();
-  }
-
-  update() {
-    this.accService.updateData({cevanou22: 2});
   }
 }

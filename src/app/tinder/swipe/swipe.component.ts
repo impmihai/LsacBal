@@ -4,6 +4,7 @@ import { AccountService } from '../../account.service';
 import { Observable } from 'rxjs';
 import { TinderPerson, TinderProfile } from '../../Classes';
 import { isNullOrUndefined, isNull } from 'util';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-swipe',
@@ -20,14 +21,15 @@ export class SwipeComponent implements OnInit, OnDestroy {
   
   private _subscribtionUserData = null;
 
-  constructor(private _accService:AccountService, private _tinderService: TinderService) { }
+  constructor(private _accService:AccountService, private _tinderService: TinderService, private router: Router) { }
 
   ngOnInit() {
-    console.log("called?");
     this._accService.authStateObservable().subscribe(waiter => {
-      console.log("intra aici");
       this._subscribtionUserData = this._accService.userDataObservable().subscribe(waiter2 => {
-        console.log("si aici intra ma")
+        console.log("ajunge aici");
+        if (isNullOrUndefined(this._accService.userData.raspuns)) {
+          this.router.navigate(['/tinder']);
+        }
         this._tinderService
             .loadPersons()
             .pipe()

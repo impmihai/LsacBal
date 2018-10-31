@@ -98,7 +98,6 @@ export class TinderService {
     }
     return this._profilesObservable[profileId];
   }
-
   public likePerson(personId: string) {
 
 

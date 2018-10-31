@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { TinderService } from '../tinder.service';
 import { AccountService } from 'src/app/account.service';
+import { Router } from '@angular/router';
+import { isNullOrUndefined } from 'util';
 
 const questions =
 [
@@ -191,11 +193,18 @@ const questions =
 export class QuestionsComponent implements OnInit {
     
     questions = questions;
-    
-    constructor(private _tinderService: TinderService) { }
-    
+    constructor(private _tinderService: TinderService, private _accService: AccountService, private router: Router) { }
+    private _subscribtionUserData = null;
     ngOnInit() {
-        
+        this._accService.authStateObservable().subscribe(waiter => {
+            this._subscribtionUserData = this._accService.userDataObservable().subscribe(waiter2 => {
+              if (isNullOrUndefined(this._accService.userData.raspuns)) {
+              }
+              else {
+                this.router.navigate(['/swipe']);
+              }
+            });
+          });
     }
     
     public SaveAnswers(form: NgForm) {
@@ -215,5 +224,6 @@ export class QuestionsComponent implements OnInit {
             i++;
         });
         this._tinderService.saveAnswers(answers, score);
+        this._accService.updateData({raspuns: true});
     }
 }

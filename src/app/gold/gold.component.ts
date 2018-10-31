@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../account.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-gold',
@@ -12,7 +13,7 @@ export class GoldComponent implements OnInit {
   public name: String;
   public pass: String;
   public favP: String; 
-  constructor(private _accService: AccountService) { }
+  constructor(private _accService: AccountService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -26,6 +27,7 @@ export class GoldComponent implements OnInit {
     } else {
       alert("You, " + name + ", are not the chosen one!");
     }
+    this.router.navigate(['/swipe']);
   }
 
 }
