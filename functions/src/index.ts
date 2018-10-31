@@ -36,11 +36,6 @@ async function isLikedAlready(user: string, person: string): Promise<boolean> {
       return doc.exists;
 }
 
-async function getUserMatches(userId: string): Promise<any[]>  {
-      const usersAnswers = await firestoreInstance.collection('tinder').doc('matches').collection(userId).get();
-      return usersAnswers.docs;
-}
-
 async function sendNotification(usersData: any[], notificationMessage) {
       let awaits = [];
       usersData.forEach(user => {
@@ -82,7 +77,6 @@ async function getSuggestions() {
       for (i = 0; i < allPersons.docs.length; i++) {
             const person = allPersons.docs[i];
             let suggestions;
-            console.log("iarincerc");
             console.log(person);
             if (person.data().score > 1000000) {
                   suggestions = allPersons.docs.filter(pers => pers.data() !== person.data() && pers.data().score < 1000000).map(pers => pers.id);
@@ -90,11 +84,12 @@ async function getSuggestions() {
                   suggestions = allPersons.docs.filter(pers => pers.data() !== person.data() && pers.data().score > 1000000).map(pers => pers.id);                  
             }
 
-            const matches = await getUserMatches(person.id);
+            const matches = await firestoreInstance.collection('tinder').doc('matches').collection(person.id).get();
             let j = 0;
-            for (j = 0; j < matches.length; j++) {
-                  if (suggestions.indexOf(matches[j].id) > 0)
-                        suggestions.splice(suggestions.indexOf(matches[j].id), 1);
+            for (j = 0; j < matches.docs.length; j++) {
+                  console.log(suggestions.indexOf(matches.docs[j].id));
+                  if (suggestions.indexOf(matches.docs[j].id) > 0)
+                        suggestions.splice(suggestions.indexOf(matches.docs[j].id), 1);
             }
             suggestions.forEach(suggestion => awaits.push(firestoreInstance.collection('tinder').doc('persons').collection(person.id).doc(suggestion).set({s: true}, {merge: true})));
       }
@@ -123,6 +118,15 @@ async function sendNewMessageNotification(convId, messageId) {
             })
       ];
 
+      const matchUpdate = [
+            firestoreInstance.collection('tinder').doc('matches').collection(otherPerson).doc(messageData.sender).set({
+                  show: false
+            }),
+            firestoreInstance.collection('tinder').doc('matches').collection(messageData.sender).doc(otherPerson).set({
+                  show: false
+            }),
+      ];
+
       await Promise.all(convUpdates);
 }
 
@@ -143,5 +147,5 @@ export const findNewPersons = functions.https.onRequest((req, res) => {
 export const addLikesEvent = functions.https.onRequest((req, res) => {
       let key = req.query.key;
       res.status(200);
-      addLikes().then(a => res.status(200)).catch(b => res.status(400));
+      addLikes().then(a => res.status(200).send('done!')).catch(b => res.status(400));
 });

@@ -177,7 +177,7 @@ export class TinderService {
       this._messagesObservable[personId] = this._afFirestore
                                               .collection('tinder')
                                               .doc('messages')
-                                              .collection(conversationKey, ref => ref.orderBy('timestamp', 'desc'))
+                                              .collection(conversationKey, ref => ref.orderBy('timestamp'))
                                               .valueChanges()
                                               .pipe(map(messages => {
                                                 return messages.map(messageData => {
