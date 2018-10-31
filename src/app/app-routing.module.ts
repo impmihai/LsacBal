@@ -11,11 +11,10 @@ import { HomeComponent } from './tinder/home/home.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
-  { path: 'tinder', component: QuestionsComponent },
+  { path: 'tinder', component: QuestionsComponent, canActivate: [AuthGuardService] },
   { path: 'swipe', component: SwipeComponent, canActivate: [AuthGuardService] },
-  { path: 'matches', component: MatchesComponent },
-  { path: 'chat/:id', component: ChatComponent },
-  { path: 'home', component: HomeComponent },
+  { path: 'matches', component: MatchesComponent, canActivate: [AuthGuardService] },
+  { path: 'chat/:id', component: ChatComponent, canActivate: [AuthGuardService] },
 ];
 
 @NgModule({
