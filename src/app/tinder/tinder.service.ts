@@ -88,7 +88,7 @@ export class TinderService {
                           .get()
                           .pipe(map(profile => {
                             let tinderProfile:TinderProfile = new TinderProfile();
-                            tinderProfile.description = profile.data().description;
+                            // tinderProfile.description = profile.data().description;
                             tinderProfile.displayImages = profile.data().displayImages;
                             tinderProfile.displayName = profile.data().displayName;
                             tinderProfile.id = profile.id;
