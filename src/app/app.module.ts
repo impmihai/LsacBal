@@ -23,7 +23,10 @@ import { MessagingService } from './messaging.service';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireMessaging, AngularFireMessagingModule } from '@angular/fire/messaging';
 import { AuthGuardService } from './auth-guard.service';
-import { SwipeCardComponent } from './swipe-card/swipe-card.component';
+import { SwipeCardComponent } from './tinder/swipe-card/swipe-card.component';
+import { HomeComponent } from './tinder/home/home.component';
+import { MyProfileComponent } from './tinder/my-profile/my-profile.component';
+import { SwipeButtonsComponent } from './tinder/swipe-buttons/swipe-buttons.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +38,9 @@ import { SwipeCardComponent } from './swipe-card/swipe-card.component';
     ChatComponent,
     QuestionsComponent,
     SwipeCardComponent,
+    HomeComponent,
+    MyProfileComponent,
+    SwipeButtonsComponent,
   ],
   imports: [
     BrowserModule,

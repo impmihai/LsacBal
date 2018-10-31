@@ -19,6 +19,7 @@ async function getUserAnswers(userId: string): Promise<any> {
 async function isLikedAlready(user: string, person: string): Promise<boolean> {
       const likeKey = [user, person].sort().join('-');
       const doc = await firestoreInstance.collection('likes').doc(likeKey).get();
+      console.log(doc.data);
       return doc.exists;
 }
 
@@ -76,11 +77,27 @@ async function getSuggestions(user, suggestionsCount) {
 
 async function sendNewMessageNotification(convId, messageId) {
       const message = await firestoreInstance.collection('tinder').doc('messages').collection(convId).doc(messageId).get();
+      const messageData = message.data();
       const participants = convId.split('-');
-      const otherPerson = participants[0] == message.data().sender ? participants[1] : participants[0];
-      const senderPersonData = await getUserPrivateData(message.data().sender);      
+      const otherPerson = participants[0] === messageData.sender ? participants[1] : participants[0];
+      const senderPersonData = await getUserPrivateData(messageData.sender);      
       const otherPersonData = await getUserPrivateData(otherPerson);
       await sendNotification([otherPersonData.data()], senderPersonData.data().displayName + ' ti-a trimis un mesaj!');
+
+      const convUpdates = [
+            firestoreInstance.collection('users').doc(otherPerson).collection('conversations').doc(convId).set({
+                  lastMessage: messageData.message,
+                  lastMessageTime: messageData.timestamp,
+                  otherPersonId: messageData.sender
+            }),
+            firestoreInstance.collection('users').doc(messageData.sender).collection('conversations').doc(convId).set({
+                  lastMessage: messageData.message,
+                  lastMessageTime: messageData.timestamp,
+                  otherPersonId: otherPerson
+            })
+      ];
+
+      await Promise.all(convUpdates);
 }
 
 export const personLiked = functions.firestore.document('/likes/{likes}').onWrite((change, context) => {

@@ -3,7 +3,7 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AccountInfo } from './Classes';
 import * as firebase from 'firebase';
-import { Observable } from 'rxjs';
+import { Observable, Subject, ReplaySubject } from 'rxjs';
 import { isNullOrUndefined } from 'util';
 import { map } from 'rxjs/operators';
 import { ObserversModule } from '@angular/cdk/observers';
@@ -21,13 +21,15 @@ export class AccountService {
   public userData: AccountInfo;
   private _authState: firebase.User;
   private _token: string;
+
+  private _userDataSubject: Subject<AccountInfo>;
   
   constructor(private _messagingService: MessagingService, private _afStore: AngularFirestore, private _afAuth: AngularFireAuth) {
+    this._userDataSubject = new ReplaySubject(1);
+    
     this._messagingService.requestPermission().then(token => {
         this._token = token;
-        console.log(token);
         if (!isNullOrUndefined(this.userData)) {
-          console.log("updating token");
           this.updateData({fcmtoken: this._token});
         }
      });
@@ -38,11 +40,7 @@ export class AccountService {
       if (auth != null) {
         this._authState = auth;
         this.userDataObservable().subscribe(a => {
-        console.log(this._token);
-          
           if (!isNullOrUndefined(this._token)) {
-            console.log("updating token");
-            
             this.updateData({fcmtoken: this._token});
           }
         });
@@ -73,6 +71,8 @@ export class AccountService {
             this._afStore.collection(AccountService.usersDb).doc(res.user.uid).set({
               displayName: res.user.displayName,
               displayImages: [res.user.photoURL + '?width=256&height=256'],
+              description: '',
+              workplace: '',
             });
           }});
         resolve(res);
@@ -94,7 +94,6 @@ export class AccountService {
   }
 
   public userDataObservable(): Observable<AccountInfo> {
-    console.log(this._userDataObservable);
     if (isNullOrUndefined(this._userDataObservable)) {
       this._userDataObservable = this._afStore.collection(AccountService.usersDb).doc(this._authState.uid)
         .valueChanges()
@@ -103,8 +102,10 @@ export class AccountService {
           this.userData.id = this._authState.uid;
           return this.userData;
         }));
+        this._userDataObservable.subscribe(val => this._userDataSubject.next(val));
     }
-    return this._userDataObservable;
+    
+    return this._userDataSubject.asObservable();
   }
 
   public updateData(data): Promise<any> {

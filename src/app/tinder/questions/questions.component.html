@@ -2,24 +2,21 @@
     <div>
         <form action="#" #meetupForm="ngForm" (ngSubmit)="SaveAnswers(meetupForm)">
             <ul>
-                    
                 <li *ngFor="let item of questions; let iQuestion = index" >
-                        
-                   
                     <ul>
                       <mat-card>  <span style="font-weight: 600;font-size:1.125em;color:#484848;">{{item.question}}</span>
-                        <mat-radio-group>
+                        <mat-radio-group name="{{iQuestion}}" [(ngModel)]="item.value">
                                  
                                  
                         <li *ngFor="let answer of item.answers; let iAnswer = index">
                             <div [ngSwitch]="item.multianswer">
                                 <div *ngSwitchCase="true">
-                                        <mat-checkbox>{{answer.value}}</mat-checkbox>
+                                        <mat-checkbox name="{{iQuestion}}{{iAnswer}}" [(ngModel)]="answer.checked">{{answer.value}}</mat-checkbox>
 
                                     
                                 </div>
                                 <div *ngSwitchCase="false">
-                                    <mat-radio-button style="margin-top:10px;" type="radio" name="{{iQuestion}}" id="a{{iQuestion}}{{iAnswer}}" value="{{iAnswer}}" ngModel>{{answer.value}}</mat-radio-button>
+                                    <mat-radio-button style="margin-top:10px;" value="{{iAnswer}}">{{answer.value}}</mat-radio-button>
                                     
                                 </div>
                             </div>

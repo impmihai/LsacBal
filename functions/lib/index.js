@@ -92,11 +92,25 @@ function getSuggestions(user, suggestionsCount) {
 function sendNewMessageNotification(convId, messageId) {
     return __awaiter(this, void 0, void 0, function* () {
         const message = yield firestoreInstance.collection('tinder').doc('messages').collection(convId).doc(messageId).get();
+        const messageData = message.data();
         const participants = convId.split('-');
-        const otherPerson = participants[0] == message.data().sender ? participants[1] : participants[0];
-        const senderPersonData = yield getUserPrivateData(message.data().sender);
+        const otherPerson = participants[0] == messageData.sender ? participants[1] : participants[0];
+        const senderPersonData = yield getUserPrivateData(messageData.sender);
         const otherPersonData = yield getUserPrivateData(otherPerson);
         yield sendNotification([otherPersonData.data()], senderPersonData.data().displayName + ' ti-a trimis un mesaj!');
+        const convUpdates = [
+            firestoreInstance.collection('users').doc(otherPerson).collection('conversations').doc(convId).set({
+                lastMessage: messageData.message,
+                lastMessageTime: messageData.timestamp,
+                otherPersonId: messageData.sender
+            }),
+            firestoreInstance.collection('users').doc(messageData.sender).collection('conversations').doc(convId).set({
+                lastMessage: messageData.message,
+                lastMessageTime: messageData.timestamp,
+                otherPersonId: otherPerson
+            })
+        ];
+        yield Promise.all(convUpdates);
     });
 }
 exports.personLiked = functions.firestore.document('/likes/{likes}').onWrite((change, context) => {

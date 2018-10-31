@@ -21,6 +21,7 @@ export class VotePerson {
 
 export class AccountInfo {
     id: string;
+    description: string;
     displayName: string;
     voteStatus: number;
     displayImages: string[];
