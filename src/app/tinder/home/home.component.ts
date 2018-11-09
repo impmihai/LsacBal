@@ -13,6 +13,14 @@ export class HomeComponent implements OnInit {
   constructor(private router: Router) {
     this.routeLinks = [
       {
+        link: './vote',
+        visible: true
+      },
+      {
+        link: './tombole',
+        visible: true
+      },
+      {
         link: './swipe',
         visible: true
       },
@@ -28,6 +36,8 @@ export class HomeComponent implements OnInit {
         link: './chat',
         visible: true
       },
+
+   
       {
         link: './',
         visible: false

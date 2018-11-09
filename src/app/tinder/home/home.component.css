@@ -17,9 +17,10 @@
 .icon-container {
     position: relative;
     display: inline-block;
-    width: 50%;
+    width: 25%;
     margin-right: 0%;
     height: 100%;
+    background-color:#fff;
 }
 
 .icon-container:last-child {
@@ -27,7 +28,7 @@
 }
 
 .icon {
-    height: 40%;
+    height: 30%;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -35,5 +36,48 @@
 }
 
 .active {
-    height: 50%;
+    height: 30%;
+    color:red;
+    fill: red;
+}
+.vote{
+    background-image:url("../../../assets/images/vote.svg");
+    width:25px;
+
+}
+.vote.active{
+    background-image:url("../../../assets/images/vote-color.svg");
+  
+}
+.prizes{
+    background-image:url("../../../assets/images/prizes.svg");
+    width:20px;
+   
+
+}
+.prizes.active{
+    background-image:url("../../../assets/images/prizes-color.svg");
+  
+}
+.swipe{
+    background-image:url("../../../assets/images/swipes.svg");
+    width:30px;
+    height:28%;
+   
+
+}
+.swipe.active{
+    background-image:url("../../../assets/images/swipes-color.svg");
+  
+}
+.messages{
+    background-image:url("../../../assets/images/messages.svg");
+    width:20px;
+    height: 25%;
+   
+
+}
+.messages.active{
+    background-image:url("../../../assets/images/messages-color.svg");
+  
 }

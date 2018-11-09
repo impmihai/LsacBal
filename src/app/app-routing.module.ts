@@ -13,6 +13,8 @@ import { GoldComponent } from './gold/gold.component';
 const routes: Routes = [
   { path: '', component: LandingComponent },
   { path: 'tinder', component: QuestionsComponent, canActivate: [AuthGuardService] },
+  { path: 'vote', component: VoteComponent, canActivate: [AuthGuardService] },
+  //{ path: 'tombole', component: TomboleComponent, canActivate: [AuthGuardService] },
   { path: 'swipe', component: SwipeComponent, canActivate: [AuthGuardService] },
   { path: 'gold', component: GoldComponent, canActivate: [AuthGuardService] },
   { path: 'matches', component: MatchesComponent, canActivate: [AuthGuardService] },

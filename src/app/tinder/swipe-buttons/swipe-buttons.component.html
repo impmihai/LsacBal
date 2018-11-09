@@ -1,9 +1,10 @@
 <div class="top-menu">
   <div class="icon-container">
-      <img src="../../../assets/images/buton2.svg" class="icon" (click)="this._tinderService.dislikePerson(this.person.id)">
+        <button mat-fab color="primary" style="position: absolute; left: 50%;top: 50%;" (click)="this._tinderService.dislikePerson(this.person.id)"><img src="../../../assets/images/x-button.svg" ></button>
+
   </div>
   
   <div class="icon-container">
-      <img src="../../../assets/images/buton1.svg" class="icon" (click)="this._tinderService.likePerson(this.person.id)">
+        <button mat-fab style="background-color: #ED1C24;position: absolute;top: 50%;" (click)="this._tinderService.likePerson(this.person.id)"><img src="../../../assets/images/heart-button.svg" ></button>
   </div>
 </div>
