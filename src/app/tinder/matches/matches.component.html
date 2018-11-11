@@ -1,18 +1,19 @@
-<mat-card style="padding-top: 10px;">
-    <p class="mat-body-strong">
-        <span style="color: #5d5da0;">Listă compatibilități<br></span>
-    </p>
+<mat-card style="margin-top:10px; margin-bottom:10px;box-shadow:none;">
+   
     <div style="white-space: nowrap;
     overflow-x: auto;
-    overflow-y: hidden; ">
-            <img *ngFor="let match of _matches" routerLink="/chat/{{match.profile?.id}}" src="{{ match.profile?.displayImages[0] }}" style="height: 65px; border-radius: 50%; margin-right: 10px; display: inline-block;">
-
+    overflow-y: hidden;
+    margin-left: 15%; ">
+            <img *ngFor="let match of _matches" routerLink="/chat/{{match.profile?.id}}" src="{{ match.profile?.displayImages[0] }}" style="height: 45px; width:45px;border-radius: 50%; margin-right: 10px; display: inline-block;">
+             
     </div>  </mat-card>
 
-            <mat-card class="example-card" *ngFor="let conversation of _conversations" routerLink="/chat/{{conversation.otherPerson?.id}}">
+            <mat-card style="padding:10px;margin-top:10px; margin-bottom:10px;box-shadow:none;border-bottom: 1px solid #F5F5F5;" class="example-card" *ngFor="let conversation of _conversations" routerLink="/chat/{{conversation.otherPerson?.id}}">
                     <mat-card-header class="mat-body-strong">
-                    <div mat-card-avatar class="example-header-image" [ngStyle]="{ 'background-image': 'url(' + conversation.otherPerson?.displayImages[0] + ')' }"></div>
-                    <mat-card-title style="color: #5d5da0;">{{conversation.otherPerson?.displayName}}</mat-card-title>
-                    <mat-card-subtitle style="color: #262626;">{{conversation.lastMessage}}</mat-card-subtitle>
-                    </mat-card-header>
+                    <div style="width:55px; height:55px;" mat-card-avatar class="example-header-image" [ngStyle]="{ 'background-image': 'url(' + conversation.otherPerson?.displayImages[0] + ')' }" ></div>
+                    <mat-card-title style="color: #262626;font-weight: 600;font-size:1.1em;margin-top: 5px;">{{conversation.otherPerson?.displayName}}</mat-card-title>
+                    <mat-card-subtitle style="color: #262626;font-weight: 400;margin-top: -19px;">{{conversation.lastMessage}}</mat-card-subtitle>
+                   
+                </mat-card-header >
+              
             </mat-card>
