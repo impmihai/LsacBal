@@ -1,6 +1,6 @@
 .sent {
     color: white;
-    background-color: #464692;
+    background-color: #4F89CE;
 }
 
 .received {
@@ -14,4 +14,17 @@
 
 .last:last-child {
     margin-bottom: 100px;
+}
+.nameContainer
+{
+    background-color:#fff;
+    margin-bottom: 10px;
+    padding: 10px;
+    width:100%;
+}
+.imgProfile{
+    width:60px;
+    height:60px;
+    border-radius:50px;
+    display: inline-block;
 }
