@@ -1,0 +1,60 @@
+<div class="container">
+    <div [ngSwitch]="tombola.media_type" class="full-screen valign-wrapper" *ngIf="addVisible === true">
+        <div class="" *ngSwitchCase="'image'" class="valign">
+            <button class="btn close-button-float hidebtn" (click)="closeAdd()">close</button>
+            <img class="responsive-img" src="{{ tombola.media_url }}">
+        </div>
+        
+        <div class="" *ngSwitchCase="'video'" class="valign">
+            <button class="btn close-button-float hidebtn" (click)="closeAdd()">close</button>
+            <video playsinline autoplay muted webkit-playsinline (ended)="closeAdd()" style="width:100%;">
+                <source src="{{ tombola.media_url }}" type="video/mp4">
+            </video>
+        </div>
+    </div>
+    
+    <form #signForm="ngForm" (ngSubmit)="SignToTombola(signForm)" *ngIf="addVisible === false">
+        <div style="min-height:60vh;">
+             <div class="row" *ngFor="let field of tombola.required_fields">
+                <div [ngSwitch]="field">
+                    <div class="input-field col s10 offset-s1" *ngSwitchCase="'name'">
+                        <input id="nume" type="text" required class="validate black-text" name="name" ngModel>
+                        <label for="nume">Nume</label>
+                    </div>
+                    <div class="input-field col s10 offset-s1" *ngSwitchCase="'surname'">
+                        <input id="prenume" type="text" required class="validate" name="surname" ngModel>
+                        <label for="prenume">Prenume</label>
+                    </div>
+                    <div class="input-field col s10 offset-s1" *ngSwitchCase="'cnp'">
+                        <input id="cnp" type="number" required class="validate" name="cnp" ngModel>
+                        <label for="cnp">CNP</label>
+                    </div>
+                    <div class="input-field col s10 offset-s1" *ngSwitchCase="'email'">
+                        <input id="email" type="email" required class="validate" name="email" ngModel>
+                        <label for="email">Email</label>
+                    </div>
+                    <div class="input-field col s10 offset-s1" *ngSwitchCase="'phone'">
+                        <input id="phone" type="tel" required class="validate" name="phone" ngModel>
+                        <label for="phone">Telefon</label>
+                    </div>
+                    <div class="input-field col s10 offset-s1" *ngSwitchCase="'city'">
+                        <input id="city" type="text" required class="validate" name="city" ngModel>
+                        <label for="city">Oras</label>
+                    </div>
+                    <div class="input-field col s10 offset-s1" *ngSwitchCase="'university'">
+                        <input id="university" type="text" required class="validate" name="university" ngModel>
+                        <label for="university">Universitate</label>
+                    </div>
+                    <div class="input-field col s10 offset-s1" *ngSwitchCase="'faculty'">
+                        <input id="faculty" type="text" required class="validate" name="faculty" ngModel>
+                        <label for="faculty">Facultate</label>
+                    </div>
+                    <div *ngSwitchDefault>asdasdsa</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <button class="col s8 offset-s2 btn waves-effect waves-light purpleish" type="submit" name="action">Submit</button>
+        </div>
+    </form>
+</div>

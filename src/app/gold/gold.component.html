@@ -16,3 +16,13 @@
 
   <button mat-button type="submit" (click)="onSubmit()" >Submit!</button>
 </div>
+
+<div class="messagesContainer">
+  <div *ngFor="let person of persons" class="last">
+      <div class="img-container" style="width: 50px; background-size: 100%; height: 50px; border-radius: 50%; margin: 10px;" [ngStyle]="{ 'background-image': 'url(' + person.displayImages[0] + ')' }">
+      </div>
+      <div style="max-width: 60%; border-radius: 25px; margin-top: 10px; margin-bottom: 10px; padding: 10px 20px;">
+          {{ person.displayName }}
+      </div>
+  </div>
+</div>

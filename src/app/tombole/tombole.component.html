@@ -1,0 +1,26 @@
+<div *ngFor="let tombola of tombole">
+  <a href="tombola/{{tombola.id}}">
+    <mat-card class="example-card" [class.registered]="isRegisteredForTombola(tombola.id)">
+      <img mat-card-image src="{{ tombola.displayImage }}" alt="{{ tombola.displayName }}">
+      <mat-card-content>
+        <p>{{ tombola.displayName }}</p>
+        <p>
+          {{ tombola.description }}
+        </p>
+      </mat-card-content>
+    </mat-card>
+<!--     
+    <div class="col s12 m12 l12">
+      <div class="card horizontal" [class.registered]="isRegisteredForTombola(tombolaInfo.id)">
+          <div class="card-image">
+              <img src="{{tombolaInfo.display_picture}}" style="height:100%;">
+          </div>
+          <div class="card-content">
+              <div class="card-title title-font">
+                  <p> {{ tombolaInfo.display_name }} </p>
+              </div>
+              <p>{{ tombolaInfo.description }}</p>
+          </div>
+      </div> -->
+  </a>
+</div>
