@@ -9,3 +9,12 @@
     border-radius: 50%;
     flex-shrink: 0;
 }
+.nameTrim
+{
+    width: 70px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    resize: horizontal;
+    font-weight: 450;
+}
