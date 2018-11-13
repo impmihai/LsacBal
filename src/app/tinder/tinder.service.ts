@@ -56,7 +56,7 @@ export class TinderService {
     if (isNullOrUndefined(this._personsObservable)) {
       this._personsObservable = this._afFirestore.collection('tinder')
                           .doc('persons')
-                          .collection(this._accService.userData.id)
+                          .collection(this._accService.userData.id, ref => ref.orderBy('timestamp', 'asc'))
                           .snapshotChanges()
                           .pipe(map(persons => persons.map(personData => 
                             {

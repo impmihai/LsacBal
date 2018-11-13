@@ -28,6 +28,8 @@ import { HomeComponent } from './tinder/home/home.component';
 import { MyProfileComponent } from './tinder/my-profile/my-profile.component';
 import { SwipeButtonsComponent } from './tinder/swipe-buttons/swipe-buttons.component';
 import { GoldComponent } from './gold/gold.component';
+import { TomboleComponent } from './tombole/tombole.component';
+import { TombolaRegisterComponent } from './tombola-register/tombola-register.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import { GoldComponent } from './gold/gold.component';
     MyProfileComponent,
     SwipeButtonsComponent,
     GoldComponent,
+    TomboleComponent,
+    TombolaRegisterComponent,
   ],
   imports: [
     BrowserModule,

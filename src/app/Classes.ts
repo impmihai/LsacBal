@@ -24,6 +24,7 @@ export class AccountInfo {
     description: string;
     displayName: string;
     voteStatus: number;
+    tomboleStatus: number;
     displayImages: string[];
     likesCount: number = 0;
     raspuns: any = null;
@@ -40,6 +41,15 @@ export class TinderProfile {
     displayName: string;
     description: string;
     displayImages: string[];
+}
+
+export class Tombola {
+    id: string;
+    displayName: string;
+    mediaType: string;
+    mediaUrl: string;
+    description: string;
+    requiredFields: string[];
 }
 
 export class TinderPerson {
