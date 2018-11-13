@@ -4,6 +4,7 @@
     height: 90%;
     border-radius: 5px;
     color:#fff;
+    margin-left: 5%;
 }
 
 .person .info {
@@ -17,10 +18,12 @@
     display: flex;
     vertical-align: bottom;
     background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+    
 }
 
 .person .info .content {
     align-self: flex-end;
+    margin-left: 5%;
 }
 .mat-tab-label mat-ripple mat-tab-label-active ng-star-inserted {
     height: 48px;
@@ -39,4 +42,12 @@
 }
 .mat-elevation-z4 {
     box-shadow:none; 
+}
+.mat-card-title{
+    font-size: 1em;
+    font-weight: 600;
+}
+.mat-card-content{
+    width: 90%;
+    margin-left: 5%;
 }
