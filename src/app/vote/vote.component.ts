@@ -26,6 +26,25 @@ export class VoteComponent implements OnInit {
   //   return text;
   // }
   
+  getBoys(): VotePerson[] {
+    const boys = [];
+    for (let i = 0; i < this._persons.length; i++) {
+      if (!!(i % 2))
+        boys.push(this._persons[i]);
+    }
+    console.log(boys);
+    return boys;
+  }
+
+  getGirls(): VotePerson[] {
+    const girls = [];
+    for (let i = 0; i < this._persons.length; i++) {
+      if (!(i % 2))
+      girls.push(this._persons[i]);
+    }
+    return girls;
+  }
+
   onClick(event) {
     var target = event.target || event.srcElement || event.currentTarget;
     var idAttr = target.attributes.id;

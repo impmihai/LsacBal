@@ -92,19 +92,18 @@ function getSuggestions() {
             let suggestions;
             console.log(person);
             if (person.data().score > 1000000) {
-                suggestions = allPersons.docs.filter(pers => pers.data() !== person.data() && pers.data().score < 1000000).map(pers => pers.id);
+                suggestions = allPersons.docs.filter(pers => pers.id != person.id && pers.data().score < 1000000);
             }
             else {
-                suggestions = allPersons.docs.filter(pers => pers.data() !== person.data() && pers.data().score > 1000000).map(pers => pers.id);
+                suggestions = allPersons.docs.filter(pers => pers.id != person.id && pers.data().score > 1000000);
             }
             const matches = yield firestoreInstance.collection('tinder').doc('matches').collection(person.id).get();
-            let j = 0;
-            for (j = 0; j < matches.docs.length; j++) {
-                console.log(suggestions.indexOf(matches.docs[j].id));
-                if (suggestions.indexOf(matches.docs[j].id) > 0)
-                    suggestions.splice(suggestions.indexOf(matches.docs[j].id), 1);
-            }
-            suggestions.forEach(suggestion => awaits.push(firestoreInstance.collection('tinder').doc('persons').collection(person.id).doc(suggestion).set({ s: true }, { merge: true })));
+            const matchesIds = matches.docs.map(match => match.id);
+            const persons = yield firestoreInstance.collection('tinder').doc('persons').collection(person.id).get();
+            const personsIds = persons.docs.map(pers => pers.id);
+            suggestions = suggestions.filter(sugestie => matchesIds.indexOf(sugestie.id) < 0 && personsIds.indexOf(sugestie.id) < 0);
+            let timest = admin.firestore.FieldValue.serverTimestamp();
+            suggestions.forEach(suggestion => awaits.push(firestoreInstance.collection('tinder').doc('persons').collection(person.id).doc(suggestion.id).set({ timestamp: timest }, { merge: true })));
         }
         yield Promise.all(awaits);
     });
