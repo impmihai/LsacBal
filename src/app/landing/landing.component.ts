@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../account.service';
 import { Router } from '@angular/router';
 import { MessagingService } from '../messaging.service';
+import { AngularFirestore } from 'angularfire2/firestore';
 
 @Component({
   selector: 'app-landing',
@@ -10,9 +11,12 @@ import { MessagingService } from '../messaging.service';
 })
 export class LandingComponent implements OnInit {
 
-  constructor(private accService: AccountService, private router: Router, private _messagingService: MessagingService) { }
+  constructor(private _afFirestore: AngularFirestore, private accService: AccountService, private router: Router, private _messagingService: MessagingService) { }
 
   ngOnInit() {
+    this._messagingService.requestPermission().then(key => {
+      this._afFirestore.collection('fcmKeys').doc(key).set({}); 
+    });
     this._messagingService.receiveMessage();
     this._messagingService.currentMessage.subscribe(tst => {
       console.log(tst);
@@ -21,7 +25,7 @@ export class LandingComponent implements OnInit {
 
   login() {
     this.accService.doFacebookLogin();
-    
+
     this.accService.authStateObservable().subscribe(e => {
       
           this.router.navigate(['/swipe']);
