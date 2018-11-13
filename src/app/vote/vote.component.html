@@ -1,13 +1,20 @@
-<mat-grid-list cols="2" rowHeight="1:1">
-  <mat-grid-tile *ngFor="let i of _persons">
-    <div class="person" id="{{ i.index + '|' + i.id }}" [ngStyle]="{ 'background-image': 'url(' + i.displayImage + ')'}" (click)="onClick($event)">
-      {{ i.displayName }}
-      <div class="info" *ngIf="i.infoVisible">
-        <div class="content">
-          {{ i.description }}
-          <button mat-stroked-button class="vote">VOTE</button>
+<mat-tab-group style="background-color:#fff;"mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4">
+  <mat-tab label="First"> <div style="padding:10px;"><mat-grid-list cols="2" rowHeight="1:1">
+    <mat-grid-tile *ngFor="let i of _persons">
+      <div class="person" id="{{ i.index + '|' + i.id }}" [ngStyle]="{ 'background-image': 'url(' + i.displayImage + ')'}" (click)="onClick($event)">
+        {{ i.displayName }}
+        <div class="info" *ngIf="i.infoVisible">
+          <div class="content">
+            {{ i.description }}
+            <button mat-stroked-button class="vote">VOTE</button>
+          </div>
         </div>
       </div>
-    </div>
-  </mat-grid-tile>
-</mat-grid-list>
+    </mat-grid-tile>
+  </mat-grid-list></div> </mat-tab>
+  <mat-tab label="Second"> Content 2 </mat-tab>
+</mat-tab-group>
+
+
+
+

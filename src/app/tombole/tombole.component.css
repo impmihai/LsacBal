@@ -8,3 +8,14 @@
     content: '';
     z-index: 999;
 }
+.mat-card:not([class*=mat-elevation-z]) {
+    box-shadow: none;
+    border-top: 8px solid #F1F1F1;
+    background-color:#fff;
+}
+a{
+    font-family: Montserrat;
+    font-weight: 600;
+    text-decoration: none;
+    color:#F7CF69 !important;
+}
