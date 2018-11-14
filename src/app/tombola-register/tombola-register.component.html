@@ -1,22 +1,48 @@
-<div class="container">
-    <div [ngSwitch]="tombola.media_type" class="full-screen valign-wrapper" *ngIf="addVisible === true">
+<div class="container" *ngIf="tombola">
+    <div [ngSwitch]="tombola.mediaType" class="full-screen valign-wrapper" *ngIf="addVisible === true">
         <div class="" *ngSwitchCase="'image'" class="valign">
             <button class="btn close-button-float hidebtn" (click)="closeAdd()">close</button>
-            <img class="responsive-img" src="{{ tombola.media_url }}">
+            <img style="width:100%; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);" src="/src/assets/images/{{ tombola.mediaUrl }}">
         </div>
         
         <div class="" *ngSwitchCase="'video'" class="valign">
             <button class="btn close-button-float hidebtn" (click)="closeAdd()">close</button>
             <video playsinline autoplay muted webkit-playsinline (ended)="closeAdd()" style="width:100%;">
-                <source src="{{ tombola.media_url }}" type="video/mp4">
+                <source src="{{ tombola.mediaUrl }}" type="video/mp4">
             </video>
         </div>
     </div>
     
     <form #signForm="ngForm" (ngSubmit)="SignToTombola(signForm)" *ngIf="addVisible === false">
         <div style="min-height:60vh;">
-             <div class="row" *ngFor="let field of tombola.required_fields">
+             <div class="row" *ngFor="let field of tombola.requiredFields">
                 <div [ngSwitch]="field">
+                    <mat-form-field class="example-full-width" *ngSwitchCase="'name'">
+                        <input type="text" matInput required placeholder="Nume" name="name" ngModel>
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width" *ngSwitchCase="'surname'">
+                        <input type="text" matInput required placeholder="Prenume" name="surname" ngModel>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width" *ngSwitchCase="'cnp'">
+                        <input type="text" matInput required placeholder="CNP" name="cnp" ngModel>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width" *ngSwitchCase="'email'">
+                        <input type="email" matInput required placeholder="Email" name="email" ngModel>
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width" *ngSwitchCase="'phone'">
+                        <input type="tel" matInput required placeholder="Telefon" name="phone" ngModel>
+                    </mat-form-field>
+                    <div class="example-full-width" *ngSwitchCase="'coupon'">
+                        Descarcă de <a href="/src/assets/images/{{ tombola.couponUrl }}" target="_blank">aici</a> cuponul.
+                    </div>
+                    <div class="example-full-width" *ngSwitchCase="'justText'">
+                        {{ tombola.theText }}
+                    </div>
+                    <!--<mat-form-field class="example-full-width" *ngSwitchCase="'city'">
+                        <input type="text" matInput required placeholder="Oraș" name="name" ngModel>
+                    </mat-form-field> -->
+<!-- 
                     <div class="input-field col s10 offset-s1" *ngSwitchCase="'name'">
                         <input id="nume" type="text" required class="validate black-text" name="name" ngModel>
                         <label for="nume">Nume</label>
@@ -48,8 +74,8 @@
                     <div class="input-field col s10 offset-s1" *ngSwitchCase="'faculty'">
                         <input id="faculty" type="text" required class="validate" name="faculty" ngModel>
                         <label for="faculty">Facultate</label>
-                    </div>
-                    <div *ngSwitchDefault>asdasdsa</div>
+                    </div> -->
+                    <div *ngSwitchDefault>Not Found</div>
                 </div>
             </div>
         </div>

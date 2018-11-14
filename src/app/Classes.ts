@@ -16,6 +16,7 @@ export class VotePerson {
     displayImage: string;
     description: string;
     index: Number;
+    votesCount: Number;
     infoVisible: Boolean = false;
 }
 
@@ -44,11 +45,13 @@ export class TinderProfile {
 }
 
 export class Tombola {
-    id: string;
+    id: number;
     displayName: string;
     mediaType: string;
     mediaUrl: string;
     description: string;
+    couponUrl: string;
+    theText: string;
     requiredFields: string[];
 }
 

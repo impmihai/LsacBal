@@ -36,9 +36,9 @@ export class AccountService {
      });
     this._messagingService.receiveMessage();
     this._messagingService.currentMessage.subscribe(tst => {
-      this.snackBar.open(tst.data.text, "", {
-        duration: 2000,
-      })
+      // this.snackBar.open(tst.data.text, "", {
+      //   duration: 2000,
+      // })
     });
 
     this._afAuth.authState.subscribe(auth => {

@@ -1,7 +1,7 @@
 <div *ngFor="let tombola of tombole">
   <a href="tombola/{{tombola.id}}">
     <mat-card class="example-card" [class.registered]="isRegisteredForTombola(tombola.id)">
-      <img mat-card-image src="{{ tombola.displayImage }}" alt="{{ tombola.displayName }}">
+      <img mat-card-image src="/src/assets/images/{{ tombola.displayImage }}" alt="{{ tombola.displayName }}">
       <mat-card-content>
         <p>{{ tombola.displayName }}</p>
         <p style="font-weight:500;">

@@ -15,12 +15,12 @@ export class MessagingService {
     private angularFireDB: AngularFireDatabase,
     private angularFireAuth: AngularFireAuth,
     private angularFireMessaging: AngularFireMessaging) {
-    this.angularFireMessaging.messaging.subscribe(
-      (_messaging) => {
-        _messaging.onMessage = _messaging.onMessage.bind(_messaging);
-        _messaging.onTokenRefresh = _messaging.onTokenRefresh.bind(_messaging);
-      }
-    )
+    // this.angularFireMessaging.messaging.subscribe(
+    //   (_messaging) => {
+    //     _messaging.onMessage = _messaging.onMessage.bind(_messaging);
+    //     _messaging.onTokenRefresh = _messaging.onTokenRefresh.bind(_messaging);
+    //   }
+    // )
   }
 
   /**

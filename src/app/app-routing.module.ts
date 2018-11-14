@@ -11,6 +11,7 @@ import { HomeComponent } from './tinder/home/home.component';
 import { GoldComponent } from './gold/gold.component';
 import { TomboleComponent } from './tombole/tombole.component';
 import { TombolaRegisterComponent } from './tombola-register/tombola-register.component';
+import { RezultateComponent } from './rezultate/rezultate.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -21,7 +22,8 @@ const routes: Routes = [
   { path: 'gold', component: GoldComponent, canActivate: [AuthGuardService] },
   { path: 'matches', component: MatchesComponent, canActivate: [AuthGuardService] },
   { path: 'tombole', component: TomboleComponent, canActivate: [AuthGuardService] },
-  { path: 'tombola', component: TombolaRegisterComponent, canActivate: [AuthGuardService] },
+  { path: 'tombola/:id', component: TombolaRegisterComponent, canActivate: [AuthGuardService] },
+  { path: 'rezultate', component: RezultateComponent },
   { path: 'chat/:id', component: ChatComponent, canActivate: [AuthGuardService] },
  
 ];

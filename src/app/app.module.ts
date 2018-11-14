@@ -31,6 +31,7 @@ import { GoldComponent } from './gold/gold.component';
 import { TomboleComponent } from './tombole/tombole.component';
 import { TombolaRegisterComponent } from './tombola-register/tombola-register.component';
 import { RezultateComponent } from './rezultate/rezultate.component';
+import { TomboleService } from './tombole.service';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,7 @@ import { RezultateComponent } from './rezultate/rezultate.component';
     AngularFireMessagingModule,
     FormsModule,
   ],
-  providers: [VotingService, AccountService, MessagingService, AngularFireDatabase, AuthGuardService],
+  providers: [VotingService, AccountService, MessagingService, AngularFireDatabase, AuthGuardService, TomboleService, VotingService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

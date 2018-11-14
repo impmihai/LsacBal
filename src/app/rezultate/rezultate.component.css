@@ -1,0 +1,53 @@
+.person {
+    background-size: 100%;
+    width: 90%;
+    height: 90%;
+    border-radius: 5px;
+    color:#fff;
+    margin-left: 5%;
+}
+
+.person .info {
+    border-radius: 5px;
+    pointer-events: none;
+    position: absolute;
+    bottom: 0;
+    height: 90%;
+    width: 90%;
+    color: white;
+    display: flex;
+    vertical-align: bottom;
+    background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+    
+}
+
+.person .info .content {
+    align-self: flex-end;
+    margin-left: 5%;
+}
+.mat-tab-label mat-ripple mat-tab-label-active ng-star-inserted {
+    height: 48px;
+    padding: 0 24px;
+    cursor: pointer;
+    box-sizing: border-box;
+    opacity: .6;
+    min-width: 160px;
+    text-align: center;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    position: relative;
+    width: 50%;
+}
+.mat-elevation-z4 {
+    box-shadow:none; 
+}
+.mat-card-title{
+    font-size: 1em;
+    font-weight: 600;
+}
+.mat-card-content{
+    width: 90%;
+    margin-left: 5%;
+}
