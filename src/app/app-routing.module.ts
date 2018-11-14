@@ -12,6 +12,7 @@ import { GoldComponent } from './gold/gold.component';
 import { TomboleComponent } from './tombole/tombole.component';
 import { TombolaRegisterComponent } from './tombola-register/tombola-register.component';
 import { RezultateComponent } from './rezultate/rezultate.component';
+import { RezultateTomboleComponent } from './rezultate-tombole/rezultate-tombole.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'tombole', component: TomboleComponent, canActivate: [AuthGuardService] },
   { path: 'tombola/:id', component: TombolaRegisterComponent, canActivate: [AuthGuardService] },
   { path: 'rezultate', component: RezultateComponent },
+  { path: 'rezultateTombola/:id', component: RezultateTomboleComponent },
   { path: 'chat/:id', component: ChatComponent, canActivate: [AuthGuardService] },
  
 ];

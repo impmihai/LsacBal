@@ -32,6 +32,7 @@ import { TomboleComponent } from './tombole/tombole.component';
 import { TombolaRegisterComponent } from './tombola-register/tombola-register.component';
 import { RezultateComponent } from './rezultate/rezultate.component';
 import { TomboleService } from './tombole.service';
+import { RezultateTomboleComponent } from './rezultate-tombole/rezultate-tombole.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { TomboleService } from './tombole.service';
     TomboleComponent,
     TombolaRegisterComponent,
     RezultateComponent,
+    RezultateTomboleComponent,
   ],
   imports: [
     BrowserModule,
