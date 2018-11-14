@@ -15,24 +15,12 @@ export class VoteComponent implements OnInit {
   private _persons: VotePerson[];
   constructor(private _votingService: VotingService, private _accService: AccountService) { }
 
-  // stringGen(len) {
-  //   var text = "";
-    
-  //   var charset = "       abcdefghijklmnopqrstuvwxyz0123456789";
-    
-  //   for (var i = 0; i < len; i++)
-  //     text += charset.charAt(Math.floor(Math.random() * charset.length));
-    
-  //   return text;
-  // }
-  
   getBoys(): VotePerson[] {
     const boys = [];
     for (let i = 0; i < this._persons.length; i++) {
       if (!!(i % 2))
         boys.push(this._persons[i]);
     }
-    console.log(boys);
     return boys;
   }
 
@@ -43,6 +31,14 @@ export class VoteComponent implements OnInit {
       girls.push(this._persons[i]);
     }
     return girls;
+  }
+
+  votedForGirl(): boolean {
+    return (this._accService.userData.voteStatus & 2) != 0;
+  }
+
+  votedForBoy(): boolean {
+    return (this._accService.userData.voteStatus & 1) != 0;
   }
 
   onClick(event) {
@@ -58,6 +54,15 @@ export class VoteComponent implements OnInit {
       this._votingService.VoteBoy(id);
     }
   }
+
+  voteBoy(id: string) {
+    this._votingService.VoteBoy(id);
+  }
+
+  voteGirl(id: string) {
+    this._votingService.VoteGirl(id);
+  }
+
   
   ngOnInit() {
     this._votingService.GetPersons().subscribe(persons => this._persons = persons);

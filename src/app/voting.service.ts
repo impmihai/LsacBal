@@ -26,7 +26,7 @@ export class VotingService {
       if (this._accountService.userData.voteStatus & 2)
         reject("deja votat");
       this._afStore.collection('concurenti').doc(girlId)
-                    .collection('votanti').add({votant: this._accountService.userData.id})
+                    .collection('votanti').doc(this._accountService.userData.id).set({})
                     .then(result => {
                       const voteFlag = this._accountService.userData.voteStatus | 2;
                       this._accountService.updateData({voteStatus: voteFlag});
@@ -40,7 +40,7 @@ export class VotingService {
       if (this._accountService.userData.voteStatus & 1)
         reject(VoteStatus.VOTE_ALREADY);
       this._afStore.collection('concurenti').doc(boyId)
-                    .collection('votanti').add({votant: this._accountService.userData.id})
+                    .collection('votanti').doc(this._accountService.userData.id).set({})
                     .then(result => {
                       const voteFlag = this._accountService.userData.voteStatus | 1;
                       this._accountService.updateData({voteStatus: voteFlag});

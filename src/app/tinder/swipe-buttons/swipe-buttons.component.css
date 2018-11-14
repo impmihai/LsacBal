@@ -8,14 +8,10 @@
 .icon-container {
     position: relative;
     display: inline-block;
-    width: 47%;
-    margin-right: 6%;
+    width: 50%;
     height: 100%;
 }
 
-.icon-container:last-child {
-    margin-right: 0px;
-}
 
 .icon {
     height: 100%;
