@@ -2,13 +2,13 @@
     <div [ngSwitch]="tombola.mediaType" class="full-screen valign-wrapper" *ngIf="addVisible === true">
         <div class="" *ngSwitchCase="'image'" class="valign">
             <button class="btn close-button-float hidebtn" (click)="closeAdd()">close</button>
-            <img style="width:100%; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);" src="/src/assets/images/{{ tombola.mediaUrl }}">
+            <img style="width:100%; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);" src="https://bal.lsacbucuresti.ro/assets/images/{{ tombola.mediaUrl }}">
         </div>
         
         <div class="" *ngSwitchCase="'video'" class="valign">
             <button class="btn close-button-float hidebtn" (click)="closeAdd()">close</button>
             <video playsinline autoplay muted webkit-playsinline (ended)="closeAdd()" style="width:100%;">
-                <source src="{{ tombola.mediaUrl }}" type="video/mp4">
+                <source src="https://bal.lsacbucuresti.ro/assets/images/{{ tombola.mediaUrl }}" type="video/mp4">
             </video>
         </div>
     </div>
@@ -34,7 +34,7 @@
                         <input type="tel" matInput required placeholder="Telefon" name="phone" ngModel>
                     </mat-form-field>
                     <div class="example-full-width" *ngSwitchCase="'coupon'">
-                        Descarcă de <a href="/src/assets/images/{{ tombola.couponUrl }}" target="_blank">aici</a> cuponul.
+                        Descarcă de <a href="https://bal.lsacbucuresti.ro/assets/images/{{ tombola.couponUrl }}" target="_blank">aici</a> cuponul.
                     </div>
                     <div class="example-full-width" *ngSwitchCase="'justText'">
                         {{ tombola.theText }}

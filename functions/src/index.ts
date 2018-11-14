@@ -23,7 +23,7 @@ async function addLikes(): Promise<any> {
       let awaits = [];
       awaits.push(sendNotification(noLikesUsers, "Poti sa dai din nou like-uri!"));
       users.forEach(user => {
-            awaits.push(firestoreInstance.collection('users').doc(user.id).set({likesCount: user.data().likesCount + 5}, {merge: true}));
+            awaits.push(firestoreInstance.collection('users').doc(user.id).set({likesCount: user.data().likesCount + 3}, {merge: true}));
       });
        
       await Promise.all(awaits);
@@ -92,6 +92,18 @@ async function getSuggestions() {
 
             suggestions = suggestions.filter(sugestie => matchesIds.indexOf(sugestie.id) < 0 && personsIds.indexOf(sugestie.id) < 0);
             
+            suggestions.sort((p1,p2) => {
+                  if (Math.abs(p1.score - person.data().score) > Math.abs(p2.score - person.data().score)) {
+                      return 1;
+                  }
+              
+                  if (Math.abs(p1.score - person.data().score) < Math.abs(p2.score - person.data().score)) {
+                      return -1;
+                  }
+              
+                  return 0;
+              })
+
             let timest = admin.firestore.FieldValue.serverTimestamp()
             suggestions.forEach(suggestion => awaits.push(firestoreInstance.collection('tinder').doc('persons').collection(person.id).doc(suggestion.id).set({timestamp: timest}, { merge: true})));
       }
