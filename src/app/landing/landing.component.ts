@@ -10,7 +10,7 @@ import { AngularFirestore } from 'angularfire2/firestore';
   styleUrls: ['./landing.component.css']
 })
 export class LandingComponent implements OnInit {
-
+  helpDisplayed: boolean = false;
   constructor(private _afFirestore: AngularFirestore, private accService: AccountService, private router: Router, private _messagingService: MessagingService) { }
 
   ngOnInit() {
@@ -24,8 +24,7 @@ export class LandingComponent implements OnInit {
   }
 
   login() {
-    this.accService.doFacebookLogin();
-
+    this.accService.doFacebookLogin().then(result => this.helpDisplayed = true);
     this.accService.authStateObservable().subscribe(e => {
           this.router.navigate(['/vote']);
     });

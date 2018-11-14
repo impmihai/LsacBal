@@ -4,6 +4,7 @@
         <img src="../assets/images/landing.svg"style="margin-top: 40%;margin-bottom: 10px;width: 70%;">
         <p class="mat-headline">Fă-ți prieteni printre stele!</p>
         <!-- <p  style="margin-top: -15px">Fii pregătit pentru seara balului!<br> Activează notificările pentru a afla când se lansează aplicația!</p> -->
+        <a *ngIf="helpDisplayed" href="vote">Daca nu te-ai putut autentifica, apasa aici!</a>
         <button style="width:70%;height: 51px;background: linear-gradient(90deg, #F9C93A 0%, #ED1C24 100%);
         border-radius: 90px;border-color:transparent; color:#FFF; font-family:Montserrat; margin-bottom:10px;" (click)="login()" >FACEBOOK LOGIN</button>
         <img src="../assets/images/logoLSAC.svg" style="width: 30%; margin-top: 20%; margin-left: 35%; margin-right: 35%;">
