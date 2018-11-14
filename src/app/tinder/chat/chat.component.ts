@@ -48,6 +48,7 @@ export class ChatComponent implements OnInit {
   }
 
 
+
   private picture(typ) {
     if (typ) {
       return this._accService.userData.displayImages[0];
