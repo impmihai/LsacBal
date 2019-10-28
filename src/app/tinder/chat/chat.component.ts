@@ -13,10 +13,10 @@ import { isNullOrUndefined } from 'util';
 })
 export class ChatComponent implements OnInit {
 
-  private _messages: Message[];
-  private _otherPerson: TinderProfile;
-  private _otherPersonId: string;
-  private _msgVal: string;
+  _messages: Message[];
+  _otherPerson: TinderProfile;
+  _otherPersonId: string;
+  _msgVal: string;
   constructor(private _accService: AccountService, private _tinderService: TinderService, private _route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -36,13 +36,13 @@ export class ChatComponent implements OnInit {
           });
         });
       });
-    }); 
+    });
   }
 
   private chatSend(data) {
-    if (data !== "") {
+    if (data !== '') {
       console.log(data);
-      this._msgVal = "";
+      this._msgVal = '';
       this._tinderService.sendMessage(this._otherPersonId, data);
     }
   }
@@ -52,7 +52,7 @@ export class ChatComponent implements OnInit {
     if (typ) {
       return this._accService.userData.displayImages[0];
     } else {
-      return this._otherPerson.displayImages[0]
+      return this._otherPerson.displayImages[0];
     }
   }
 

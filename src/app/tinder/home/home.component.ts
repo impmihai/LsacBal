@@ -10,27 +10,28 @@ export class HomeComponent implements OnInit {
   routeLinks: any[];
   activeLinkIndex = -1;
   visible = false;
+  chatName = false;
   constructor(private router: Router) {
     this.routeLinks = [
       {
         link: './swipe',
-        visible: true
+        visible: 1
       },
       {
         link: './matches',
-        visible: true
+        visible: 1
       },
       {
         link: './tinder',
-        visible: false
+        visible: 0
       },
       {
         link: './chat',
-        visible: true
+        visible: 2
       },
       {
         link: './',
-        visible: false
+        visible: 0
       },
     ];
   }
@@ -39,7 +40,8 @@ export class HomeComponent implements OnInit {
     this.router.events.subscribe((res) => {
       const currTab = this.routeLinks.find(tab =>  ('.' + this.router.url).indexOf(tab.link) >= 0);
       this.activeLinkIndex = this.routeLinks.indexOf(currTab);
-      this.visible = currTab.visible;
+      this.visible = currTab.visible === 1;
+      this.chatName = currTab.visible === 2;
     });
   }
 

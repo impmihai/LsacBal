@@ -8,6 +8,13 @@ import { map } from 'rxjs/internal/operators/map';
 import * as firebase from 'firebase';
 import { MatSnackBar } from '@angular/material';
 
+
+export enum SaveAnswersStatus {
+  ANSWERS_ALREADY,
+  ANSWERS_UNKNOWN,
+  ANSWERS_SUCCESS,
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -21,16 +28,16 @@ export class TinderService {
   private _conversationsObservable: Observable<Conversation[]>;
   private _conversationsSubject: Subject<Conversation[]>;
 
-  private _messagesObservable: { [id: string] : Observable<Message[]> } = {};
-  private _messagesSubject: { [id: string] : Subject<Message[]> } = {};
+  private _messagesObservable: { [id: string]: Observable<Message[]> } = {};
+  private _messagesSubject: { [id: string]: Subject<Message[]> } = {};
 
-  private _profilesObservable: { [id: string] : Observable<TinderProfile> } = {};
-  private _profilesSubject: { [id: string] : Subject<TinderProfile> } = {};
+  private _profilesObservable: { [id: string]: Observable<TinderProfile> } = {};
+  private _profilesSubject: { [id: string]: Subject<TinderProfile> } = {};
 
   constructor(private _afFirestore: AngularFirestore, private _accService: AccountService, public snackBar: MatSnackBar) {
-    this._personsSubject = new ReplaySubject(1);    
-    this._matchesSubject = new ReplaySubject(1);    
-    this._conversationsSubject = new ReplaySubject(1);    
+    this._personsSubject = new ReplaySubject(1);
+    this._matchesSubject = new ReplaySubject(1);
+    this._conversationsSubject = new ReplaySubject(1);
   }
 
   public loadMatches(): Observable<TinderPerson[]> {
@@ -39,9 +46,9 @@ export class TinderService {
                           .doc('matches')
                           .collection(this._accService.userData.id)
                           .snapshotChanges()
-                          .pipe(map(persons => persons.map(personData => 
+                          .pipe(map(persons => persons.map(personData =>
                             {
-                              let tinderPerson: TinderPerson = new TinderPerson();
+                              const tinderPerson: TinderPerson = new TinderPerson();
                               tinderPerson.id = personData.payload.doc.id;
                               this.loadProfile(tinderPerson.id).subscribe(profile => tinderPerson.profile = profile);
                               return tinderPerson;
@@ -58,26 +65,16 @@ export class TinderService {
                           .doc('persons')
                           .collection(this._accService.userData.id)
                           .snapshotChanges()
-                          .pipe(map(persons => persons.map(personData => 
-                            {
-                              let tinderPerson: TinderPerson = new TinderPerson();
+                          .pipe(map(persons => persons.map(personData => {
+                              const tinderPerson: TinderPerson = new TinderPerson();
                               tinderPerson.id = personData.payload.doc.id;
-                              this.loadProfile(tinderPerson.id).subscribe(profile => tinderPerson.profile = profile);                              
+                              this.loadProfile(tinderPerson.id).subscribe(profile => tinderPerson.profile = profile);
                               return tinderPerson;
                             }))
-                          )
+                          );
       this._personsObservable.subscribe(persons => this._personsSubject.next(persons));
     }
-      // this._personsObservable = this._afFirestore.collection('users')
-      //                   .snapshotChanges()
-      //                   .pipe(map(persons => persons.map(personData => 
-      //                     {
-      //                       let tinderPerson: TinderPerson = new TinderPerson();
-      //                       tinderPerson.id = personData.payload.doc.id;
-      //                       this.loadProfile(tinderPerson.id).subscribe(profile => tinderPerson.profile = profile);                              
-      //                       return tinderPerson;
-      //                     }))
-      //                   )
+
     return this._personsSubject.asObservable();
   }
 
@@ -87,7 +84,7 @@ export class TinderService {
                           .doc(profileId)
                           .get()
                           .pipe(map(profile => {
-                            let tinderProfile:TinderProfile = new TinderProfile();
+                            const tinderProfile: TinderProfile = new TinderProfile();
                             // tinderProfile.description = profile.data().description;
                             tinderProfile.displayImages = profile.data().displayImages;
                             tinderProfile.displayName = profile.data().displayName;
@@ -101,7 +98,7 @@ export class TinderService {
   }
   public likePerson(personId: string) {
     if (this._accService.userData.likesCount <= 0) {
-      let snackBarRef = this.snackBar.open('Nu mai ai niciun like ramas. Vei primi in curand altele!', "", {
+      const snackBarRef = this.snackBar.open('Nu mai ai niciun like ramas. Vei primi in curand altele!', '', {
         duration: 2000,
       });
       return;
@@ -116,7 +113,7 @@ export class TinderService {
     this._afFirestore
         .collection('likes')
         .doc(fullKey)
-        .set({[this._accService.userData.id] : true}, {merge: true}); 
+        .set({[this._accService.userData.id] : true}, {merge: true});
 
     this._afFirestore
         .collection('tinder')
@@ -156,11 +153,11 @@ export class TinderService {
                                               .snapshotChanges()
                                               .pipe(map(conversations => {
                                                 return conversations.map(convData => {
-                                                  let conv: Conversation = convData.payload.doc.data() as Conversation;
+                                                  const conv: Conversation = convData.payload.doc.data() as Conversation;
                                                   conv.id = convData.payload.doc.id;
                                                   this.loadProfile(convData.payload.doc.data().otherPersonId).subscribe(profile => {
                                                     conv.otherPerson = profile;
-                                                  })
+                                                  });
                                                   return conv;
                                                 });
                                               }));
@@ -171,9 +168,9 @@ export class TinderService {
 
   public getMessages(personId: string): Observable<Message[]> {
     if (isNullOrUndefined(this._messagesObservable[personId])) {
-      let conversationParticipants = [this._accService.userData.id , personId];
-      let conversationKey: string = conversationParticipants.sort().join('-');
-      
+      const conversationParticipants = [this._accService.userData.id , personId];
+      const conversationKey: string = conversationParticipants.sort().join('-');
+
       this._messagesObservable[personId] = this._afFirestore
                                               .collection('tinder')
                                               .doc('messages')
@@ -181,7 +178,7 @@ export class TinderService {
                                               .valueChanges()
                                               .pipe(map(messages => {
                                                 return messages.map(messageData => {
-                                                  let message: Message = messageData as Message;
+                                                  const message: Message = messageData as Message;
                                                   if (messageData.sender == this._accService.userData.id) {
                                                     message.type = MessageType.SENT;
                                                   } else {
@@ -191,7 +188,7 @@ export class TinderService {
                                                 });
                                               }));
       this._messagesSubject[personId] = new ReplaySubject(1);
-      this._messagesObservable[personId].subscribe(messages => this._messagesSubject[personId].next(messages))
+      this._messagesObservable[personId].subscribe(messages => this._messagesSubject[personId].next(messages));
     }
 
     return this._messagesSubject[personId];
@@ -199,14 +196,14 @@ export class TinderService {
 
   public sendMessage(personId: string, messageText: string): Promise<any> {
     return new Promise<any>((resolve, reject) => {
-      let message: Message = new Message();
+      const message: Message = new Message();
       message.message = messageText;
       message.sender = this._accService.userData.id;
 
-      let conversationParticipants = [this._accService.userData.id , personId];
-      let conversationKey: string = conversationParticipants.sort().join('-');
+      const conversationParticipants = [this._accService.userData.id , personId];
+      const conversationKey: string = conversationParticipants.sort().join('-');
 
-      let timestamp = firebase.firestore.FieldValue.serverTimestamp();
+      const timestamp = firebase.firestore.FieldValue.serverTimestamp();
       console.log(timestamp);
       this._afFirestore
           .collection('tinder')
@@ -234,10 +231,4 @@ export class TinderService {
           .catch(err => reject(err));
     });
   }
-}
-
-export enum SaveAnswersStatus {
-  ANSWERS_ALREADY,
-  ANSWERS_UNKNOWN,
-  ANSWERS_SUCCESS,
 }
