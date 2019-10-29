@@ -17,28 +17,26 @@ import { MatSnackBar } from '@angular/material';
   providedIn: 'root'
 })
 export class AccountService {
-  private static usersDb: string = 'users';
+  private static usersDb = 'users';
   private _userDataObservable: Observable<AccountInfo>;
   public userData: AccountInfo;
   private _authState: firebase.User;
   private _token: string;
 
   private _userDataSubject: Subject<AccountInfo>;
-  
-  constructor(private _messagingService: MessagingService, private _afStore: AngularFirestore, private _afAuth: AngularFireAuth, private snackBar: MatSnackBar) {
+
+  constructor(private _messagingService: MessagingService,
+              private _afStore: AngularFirestore,
+              private _afAuth: AngularFireAuth,
+              private snackBar: MatSnackBar
+  ) {
     this._userDataSubject = new ReplaySubject(1);
-    
-    this._messagingService.requestPermission().then(token => {
-        this._token = token;
-        if (!isNullOrUndefined(this.userData)) {
-          this.updateData({fcmtoken: this._token});
-        }
-     });
+
     this._messagingService.receiveMessage();
     this._messagingService.currentMessage.subscribe(tst => {
-      this.snackBar.open(tst.data.text, "", {
+      this.snackBar.open(tst.data.text, '', {
         duration: 2000,
-      })
+      });
     });
 
     this._afAuth.authState.subscribe(auth => {
@@ -46,14 +44,13 @@ export class AccountService {
       if (auth != null) {
         this._authState = auth;
         this.userDataObservable().subscribe(a => {
-          if (!isNullOrUndefined(this._token)) {
-            this.updateData({fcmtoken: this._token});
-          }
+          this._messagingService.requestPermission().then(token => {
+            this.updateData({fcmtoken: token});
+          });
         });
-      }        
+      }
     });
   }
-  
 
 
   authStateObservable(): Observable<firebase.User> {
@@ -68,7 +65,7 @@ export class AccountService {
 
   doFacebookLogin(): Promise<any>{
     return new Promise<any>((resolve, reject) => {
-      let provider = new firebase.auth.FacebookAuthProvider();
+      const provider = new firebase.auth.FacebookAuthProvider();
       this._afAuth.auth
       .signInWithPopup(provider)
       .then(res => {
@@ -87,17 +84,18 @@ export class AccountService {
         resolve(res);
       }, err => {
         reject(err);
-      })
+      });
     });
   }
 
   public isLoggedIn(): Observable<Boolean> {
     return new Observable(observer => {
       this._afAuth.authState.subscribe(val => {
-        if (val != null)
+        if (val != null) {
           observer.next(true);
-        else
+        } else {
           observer.next(false);
+        }
       });
     });
   }
@@ -113,7 +111,7 @@ export class AccountService {
         }));
         this._userDataObservable.subscribe(val => this._userDataSubject.next(val));
     }
-    
+
     return this._userDataSubject.asObservable();
   }
 

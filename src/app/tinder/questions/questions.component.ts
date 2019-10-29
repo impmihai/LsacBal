@@ -206,16 +206,16 @@ export class QuestionsComponent implements OnInit {
             });
           });
     }
-    
+
     public SaveAnswers(form: NgForm) {
-                const answers = [];
+        const answers = [];
         let i = 0;
         let score = 0;
         questions.forEach(q => {
             if (q.multianswer === true) {
-                var res = q.answers.filter(a => a.checked !== false);
-                res.forEach(a => score += a.score*q.priority);
-                var ans = res.map(a => a.index).join();
+                const res = q.answers.filter(a => a.checked !== false);
+                res.forEach(a => score += a.score * q.priority);
+                const ans = res.map(a => a.index).join();
                 answers.push(ans);
             } else {
                 score += q.answers[form.value[i]].score * q.priority;

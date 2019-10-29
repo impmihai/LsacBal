@@ -17,14 +17,12 @@ export class LandingComponent implements OnInit {
   login() {
     this.accService.doFacebookLogin();
     this.accService.authStateObservable().subscribe(e => {
-      
           this.router.navigate(['/swipe']);
     });
 
   }
 
   logout() {
-    console.log("asd22");
     this.accService.doLogout();
   }
 }

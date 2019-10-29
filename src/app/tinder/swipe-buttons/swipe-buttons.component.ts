@@ -8,8 +8,8 @@ import { TinderService } from '../tinder.service';
   styleUrls: ['./swipe-buttons.component.css']
 })
 export class SwipeButtonsComponent implements OnInit {
-  @Input() person: TinderPerson
-  constructor(private _tinderService: TinderService) { }
+  @Input() person: TinderPerson;
+  constructor(public _tinderService: TinderService) { }
 
   ngOnInit() {
 

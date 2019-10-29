@@ -1,5 +1,3 @@
-import { Observable } from "rxjs";
-
 export enum Sex {
     boy = 0,
     girl = 1
@@ -25,7 +23,7 @@ export class AccountInfo {
     displayName: string;
     voteStatus: number;
     displayImages: string[];
-    likesCount: number = 0;
+    likesCount = 0;
     raspuns: any = null;
 }
 
@@ -50,4 +48,5 @@ export class TinderPerson {
 export class Conversation {
     id: string;
     otherPerson: TinderProfile;
+    lastMessage: string;
 }

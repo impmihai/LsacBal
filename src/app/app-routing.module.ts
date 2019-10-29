@@ -1,7 +1,6 @@
-import { NgModule }             from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LandingComponent } from './landing/landing.component';
-import { VoteComponent } from './vote/vote.component';
 import { SwipeComponent } from './tinder/swipe/swipe.component';
 import { MatchesComponent } from './tinder/matches/matches.component';
 import { ChatComponent } from './tinder/chat/chat.component';
@@ -17,7 +16,6 @@ const routes: Routes = [
   { path: 'gold', component: GoldComponent, canActivate: [AuthGuardService] },
   { path: 'matches', component: MatchesComponent, canActivate: [AuthGuardService] },
   { path: 'chat/:id', component: ChatComponent, canActivate: [AuthGuardService] },
- 
 ];
 
 @NgModule({

@@ -27,11 +27,11 @@ function getUserAnswers(userId) {
 function addLikes() {
     return __awaiter(this, void 0, void 0, function* () {
         const users = yield firestoreInstance.collection('users').get();
-        const noLikesUsers = users.docs.filter(user => user.data().likesCount == 0);
-        let awaits = [];
-        awaits.push(sendNotification(noLikesUsers, "Poti sa dai din nou like-uri!"));
+        const noLikesUsers = users.docs.filter(user => user.data().likesCount === 0).map(user => user.data());
+        const awaits = [];
+        awaits.push(sendNotification(noLikesUsers, "Poți să dai din nou like-uri!"));
         users.forEach(user => {
-            awaits.push(firestoreInstance.collection('users').doc(user.id).set({ likesCount: user.data().likesCount + 5 }, { merge: true }));
+            awaits.push(firestoreInstance.collection('users').doc(user.id).set({ likesCount: user.data().likesCount + 3 }, { merge: true }));
         });
         yield Promise.all(awaits);
     });
@@ -46,12 +46,12 @@ function isLikedAlready(user, person) {
 }
 function sendNotification(usersData, notificationMessage) {
     return __awaiter(this, void 0, void 0, function* () {
-        let awaits = [];
+        const awaits = [];
         usersData.forEach(user => {
             if (!util_1.isNullOrUndefined(user) && !util_1.isNullOrUndefined(user.fcmtoken)) {
-                var message = {
+                const message = {
                     data: {
-                        text: notificationMessage
+                        text: notificationMessage,
                     },
                     token: user.fcmtoken
                 };
@@ -70,12 +70,12 @@ function isMatch(change) {
         const persons = id.split('-');
         if (!util_1.isNullOrUndefined(newValue[persons[0]]) && newValue[persons[0]] === true &&
             !util_1.isNullOrUndefined(newValue[persons[1]]) && newValue[persons[1]] === true) {
-            var doc = firestoreInstance.collection('tinder').doc('matches');
-            var a = doc.collection(persons[0]).doc(persons[1]).set({});
-            var b = doc.collection(persons[1]).doc(persons[0]).set({});
+            const doc = firestoreInstance.collection('tinder').doc('matches');
+            const a = doc.collection(persons[0]).doc(persons[1]).set({});
+            const b = doc.collection(persons[1]).doc(persons[0]).set({});
             yield Promise.all([a, b]);
             const usersData = [yield getUserPrivateData(persons[0]), yield getUserPrivateData(persons[1])];
-            yield sendNotification(usersData, "Ai o potrivire noua!");
+            yield sendNotification(usersData, "A apărut o potrivire nouă!");
         }
         else {
             return;
@@ -84,28 +84,41 @@ function isMatch(change) {
 }
 function getSuggestions() {
     return __awaiter(this, void 0, void 0, function* () {
-        let allPersons = yield firestoreInstance.collection('answers').get();
+        const allPersons = yield firestoreInstance.collection('answers').get();
         let i = 0;
         const awaits = [];
+        const noSuggestionsUsers = [];
         for (i = 0; i < allPersons.docs.length; i++) {
             const person = allPersons.docs[i];
             let suggestions;
             console.log(person);
             if (person.data().score > 1000000) {
-                suggestions = allPersons.docs.filter(pers => pers.data() !== person.data() && pers.data().score < 1000000).map(pers => pers.id);
+                suggestions = allPersons.docs.filter(pers => pers.id != person.id && pers.data().score < 1000000);
             }
             else {
-                suggestions = allPersons.docs.filter(pers => pers.data() !== person.data() && pers.data().score > 1000000).map(pers => pers.id);
+                suggestions = allPersons.docs.filter(pers => pers.id != person.id && pers.data().score > 1000000);
             }
             const matches = yield firestoreInstance.collection('tinder').doc('matches').collection(person.id).get();
-            let j = 0;
-            for (j = 0; j < matches.docs.length; j++) {
-                console.log(suggestions.indexOf(matches.docs[j].id));
-                if (suggestions.indexOf(matches.docs[j].id) > 0)
-                    suggestions.splice(suggestions.indexOf(matches.docs[j].id), 1);
+            const matchesIds = matches.docs.map(match => match.id);
+            const persons = yield firestoreInstance.collection('tinder').doc('persons').collection(person.id).get();
+            const personsIds = persons.docs.map(pers => pers.id);
+            if (personsIds.length === 0) {
+                noSuggestionsUsers.push(person.data());
             }
-            suggestions.forEach(suggestion => awaits.push(firestoreInstance.collection('tinder').doc('persons').collection(person.id).doc(suggestion).set({ s: true }, { merge: true })));
+            suggestions = suggestions.filter(sugestie => matchesIds.indexOf(sugestie.id) < 0 && personsIds.indexOf(sugestie.id) < 0);
+            suggestions.sort((p1, p2) => {
+                if (Math.abs(p1.score - person.data().score) > Math.abs(p2.score - person.data().score)) {
+                    return 1;
+                }
+                if (Math.abs(p1.score - person.data().score) < Math.abs(p2.score - person.data().score)) {
+                    return -1;
+                }
+                return 0;
+            });
+            const timest = admin.firestore.FieldValue.serverTimestamp();
+            suggestions.forEach(suggestion => awaits.push(firestoreInstance.collection('tinder').doc('persons').collection(person.id).doc(suggestion.id).set({ timestamp: timest }, { merge: true })));
         }
+        awaits.push(sendNotification(noSuggestionsUsers, 'Am găsit câteva spirite ce pot fi compatibile cu tine!'));
         yield Promise.all(awaits);
     });
 }
@@ -117,7 +130,7 @@ function sendNewMessageNotification(convId, messageId) {
         const otherPerson = participants[0] === messageData.sender ? participants[1] : participants[0];
         const senderPersonData = yield getUserPrivateData(messageData.sender);
         const otherPersonData = yield getUserPrivateData(otherPerson);
-        yield sendNotification([otherPersonData.data()], senderPersonData.data().displayName + ' ti-a trimis un mesaj!');
+        yield sendNotification([otherPersonData.data()], senderPersonData.data().displayName + ' ți-a trimis un mesaj!');
         const convUpdates = [
             firestoreInstance.collection('users').doc(otherPerson).collection('conversations').doc(convId).set({
                 lastMessage: messageData.message,
@@ -148,12 +161,12 @@ exports.messageReceived = functions.firestore.document('/tinder/messages/{convId
     return sendNewMessageNotification(context.params.convId, context.params.messageId);
 });
 exports.findNewPersons = functions.https.onRequest((req, res) => {
-    let user = req.query.user;
+    const user = req.query.user;
     res.status(200);
     getSuggestions().then(a => res.status(200).send('done!')).catch(b => res.status(400).send(b));
 });
 exports.addLikesEvent = functions.https.onRequest((req, res) => {
-    let key = req.query.key;
+    const key = req.query.key;
     res.status(200);
     addLikes().then(a => res.status(200).send('done!')).catch(b => res.status(400));
 });

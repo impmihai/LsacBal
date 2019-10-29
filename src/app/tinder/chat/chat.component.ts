@@ -12,7 +12,6 @@ import { isNullOrUndefined } from 'util';
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
-
   _messages: Message[];
   _otherPerson: TinderProfile;
   _otherPersonId: string;
@@ -33,13 +32,18 @@ export class ChatComponent implements OnInit {
             .getMessages(params.id)
             .subscribe(messages => {
               this._messages = messages;
+              this.scrollToBottom();
           });
         });
       });
     });
   }
 
-  private chatSend(data) {
+  scrollToBottom(): void {
+    window.scrollTo(0, document.body.scrollHeight);
+  }
+
+  chatSend(data) {
     if (data !== '') {
       console.log(data);
       this._msgVal = '';
@@ -47,6 +51,14 @@ export class ChatComponent implements OnInit {
     }
   }
 
+  bothSentMessages(): boolean {
+    if (this._messages && this._messages.length > 0 &&
+      this._messages.filter(m => m.sender === this._otherPersonId).length > 0 &&
+      this._messages.filter(m => m.sender === this._accService.userData.id).length > 0) {
+      return true;
+    }
+    return false;
+  }
 
   private picture(typ) {
     if (typ) {

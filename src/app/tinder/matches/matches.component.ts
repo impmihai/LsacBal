@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewChecked } from '@angular/core';
 import { TinderService } from '../tinder.service';
 import { TinderPerson, Conversation } from '../../Classes';
 import { AccountService } from '../../account.service';
+import { MessagingService } from 'src/app/messaging.service';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-matches',
@@ -9,10 +11,12 @@ import { AccountService } from '../../account.service';
   styleUrls: ['./matches.component.css']
 })
 export class MatchesComponent implements OnInit {
-  private _matches: TinderPerson[];
-  private _conversations: Conversation[];
+  
 
-  constructor(private _tinderService: TinderService, private _accService: AccountService) { }
+  _matches: TinderPerson[];
+  _conversations: Conversation[];
+
+  constructor(private _tinderService: TinderService, private _accService: AccountService, private _messagingService: MessagingService) { }
 
   ngOnInit() {
     this._accService.authStateObservable().subscribe(waiter => {
@@ -29,6 +33,6 @@ export class MatchesComponent implements OnInit {
               this._conversations = conversations;
             });
       });
-    }); 
+    });
   }
 }

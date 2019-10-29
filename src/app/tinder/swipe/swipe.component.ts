@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { TinderPerson, TinderProfile } from '../../Classes';
 import { isNullOrUndefined, isNull } from 'util';
 import { Router } from '@angular/router';
+import { MessagingService } from 'src/app/messaging.service';
 
 @Component({
   selector: 'app-swipe',
@@ -12,21 +13,26 @@ import { Router } from '@angular/router';
   styleUrls: ['./swipe.component.css']
 })
 export class SwipeComponent implements OnInit, OnDestroy {
-  ngOnDestroy(): void {
-    if (!isNullOrUndefined(this._subscribtionUserData))
-      this._subscribtionUserData.unsubscribe();
-  }
-  private _persons: TinderPerson[];
-  private _firstPerson: TinderPerson;
-  
-  private _subscribtionUserData = null;
 
-  constructor(private _accService:AccountService, private _tinderService: TinderService, private router: Router) { }
+  _persons: TinderPerson[];
+  _firstPerson: TinderPerson;
+  _subscribtionUserData = null;
+
+  constructor(private _messagingService: MessagingService,
+              private _accService: AccountService,
+              private _tinderService: TinderService,
+              private router: Router) { }
+
+
+  ngOnDestroy(): void {
+    if (!isNullOrUndefined(this._subscribtionUserData)) {
+      this._subscribtionUserData.unsubscribe();
+    }
+  }
 
   ngOnInit() {
     this._accService.authStateObservable().subscribe(waiter => {
       this._subscribtionUserData = this._accService.userDataObservable().subscribe(waiter2 => {
-        console.log("ajunge aici");
         if (isNullOrUndefined(this._accService.userData.raspuns)) {
           this.router.navigate(['/tinder']);
         }
@@ -36,10 +42,11 @@ export class SwipeComponent implements OnInit, OnDestroy {
             .subscribe(persons => {
               this._persons = persons;
               console.log(persons);
-              if (!isNullOrUndefined(this._persons) && !isNullOrUndefined(this._persons[0]))
+              if (!isNullOrUndefined(this._persons) && !isNullOrUndefined(this._persons[0])) {
                 this._firstPerson = this._persons[0];
-              else
+              } else {
                 this._firstPerson = null;
+              }
             });
       });
     });

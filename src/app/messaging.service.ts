@@ -4,7 +4,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireMessaging } from '@angular/fire/messaging';
 import { mergeMapTo } from 'rxjs/operators';
 import { take } from 'rxjs/operators';
-import { BehaviorSubject } from 'rxjs'
+import { BehaviorSubject } from 'rxjs';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable()
 export class MessagingService {
@@ -14,13 +15,14 @@ export class MessagingService {
   constructor(
     private angularFireDB: AngularFireDatabase,
     private angularFireAuth: AngularFireAuth,
-    private angularFireMessaging: AngularFireMessaging) {
+    private angularFireMessaging: AngularFireMessaging,
+    public snackBar: MatSnackBar) {
     this.angularFireMessaging.messaging.subscribe(
       (_messaging) => {
         _messaging.onMessage = _messaging.onMessage.bind(_messaging);
         _messaging.onTokenRefresh = _messaging.onTokenRefresh.bind(_messaging);
       }
-    )
+    );
   }
 
   /**
@@ -57,6 +59,9 @@ export class MessagingService {
       (payload) => {
         console.log("new message received. ", payload);
         this.currentMessage.next(payload);
+        const snackBarRef = this.snackBar.open('Nu mai ai niciun like ramas. Vei primi in curand altele!', '', {
+          duration: 2000,
+        });
       })
   }
 }

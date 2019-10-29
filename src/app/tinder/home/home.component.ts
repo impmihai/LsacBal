@@ -10,7 +10,6 @@ export class HomeComponent implements OnInit {
   routeLinks: any[];
   activeLinkIndex = -1;
   visible = false;
-  chatName = false;
   constructor(private router: Router) {
     this.routeLinks = [
       {
@@ -27,7 +26,7 @@ export class HomeComponent implements OnInit {
       },
       {
         link: './chat',
-        visible: 2
+        visible: 0
       },
       {
         link: './',
@@ -40,8 +39,8 @@ export class HomeComponent implements OnInit {
     this.router.events.subscribe((res) => {
       const currTab = this.routeLinks.find(tab =>  ('.' + this.router.url).indexOf(tab.link) >= 0);
       this.activeLinkIndex = this.routeLinks.indexOf(currTab);
+      console.log(this.activeLinkIndex);
       this.visible = currTab.visible === 1;
-      this.chatName = currTab.visible === 2;
     });
   }
 

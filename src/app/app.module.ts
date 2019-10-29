@@ -11,7 +11,6 @@ import { LandingComponent } from './landing/landing.component';
 import { MatIconModule } from '@angular/material';
 import { MaterialContainerModule } from './material-container-module/material-container-module.module';
 import { environment } from '../environments/environment';
-import { VoteComponent } from './vote/vote.component';
 import { VotingService } from './voting.service';
 import { AccountService } from './account.service';
 import { SwipeComponent } from './tinder/swipe/swipe.component';
@@ -28,13 +27,11 @@ import { HomeComponent } from './tinder/home/home.component';
 import { MyProfileComponent } from './tinder/my-profile/my-profile.component';
 import { SwipeButtonsComponent } from './tinder/swipe-buttons/swipe-buttons.component';
 import { GoldComponent } from './gold/gold.component';
-import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LandingComponent,
-    VoteComponent,
     SwipeComponent,
     MatchesComponent,
     ChatComponent,
@@ -44,7 +41,6 @@ import { LoginComponent } from './login/login.component';
     MyProfileComponent,
     SwipeButtonsComponent,
     GoldComponent,
-    LoginComponent,
   ],
   imports: [
     BrowserModule,
