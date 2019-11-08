@@ -1,6 +1,7 @@
 import * as admin from 'firebase-admin'
 import * as functions from 'firebase-functions'
 import { isNullOrUndefined } from 'util';
+import { resolve } from 'path';
 
 admin.initializeApp(functions.config().firebase);
 
@@ -77,7 +78,7 @@ async function getSuggestions() {
       for (i = 0; i < allPersons.docs.length; i++) {
             const person = allPersons.docs[i];
             let suggestions;
-            console.log(person);
+
             if (person.data().score > 1000000) {
                   suggestions = allPersons.docs.filter(pers => pers.id != person.id && pers.data().score < 1000000);
             } else {
@@ -156,6 +157,10 @@ export const findNewPersons = functions.https.onRequest((req, res) => {
       let user = req.query.user;
       res.status(200);    
       getSuggestions().then(a => res.status(200).send('done!')).catch(b => res.status(400).send(b));
+});
+
+export const newPersonJoined = functions.firestore.document('/answers/{userId}').onWrite((change, context) => {
+      return getSuggestions();
 });
 
 export const addLikesEvent = functions.https.onRequest((req, res) => {

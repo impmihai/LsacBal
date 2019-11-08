@@ -28,17 +28,12 @@ export class AccountService {
   constructor(private _messagingService: MessagingService, private _afStore: AngularFirestore, private _afAuth: AngularFireAuth, private snackBar: MatSnackBar) {
     this._userDataSubject = new ReplaySubject(1);
     
-    this._messagingService.requestPermission().then(token => {
-        this._token = token;
-        if (!isNullOrUndefined(this.userData)) {
-          this.updateData({fcmtoken: this._token});
-        }
-     });
+    
     this._messagingService.receiveMessage();
     this._messagingService.currentMessage.subscribe(tst => {
-      // this.snackBar.open(tst.data.text, "", {
-      //   duration: 2000,
-      // })
+      this.snackBar.open(tst.data.text, '', {
+        duration: 2000,
+      });
     });
 
     this._afAuth.authState.subscribe(auth => {
@@ -46,9 +41,12 @@ export class AccountService {
       if (auth != null) {
         this._authState = auth;
         this.userDataObservable().subscribe(a => {
-          if (!isNullOrUndefined(this._token)) {
-            this.updateData({fcmtoken: this._token});
-          }
+          this._messagingService.requestPermission().then(token => {
+            this._token = token;
+            if (!isNullOrUndefined(this.userData)) {
+              this.updateData({fcmtoken: this._token});
+            }
+          });
         });
       }        
     });
