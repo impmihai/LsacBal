@@ -1,38 +1,46 @@
-Răspunde la aceste întrebări pentru a-ți găsi persoanele potrivite!
-<div >
-    <div>
-        <form action="#" #meetupForm="ngForm" (ngSubmit)="SaveAnswers(meetupForm)">
-            <ul>
-                <li *ngFor="let item of questions; let iQuestion = index" >
-                    <ul>
-                      <mat-card>  <span style="font-weight: 600;font-size:1.125em;color:#484848;">{{item.question}}</span>
+<div class="questionsContainer">
+    <div class="titleContainer">
+        <mat-card>
+            <h1>
+                Răspunde la aceste întrebări pentru a-ți găsi persoanele potrivite!
+            </h1>
+        </mat-card>
+    </div>
+    <form action="#" #meetupForm="ngForm" (ngSubmit)="SaveAnswers(meetupForm)">
+        <ul>
+            <li *ngFor="let item of questions; let iQuestion = index" class="questionContainer">
+                <ul>
+                    <mat-card>
+                        <div class="questionNumber">
+                            {{iQuestion + 1}}/13 Intrebari
+                        </div>
+                        <span style="font-weight: 600;font-size:1.125em;color:#484848;">
+                            {{item.question}}
+                        </span>
+
                         <mat-radio-group name="{{iQuestion}}" [(ngModel)]="item.value">
-                                 
-                                 
+                                
                         <li *ngFor="let answer of item.answers; let iAnswer = index">
                             <div [ngSwitch]="item.multianswer">
                                 <div *ngSwitchCase="true">
-                                        <mat-checkbox name="{{iQuestion}}{{iAnswer}}" [(ngModel)]="answer.checked">{{answer.value}}</mat-checkbox>
-
-                                    
+                                    <mat-checkbox name="{{iQuestion}}{{iAnswer}}" [(ngModel)]="answer.checked">{{answer.value}}</mat-checkbox> 
                                 </div>
                                 <div *ngSwitchCase="false">
-                                    <mat-radio-button style="margin-top:10px;" value="{{iAnswer}}">{{answer.value}}</mat-radio-button>
-                                    
+                                    <mat-radio-button class="radioButtons" style="margin-top:10px;" value="{{iAnswer}}">{{answer.value}}</mat-radio-button>
                                 </div>
                             </div>
                         </li>
-                    
-                    </mat-radio-group></mat-card>
-                    </ul>
                 
-                </li>
-            
-            </ul>
-            <button style="width:100%;background: linear-gradient(90deg, #464692 0%, #7272EA 100%);
-            border-radius: 100px;" mat-flat-button color="accent">Timite</button>
-        </form>
-    </div>
+                        </mat-radio-group>
+                    </mat-card>
+                </ul>
+            </li>
+        </ul>
+        <div class="sendButtonContainer">
+            <button mat-flat-button class="sendButton">TRIMITE RĂSPUNSURILE</button>
+        </div>
+    </form>
 </div>
+
 
 

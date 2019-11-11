@@ -2,48 +2,29 @@
     width:100%;
     margin: 0;
     padding: 0;
-    height: 72px;
-    position: relative;
-}
-
-.top-background {
-    position: absolute;
-    width: 100%;
-    top:0;
-    left: 0;
-    z-index: -1;
+    height: 8vh;
+    display: flex;
 }
 
 .icon-container {
-    position: relative;
-    display: inline-block;
-    width: 25%;
-    margin-right: 0%;
+    width: 33.3%;
     height: 100%;
-    background-color:#fff;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
-.icon-container:last-child {
-    margin-right: 0px;
+.linkText {
+    font-size: 10px;
+    margin-top: 3px;
 }
 
-.icon {
-    height: 30%;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.active {
-    height: 30%;
-    color:red;
-    fill: red;
-}
 .vote{
     background-image:url("../../../assets/images/vote.svg");
     width:25px;
-
+    height: 21px;
 }
 .vote.active{
     background-image:url("../../../assets/images/vote-color.svg");
@@ -52,8 +33,6 @@
 .prizes{
     background-image:url("../../../assets/images/prizes.svg");
     width:20px;
-   
-
 }
 .prizes.active{
     background-image:url("../../../assets/images/prizes-color.svg");
@@ -62,9 +41,7 @@
 .swipe{
     background-image:url("../../../assets/images/swipes.svg");
     width:30px;
-    height:28%;
-   
-
+    height:20px;
 }
 .swipe.active{
     background-image:url("../../../assets/images/swipes-color.svg");
@@ -73,9 +50,7 @@
 .messages{
     background-image:url("../../../assets/images/messages.svg");
     width:20px;
-    height: 25%;
-   
-
+    height: 18px;
 }
 .messages.active{
     background-image:url("../../../assets/images/messages-color.svg");

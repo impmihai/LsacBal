@@ -90,7 +90,6 @@ function getSuggestions() {
         for (i = 0; i < allPersons.docs.length; i++) {
             const person = allPersons.docs[i];
             let suggestions;
-            console.log(person);
             if (person.data().score > 1000000) {
                 suggestions = allPersons.docs.filter(pers => pers.id != person.id && pers.data().score < 1000000);
             }
@@ -159,6 +158,9 @@ exports.findNewPersons = functions.https.onRequest((req, res) => {
     let user = req.query.user;
     res.status(200);
     getSuggestions().then(a => res.status(200).send('done!')).catch(b => res.status(400).send(b));
+});
+exports.newPersonJoined = functions.firestore.document('/answers/{userId}').onWrite((change, context) => {
+    return getSuggestions();
 });
 exports.addLikesEvent = functions.https.onRequest((req, res) => {
     let key = req.query.key;

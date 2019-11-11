@@ -1,24 +1,15 @@
 <div class="top-menu" *ngIf="visible">
-    <img class="top-background">
-  <!-- <div class="icon-container">
-      <object type="image/svg+xml" data="../assets/images/profile.svg" class="icon">
-      </object>
-  </div> -->
   <div class="icon-container">
       <span class="icon vote"  routerLink="/vote" [class.active]="activeLinkIndex === 0" ></span>
-      <p style="font-size: 10px; position: absolute; left: 50%; bottom: 0; transform: translate(-50%, 50%);">Vot</p>
+      <!-- <p class="linkText">Vot</p> -->
   </div>
-  <div class="icon-container">
-        <span class="icon prizes"  routerLink="/tombole" [class.active]="activeLinkIndex === 1" ></span>
-        <p style="font-size: 10px; position: absolute; left: 50%; bottom: 0; transform: translate(-50%, 50%);">Tombole</p>
-    </div>
 <div class="icon-container">
         <span class="icon swipe"  routerLink="/swipe" [class.active]="activeLinkIndex === 2" ></span>
-        <p style="font-size: 10px; position: absolute; left: 50%; bottom: 0; transform: translate(-50%, 50%);">Tinder</p>
+        <!-- <p class="linkText">Tinder</p> -->
     </div>
   
   <div class="icon-container">
         <span class="icon messages"  routerLink="/matches" [class.active]="activeLinkIndex === 3" ></span>
-      <p style="font-size: 10px; position: absolute; left: 50%; bottom: 0; transform: translate(-50%, 50%);">Matches</p>
+        <!-- <p class="linkText">Matches</p> -->
     </div>
 </div>

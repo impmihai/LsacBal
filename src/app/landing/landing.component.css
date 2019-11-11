@@ -1,19 +1,75 @@
+.parentContainer {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  background-color:#fff;
+  width: 100vw;
+  height: 100vh;
+}
+
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: 95vh;
   padding: 0px;
   margin: 0px;
-  
 }
 
 .content-container {
-    width: 100%;
-    text-align: center;
+  width: 100%;
+  text-align: center;
 }
 
 .content-container *{
   width: 100%;
   z-index: 1000;
+}
+
+.lsacIcon {
+  height: 5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lsacIcon > img {
+  height: 20px;
+}
+
+.balLogo {
+  margin-bottom: 10px;
+  width: 70%;
+}
+
+.landingTitle {
+  font-family: 'Raleway', sans-serif;
+  line-height: 24px;
+  font-size: 20px;
+  color: #505050;
+  letter-spacing: 1px;
+  margin-top: 65px;
+}
+
+.landingSubtitle {
+  margin-top: 8px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 14px;
+  line-height: 17px;
+  color: #707070;
+}
+
+.loginButton {
+  width: 70%!important;
+  height: 51px;
+  margin-top: 43px;
+  background: linear-gradient(90deg, #E97129 0%, #8D3378 42.19%, #402556 100%);
+  border-radius: 100px;
+  border-color: transparent;
+  color:#FFF;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
 }

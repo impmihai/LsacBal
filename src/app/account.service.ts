@@ -37,7 +37,7 @@ export class AccountService {
     });
 
     this._afAuth.authState.subscribe(auth => {
-      console.log(auth);
+      console.log(auth.uid);
       if (auth != null) {
         this._authState = auth;
         this.userDataObservable().subscribe(a => {

@@ -1,5 +1,7 @@
-<app-swipe-card *ngIf="_firstPerson" [person]="_firstPerson"></app-swipe-card>
-<app-swipe-buttons *ngIf="_firstPerson" [person]="_firstPerson"></app-swipe-buttons>
+<div *ngIf="_firstPerson" class="activeTinderSwipeContainer">
+    <app-swipe-card  [person]="_firstPerson"></app-swipe-card>
+    <app-swipe-buttons [person]="_firstPerson"></app-swipe-buttons>
+</div>
 
 <div *ngIf="!_firstPerson" style="height: 100vh; width: 100vw; display: table-cell; vertical-align: middle; text-align: center;">
     Nu s-a gasit nicio sugestie noua. Revino mai tarziu!

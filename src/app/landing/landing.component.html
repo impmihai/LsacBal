@@ -1,12 +1,14 @@
-<div style="position:absolute;z-index:-1;top:0;left:0;background-color:#fff;width: 100vw;height: 100vh;"></div>
+<div class="parentContainer"></div>
 <div class="container">
     <div class="content-container">       
-        <img src="../assets/images/landing.svg"style="margin-top: 40%;margin-bottom: 10px;width: 70%;">
-        <p class="mat-headline">Fă-ți prieteni printre stele!</p>
+        <img src="../assets/images/loginImg.svg" class="balLogo">
+        <h1 class="landingTitle">Fă-ți prieteni printre spirite</h1>
+        <h2 class="landingSubtitle">Intră în cont și începe să cunoști!</h2>
         <!-- <p  style="margin-top: -15px">Fii pregătit pentru seara balului!<br> Activează notificările pentru a afla când se lansează aplicația!</p> -->
         <a *ngIf="helpDisplayed" href="vote">Daca nu te-ai putut autentifica, apasa aici!</a>
-        <button style="width:70%;height: 51px;background: linear-gradient(90deg, #F9C93A 0%, #ED1C24 100%);
-        border-radius: 90px;border-color:transparent; color:#FFF; font-family:Montserrat; margin-bottom:10px;" (click)="login()" >FACEBOOK LOGIN</button>
-        <img src="../assets/images/logoLSAC.svg" style="width: 30%; margin-top: 20%; margin-left: 35%; margin-right: 35%;">
+        <button class="loginButton" (click)="login()" >FACEBOOK LOGIN</button>
     </div>
+</div>
+<div class="lsacIcon">
+    <img src="../assets/images/logoLSAC.svg">
 </div>
