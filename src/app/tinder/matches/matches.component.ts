@@ -9,9 +9,9 @@ import { AccountService } from '../../account.service';
   styleUrls: ['./matches.component.css']
 })
 export class MatchesComponent implements OnInit {
-  public matches: TinderPerson[];
+  public matches: TinderPerson[] = [];
   private _initialMatches: TinderPerson[];
-  public conversations: Conversation[];
+  public conversations: Conversation[] = [];
 
   constructor(
     private _tinderService: TinderService,
