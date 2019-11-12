@@ -28,6 +28,7 @@ export class SwipeComponent implements OnInit, OnDestroy {
         if (isNullOrUndefined(this._accService.userData.raspuns)) {
           this.router.navigate(['/tinder']);
         }
+
         this._tinderService
             .loadPersons()
             .pipe()

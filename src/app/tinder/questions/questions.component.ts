@@ -4,6 +4,7 @@ import { TinderService } from '../tinder.service';
 import { AccountService } from 'src/app/account.service';
 import { Router } from '@angular/router';
 import { isNullOrUndefined } from 'util';
+import { MatSnackBar } from '@angular/material';
 
 const questions =
 [
@@ -193,7 +194,12 @@ const questions =
 export class QuestionsComponent implements OnInit {
     
     questions = questions;
-    constructor(private _tinderService: TinderService, private _accService: AccountService, private router: Router) { }
+    constructor(
+        private _tinderService: TinderService,
+        private _accService: AccountService,
+        private router: Router,
+        private _snackBar: MatSnackBar
+    ) { }
     private _subscribtionUserData = null;
     ngOnInit() {
         this._accService.authStateObservable().subscribe(waiter => {
@@ -208,9 +214,12 @@ export class QuestionsComponent implements OnInit {
     }
     
     public SaveAnswers(form: NgForm) {
-                const answers = [];
+        const answers = [];
         let i = 0;
         let score = 0;
+
+        const error = [];
+
         questions.forEach(q => {
             if (q.multianswer === true) {
                 var res = q.answers.filter(a => a.checked !== false);
@@ -218,12 +227,23 @@ export class QuestionsComponent implements OnInit {
                 var ans = res.map(a => a.index).join();
                 answers.push(ans);
             } else {
-                score += q.answers[form.value[i]].score * q.priority;
-                answers.push(form.value[i]);
+                if (form.value[i]) {
+                    score += q.answers[form.value[i]].score * q.priority;
+                    answers.push(form.value[i]);
+                } else {
+                    error.push(i);
+                }
             }
             i++;
         });
-        this._tinderService.saveAnswers(answers, score);
-        this._accService.updateData({raspuns: true});
+
+        if (!error.length) {
+            this._tinderService.saveAnswers(answers, score);
+            this._accService.updateData({raspuns: true});
+        } else {
+            this._snackBar.open(`Ai uitat sa completezi intrebarea ${error[0] + 1}`, `Inchide`, {
+                duration: 4000,
+            });
+        }
     }
 }

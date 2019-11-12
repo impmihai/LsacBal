@@ -8,14 +8,16 @@
         >
     </div> 
 </mat-card>
-    
-<mat-card class="messagesTitleContainer">
-    <h1>Mesaje</h1>
-</mat-card>
-<mat-card class="conversationContainer" *ngFor="let conversation of conversations" routerLink="/chat/{{conversation.otherPerson?.id}}">
-    <mat-card-header class="mat-body-strong">
-        <div mat-card-avatar class="example-header-image" [ngStyle]="{ 'background-image': 'url(' + conversation.otherPerson?.displayImages[0] + ')' }"></div>
-        <mat-card-title class="conversationTitle">{{conversation.otherPerson?.displayName}}</mat-card-title>
-        <mat-card-subtitle class="conversationSubtitle">{{conversation.lastMessage}}</mat-card-subtitle>
-    </mat-card-header>
-</mat-card>
+   
+<ng-container *ngIf="conversations.length">
+    <mat-card class="messagesTitleContainer">
+        <h1>Mesaje</h1>
+    </mat-card>
+    <mat-card class="conversationContainer" *ngFor="let conversation of conversations" routerLink="/chat/{{conversation.otherPerson?.id}}">
+        <mat-card-header class="mat-body-strong">
+            <div mat-card-avatar class="example-header-image" [ngStyle]="{ 'background-image': 'url(' + conversation.otherPerson?.displayImages[0] + ')' }"></div>
+            <mat-card-title class="conversationTitle">{{conversation.otherPerson?.displayName}}</mat-card-title>
+            <mat-card-subtitle class="conversationSubtitle">{{conversation.lastMessage}}</mat-card-subtitle>
+        </mat-card-header>
+    </mat-card>
+</ng-container>
