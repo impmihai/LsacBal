@@ -43,7 +43,6 @@ export class AppComponent {
   openDialog(): void {
     const dialogRef = this.dialog.open(this.fbDialog, {
       width: '80vw',
-      height: '50vh',
     });
   }
 }
