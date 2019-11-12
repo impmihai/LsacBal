@@ -3,18 +3,59 @@
     height: 45px;
     width: 45px;
 }
+
 .mat-card-avatar {
-    height: 45px;
-    width: 45px;
+    height: 60px;
+    width: 60px;
     border-radius: 50%;
     flex-shrink: 0;
 }
-.nameTrim
-{
-    width: 70px;
+
+.newListContainer {
+    margin: 10px 0;
+}
+
+.newList {
+    height: 65px;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    resize: horizontal;
-    font-weight: 450;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.newListImage {
+    height: 55px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.messagesTitleContainer {
+    padding-bottom: 0;
+    padding-top: 20px;
+}
+
+.messagesTitleContainer > h1 {
+    font-family: 'Raleway', sans-serif!important;
+    font-weight: 800;
+    font-size: 12px;
+}
+
+.mat-card {
+    box-shadow: none!important;
+}
+
+.conversationContainer {
+    margin-bottom: 5px;
+}
+
+.conversationSubtitle {
+    color: #4C4A4A;
+    font-size: 12px;
+    margin-bottom: 0px;
+}
+
+.conversationTitle {
+    color: #000000;
+    font-family: 'Raleway', sans-serif!important;
+    font-weight: 600;
+    margin-bottom: 5px;
 }

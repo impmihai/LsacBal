@@ -59,7 +59,7 @@
 }
 
 .voteButton {
-    background: linear-gradient(90deg, #E97129 0%, #8D3378 42.19%, #402556 100%);
+    background: #8D3378;
     border-radius: 100px;
     color: #fff;
     width: 200px;

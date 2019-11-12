@@ -1,33 +1,33 @@
 <mat-tab-group style="background-color:#fff;"mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4">
   <mat-tab label="Miss">
-      <mat-card *ngFor="let i of getGirls()" class="example-card">
+      <mat-card *ngFor="let girl of getGirls(); let i = index" class="example-card">
         <mat-card-header>
-          <mat-card-title>{{ i.displayName }}</mat-card-title>
+          <mat-card-title>{{ girl.displayName }}</mat-card-title>
         </mat-card-header>
-        <img src="{{i.displayImage}}" class="person" id="{{ i.index + '|' + i.id }}" mat-card-image alt="Photo of a Shiba Inu">
+        <img src="{{girl.displayImage}}" class="person" id="{{ generateId(i,girl.id) }}" mat-card-image alt="Photo of a Shiba Inu">
         <mat-card-content>
           <p>
-            {{ i.description }}
+            {{ girl.description }}
           </p>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-raised-button class="voteButton" (click)="voteGirl(i.id)" [disabled]="votedForGirl()">Voteaza</button>
+          <button mat-raised-button class="voteButton" (click)="voteGirl(girl.id)" [disabled]="votedForGirl()">Voteaza</button>
         </mat-card-actions>
       </mat-card>
   </mat-tab>
   <mat-tab label="Mister">
-      <mat-card *ngFor="let i of getBoys()" class="example-card">
+      <mat-card *ngFor="let boy of getBoys(); let i = index" class="example-card">
         <mat-card-header>
-          <mat-card-title>{{ i.displayName }}</mat-card-title>
+          <mat-card-title>{{ boy.displayName }}</mat-card-title>
         </mat-card-header>
-        <img src="{{i.displayImage}}" class="person" id="{{ i.index + '|' + i.id }}" mat-card-image alt="Photo of a Shiba Inu">
+        <img src="{{boy.displayImage}}" class="person" id="{{ generateId(i,boy.id) }}" mat-card-image alt="Photo of a Shiba Inu">
         <mat-card-content>
           <p>
-            {{ i.description }}
+            {{ boy.description }}
           </p>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-raised-button class="voteButton" (click)="voteBoy(i.id)" [disabled]="votedForBoy()">Voteaza</button>
+          <button mat-raised-button class="voteButton" (click)="voteBoy(boy.id)" [disabled]="votedForBoy()">Voteaza</button>
         </mat-card-actions>
       </mat-card>
   </mat-tab>

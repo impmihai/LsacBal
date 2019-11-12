@@ -9,26 +9,40 @@ import { AccountService } from '../../account.service';
   styleUrls: ['./matches.component.css']
 })
 export class MatchesComponent implements OnInit {
-  private _matches: TinderPerson[];
-  private _conversations: Conversation[];
+  public matches: TinderPerson[];
+  private _initialMatches: TinderPerson[];
+  public conversations: Conversation[];
 
-  constructor(private _tinderService: TinderService, private _accService: AccountService) { }
+  constructor(
+    private _tinderService: TinderService,
+    private _accService: AccountService
+  ) { }
 
   ngOnInit() {
-    this._accService.authStateObservable().subscribe(waiter => {
-      this._accService.userDataObservable().subscribe(waiter2 => {
+    this._accService.authStateObservable().subscribe(() => {
+      this._accService.userDataObservable().subscribe(() => {
         this._tinderService
-            .loadMatches()
-            .subscribe(persons => {
-              this._matches = persons;
-            });
+          .loadMatches()
+          .subscribe(persons => {
+            this._initialMatches = persons;
+          }, error => {
+            console.log(error);
+          });
 
         this._tinderService
-            .getConversations()
-            .subscribe(conversations => {
-              this._conversations = conversations;
-            });
-      });
-    }); 
+          .getConversations()
+          .subscribe(conversations => {
+            if (this._initialMatches) {
+              this.matches = this._initialMatches.filter(match => conversations.every(conversation => conversation.otherPersonId !== match.id));
+            } else {
+              this.matches = this._initialMatches;
+            }
+            
+            this.conversations = conversations;   
+          }, error => {
+            console.log(error);
+          });
+      }); 
+    });
   }
 }

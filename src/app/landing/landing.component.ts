@@ -11,16 +11,14 @@ import { AngularFirestore } from 'angularfire2/firestore';
 })
 export class LandingComponent implements OnInit {
   helpDisplayed: boolean = false;
+
+  private _deadline = 'November 12 2019 20:00:00 GMT+0200';
+  public countdown: string;
+  public stopCountDown = false;
   constructor(private _afFirestore: AngularFirestore, private accService: AccountService, private router: Router, private _messagingService: MessagingService) { }
 
   ngOnInit() {
-    // this._messagingService.requestPermission().then(key => {
-    //   this._afFirestore.collection('fcmKeys').doc(key).set({}); 
-    // });
-    // this._messagingService.receiveMessage();
-    // this._messagingService.currentMessage.subscribe(tst => {
-    //   console.log(tst);
-    // });
+    this.initializeClock();
   }
 
   login() {
@@ -28,10 +26,39 @@ export class LandingComponent implements OnInit {
     this.accService.authStateObservable().subscribe(e => {
           this.router.navigate(['/vote']);
     });
-
   }
 
   logout() {
     this.accService.doLogout();
+  }
+
+  getTimeRemaining(endtime) {
+    var t = Date.parse(endtime) - Date.parse(new Date().toString());
+    var seconds = Math.floor((t / 1000) % 60);
+    var minutes = Math.floor((t / 1000 / 60) % 60);
+    var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+
+    return {
+      'total': t,
+      'hours': hours,
+      'minutes': minutes,
+      'seconds': seconds
+    };
+  }
+  
+  initializeClock() {
+    const updateClock = () => {
+      const t = this.getTimeRemaining(this._deadline);
+
+      this.countdown = `${('0' + t.hours).slice(-2)}:${('0' + t.minutes).slice(-2)}:${('0' + t.seconds).slice(-2)}`
+  
+      if (t.total <= 0) {
+        this.stopCountDown = true;
+        clearInterval(timeinterval);
+      }
+    }
+  
+    updateClock();
+    const timeinterval = setInterval(updateClock, 1000);
   }
 }

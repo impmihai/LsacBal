@@ -106,7 +106,6 @@ export class TinderService {
       });
       return;
     }
-    console.log(this._accService.userData.likesCount);
     const persArr = new Array<string>();
     persArr.push(this._accService.userData.id);
     persArr.push(personId);
@@ -207,7 +206,7 @@ export class TinderService {
       let conversationKey: string = conversationParticipants.sort().join('-');
 
       let timestamp = firebase.firestore.FieldValue.serverTimestamp();
-      console.log(timestamp);
+
       this._afFirestore
           .collection('tinder')
           .doc('messages')
@@ -220,7 +219,6 @@ export class TinderService {
 
   public saveAnswers(answers: any, score: number): Promise<SaveAnswersStatus> {
     return new Promise<SaveAnswersStatus>((resolve, reject) => {
-      console.log(answers);
       this._afFirestore
           .collection('answers')
           .doc(this._accService.userData.id)

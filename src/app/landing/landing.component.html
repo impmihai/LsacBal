@@ -1,12 +1,13 @@
-<div class="parentContainer"></div>
 <div class="container">
     <div class="content-container">       
         <img src="../assets/images/loginImg.svg" class="balLogo">
-        <h1 class="landingTitle">Fă-ți prieteni printre spirite</h1>
-        <h2 class="landingSubtitle">Intră în cont și începe să cunoști!</h2>
-        <!-- <p  style="margin-top: -15px">Fii pregătit pentru seara balului!<br> Activează notificările pentru a afla când se lansează aplicația!</p> -->
+        <h1 *ngIf="stopCountDown" class="landingTitle">Fă-ți prieteni printre spirite</h1>
+        <h2 *ngIf="stopCountDown" class="landingSubtitle">Intră în cont și începe să cunoști!</h2>
+        <h1 *ngIf="!stopCountDown" class="landingTitle">Fii pregătit pentru seara balului</h1>
+        <h2 *ngIf="!stopCountDown" class="landingSubtitle">Mai sunt doar cateva ore</h2>
         <a *ngIf="helpDisplayed" href="vote">Daca nu te-ai putut autentifica, apasa aici!</a>
-        <button class="loginButton" (click)="login()" >FACEBOOK LOGIN</button>
+        <button *ngIf="stopCountDown" class="loginButton" (click)="login()" >FACEBOOK LOGIN</button>
+        <h1 class="countdown" *ngIf="!stopCountDown">{{countdown}}</h1>
     </div>
 </div>
 <div class="lsacIcon">

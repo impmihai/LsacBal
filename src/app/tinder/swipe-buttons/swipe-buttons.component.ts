@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { TinderProfile, TinderPerson } from '../../Classes';
+import { TinderPerson } from '../../Classes';
 import { TinderService } from '../tinder.service';
 
 @Component({
@@ -9,10 +9,8 @@ import { TinderService } from '../tinder.service';
 })
 export class SwipeButtonsComponent implements OnInit {
   @Input() person: TinderPerson
-  constructor(private _tinderService: TinderService) { }
+  constructor(public tinderService: TinderService) { }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
 }

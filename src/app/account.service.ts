@@ -28,16 +28,16 @@ export class AccountService {
   constructor(private _messagingService: MessagingService, private _afStore: AngularFirestore, private _afAuth: AngularFireAuth, private snackBar: MatSnackBar) {
     this._userDataSubject = new ReplaySubject(1);
     
-    
     this._messagingService.receiveMessage();
     this._messagingService.currentMessage.subscribe(tst => {
-      this.snackBar.open(tst.data.text, '', {
-        duration: 2000,
-      });
+      if (tst) {
+        this.snackBar.open(tst.data.text, '', {
+          duration: 2000,
+        });
+      }
     });
 
     this._afAuth.authState.subscribe(auth => {
-      console.log(auth.uid);
       if (auth != null) {
         this._authState = auth;
         this.userDataObservable().subscribe(a => {

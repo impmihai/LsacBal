@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { VotingService } from '../voting.service';
-import { Observable } from 'rxjs';
 import { VotePerson, Sex } from '../Classes';
-import { AngularFirestore } from 'angularfire2/firestore';
-import { map } from 'rxjs/operators';
 import { AccountService } from '../account.service';
 
 @Component({
@@ -16,6 +13,8 @@ export class VoteComponent implements OnInit {
   constructor(private _votingService: VotingService, private _accService: AccountService) { }
 
   getBoys(): VotePerson[] {
+    if (!this._persons) return []
+
     const boys = [];
     for (let i = 0; i < this._persons.length; i++) {
       if (!!(i % 2))
@@ -25,6 +24,8 @@ export class VoteComponent implements OnInit {
   }
 
   getGirls(): VotePerson[] {
+    if (!this._persons) return []
+
     const girls = [];
     for (let i = 0; i < this._persons.length; i++) {
       if (!(i % 2))
@@ -63,12 +64,15 @@ export class VoteComponent implements OnInit {
     this._votingService.VoteGirl(id);
   }
 
+  public generateId(id, index): string {
+    return `${index}|${id}`
+  }
   
   ngOnInit() {
     this._votingService.GetPersons().subscribe(persons => this._persons = persons);
     this._accService.isLoggedIn().subscribe(status => {
       if (status == true) {
-        this._accService.userDataObservable().subscribe(data => console.log(data));
+        this._accService.userDataObservable().subscribe();
       }
     });
     // this._afirestore.collection('concurenti').add({

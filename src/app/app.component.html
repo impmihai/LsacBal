@@ -1,26 +1,13 @@
-<!--The content below is only a placeholder and can be replaced.-->
+<app-home></app-home>
+<router-outlet></router-outlet>
 
-<!-- <div class="mat-app-background basic-container"> -->
-  <!-- <div class="example-container" [class.example-is-mobile]="mobileQuery.matches" > -->
-    <!-- <mat-toolbar color="primary" class="example-toolbar">
-      <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
-      <h1>Bal ACS</h1>
-    </mat-toolbar> -->
-    
-    <!-- <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0"> -->
-      <!-- <mat-sidenav-container class="example-sidenav-container"> -->
-      <!-- <mat-sidenav #snav [mode]="mobileQuery.matches ? 'push' : 'push'" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
-        <mat-nav-list>
-          <a mat-list-item routerLink="vote" (click)="snav.close()">Votare</a>
-          <a mat-list-item routerLink="tombole" (click)="snav.close()">Tombole</a>
-          <a mat-list-item routerLink="tinder" (click)="snav.close()">Tinder</a>
-        </mat-nav-list>
-      </mat-sidenav> -->
-      
-      <!-- <mat-sidenav-content> -->
-        <app-home></app-home>
-        <router-outlet></router-outlet>
-      <!-- </mat-sidenav-content> -->
-    <!-- </mat-sidenav-container> -->
-  <!-- </div> -->
-<!-- </div> -->
+<ng-template #fbDialog>
+    <h2 matDialogTitle>Salutare</h2>
+    <div mat-dialog-content>
+        <p>Ne dorim sa iti oferim cea mai bun experienta si astfel iti recomandam sa folosesti browser-ul nativ al telefonul</p>
+        <p>Pentru a face asta, cauta butonul de Optiuni si selecteaza Deschide in ...</p>
+      </div>
+    <mat-dialog-actions>
+        <button mat-button matDialogClose="yes">Inchide</button>
+    </mat-dialog-actions>
+</ng-template>

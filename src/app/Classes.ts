@@ -63,4 +63,6 @@ export class TinderPerson {
 export class Conversation {
     id: string;
     otherPerson: TinderProfile;
+    otherPersonId: string;
+    lastMessage: string;
 }

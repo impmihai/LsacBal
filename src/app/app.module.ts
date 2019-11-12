@@ -33,6 +33,7 @@ import { TombolaRegisterComponent } from './tombola-register/tombola-register.co
 import { RezultateComponent } from './rezultate/rezultate.component';
 import { TomboleService } from './tombole.service';
 import { RezultateTomboleComponent } from './rezultate-tombole/rezultate-tombole.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { RezultateTomboleComponent } from './rezultate-tombole/rezultate-tombole
     AngularFireAuthModule,
     AngularFireMessagingModule,
     FormsModule,
+    HttpClientModule,
   ],
   providers: [VotingService, AccountService, MessagingService, AngularFireDatabase, AuthGuardService, TomboleService, VotingService],
   bootstrap: [AppComponent]
